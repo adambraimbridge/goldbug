@@ -9,7 +9,7 @@
   "repository": "git@github.com:adambraimbridge/goldbug.git",
   "author": "Adam Braimbridge <adam@braimbridge.com>",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "pouchdb-server": "^4.1.0"
   }
 }
