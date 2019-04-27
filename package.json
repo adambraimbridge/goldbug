@@ -4,7 +4,7 @@
   "description": "An offline treasure-hunting app with a remote back end",
   "main": "index.js",
   "scripts": {
-    "start": "pouchdb-server"
+    "start": "npm install; pouchdb-server --port 5984"
   },
   "repository": "git@github.com:adambraimbridge/goldbug.git",
   "author": "Adam Braimbridge <adam@braimbridge.com>",
