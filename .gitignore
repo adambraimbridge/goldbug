@@ -62,4 +62,4 @@ typings/
 
 # Pouchdb
 database/*
-logs/*
+log.txt
