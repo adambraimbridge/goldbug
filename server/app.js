@@ -7,6 +7,7 @@ app.use(
 	require('express-pouchdb')(PouchDB.defaults({ prefix: './database/' }))
 )
 app.use('/', require('./router'))
+app.use(express.static('public'))
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {

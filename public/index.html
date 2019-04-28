@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="application-name" content="Goldbug" />
+		<meta name="description" content="Experienced treasure hunters only." />
+		<meta
+			name="keywords"
+			content="Offline First,HTML,CSS,XML,JavaScript,PouchDB"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+		/>
+
+		<link rel="stylesheet" href="css/vendors/icons.css" />
+		<link rel="stylesheet" href="css/vendors/fonts.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
+		/>
+		<link rel="stylesheet" href="css/shoppinglist.css" />
+
+		<title>Shopping List | vanilla JavaScript | PouchDB</title>
+	</head>
+
+	<body>
+		<!-- banner -->
+		<header class="navbar-fixed">
+			<nav id="nav" class="primary-color">
+				<div class="nav-wrapper">
+					<span class="brand-logo left">
+						<span id="header-title">Goldbug</span>
+					</span>
+				</div>
+			</nav>
+		</header>
+
+		<!-- content area -->
+		<main>
+			<div id="shopping-lists">
+				<!-- shopping lists get inserted here -->
+			</div>
+
+			<ul id="shopping-list-items" class="collection">
+				<!-- shopping list items get inserted here -->
+			</ul>
+		</main>
+
+		<script src="js/vendors/pouchdb.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/model.js"></script>
+	</body>
+</html>
