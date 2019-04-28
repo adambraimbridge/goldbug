@@ -12,7 +12,6 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
 		/>
-
 		<link
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -26,7 +25,7 @@
 			rel="stylesheet"
 		/>
 		<link rel="stylesheet" href="/css/main.css" />
-		<title>Goldbug</title>
+		<title>💀 Goldbug</title>
 	</head>
 
 	<body>
@@ -35,7 +34,7 @@
 			<nav id="nav" class="yellow">
 				<div class="nav-wrapper">
 					<span class="brand-logo left black-text">
-						<span id="header-title">💀GOLDBUG</span>
+						<span id="header-title">💀 GOLDBUG</span>
 					</span>
 				</div>
 			</nav>
@@ -49,9 +48,61 @@
 			<ul id="shopping-list-items" class="collection">
 				<!-- shopping list items get inserted here -->
 			</ul>
+			<!-- add more stuff button -->
+			<button
+				id="add-button"
+				class="btn-floating btn-large secondary-color right"
+				onclick="shopper.openadd()"
+			>
+				<i class="material-icons">add</i>
+			</button>
 		</main>
 
-		<script src="//cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.min.js"></script>
+		<!-- modal: add a shopping list form -->
+		<div class="modal bottom-sheet list-bottom-sheet">
+			<form
+				id="shopping-list-add"
+				class="col s12 white"
+				onsubmit="shopper.add(event); return false"
+			>
+				<div class="modal-content">
+					<h5>Create a Shopping List</h5>
+					<div class="row">
+						<div class="input-field col s12">
+							<input
+								name="title"
+								type="text"
+								class="validate"
+								placeholder="Enter a title for the shopping list"
+								required
+							/>
+						</div>
+						<input name="type" type="hidden" value="list" />
+					</div>
+				</div>
+				<div class="modal-footer primary-color">
+					<button class="btn-flat" type="button" onclick="shopper.closeadd()">
+						Cancel
+					</button>
+					<button class="btn-flat" type="submit">Add</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- modal: overlay -->
+		<div class="modal-overlay" onclick="shopper.closeadd()"></div>
+
+		<!-- template: shopping list -->
+		<script type="text/template" id="shopping-list-template">
+			<div class="list-view">
+			  <div class="card-content">
+			    <span class="card-title activator">{{title}}</span>
+			  </div>
+			</div>
+		</script>
+
+		<script src="https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.find.min.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js/model.js"></script>
 	</body>
