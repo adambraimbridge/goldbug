@@ -1,17 +1,22 @@
 {
-  "name": "goldbug",
-  "version": "1.0.0",
-  "description": "An offline treasure-hunting app with a remote back end",
-  "repository": "git@github.com:adambraimbridge/goldbug.git",
-  "author": "Adam Braimbridge <adam@braimbridge.com>",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.16.4",
-    "express-pouchdb": "^4.1.0",
-    "pouchdb": "^7.0.0"
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "prettier": "^1.17.0"
-  }
+	"name": "goldbug",
+	"version": "1.0.0",
+	"description": "An offline treasure-hunting app with a remote back end",
+	"repository": "git@github.com:adambraimbridge/goldbug.git",
+	"author": "Adam Braimbridge <adam@braimbridge.com>",
+	"license": "MIT",
+	"scripts": {
+		"watch": "clear; heroku local"
+	},
+	"dependencies": {
+		"express": "^4.16.4",
+		"express-pouchdb": "^4.1.0",
+		"pouchdb": "^7.0.0"
+	},
+	"devDependencies": {
+		"eslint": "^5.16.0",
+		"foreman": "^3.0.1",
+		"nodemon": "^1.18.11",
+		"prettier": "^1.17.0"
+	}
 }

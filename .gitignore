@@ -61,7 +61,5 @@ typings/
 .next
 
 # Pouchdb
-_replicator
-_users
-pouch__all_dbs__
-log.txt
+database/*
+logs/*
