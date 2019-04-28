@@ -1,6 +1,9 @@
 #header-title {
-  font-family: 'Indie Flower', cursive;
   padding: 0 1.25em 0 0.75em;
+}
+
+.font-1 {
+  font-family: 'Indie Flower', cursive;
 }
 
 main #add-button {
