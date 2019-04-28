@@ -1,8 +1,8 @@
 {
-  "couchdb": {
-    "uuid": "86c3ea32-2dee-4f84-b9e8-5400673388c1"
-  },
-  "log": {
-    "file": "./logs/pouchdb.txt"
-  }
+	"couchdb": {
+		"uuid": "86c3ea32-2dee-4f84-b9e8-5400673388c1"
+	},
+	"log": {
+		"file": "./logs/"
+	}
 }
