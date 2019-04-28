@@ -6,7 +6,7 @@
 	"author": "Adam Braimbridge <adam@braimbridge.com>",
 	"license": "MIT",
 	"scripts": {
-		"watch": "clear; heroku local"
+		"local": "clear; heroku local"
 	},
 	"dependencies": {
 		"express": "^4.16.4",
