@@ -1,7 +1,6 @@
 html {
   font-size: 10px;
   width: 100%;
-  overflow-x: hidden;
 }
 
 #header-title {
@@ -16,11 +15,10 @@ nav .brand-logo.left {
   left: 0px;
 }
 
-.astologia {
+#astologia {
+  width: 95%;
+  overflow-x: hidden;
   position: absolute;
-  top: 60%;
-  width: 140%;
-  left: 10%;
 }
 
 /************************************/
