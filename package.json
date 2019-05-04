@@ -14,9 +14,11 @@
 		"pouchdb": "^7.0.0"
 	},
 	"devDependencies": {
+		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
 		"eslint": "^5.16.0",
 		"foreman": "^3.0.1",
 		"nodemon": "^1.18.11",
 		"prettier": "^1.17.0"
-	}
+	},
+	"prettier": "@adambraimbridge/prettierrc-2019-05"
 }
