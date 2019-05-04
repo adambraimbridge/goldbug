@@ -14,6 +14,13 @@ nav .brand-logo.left {
   left: 0px;
 }
 
+.astologia {
+  position: absolute;
+  top: 60%;
+  width: 140%;
+  left: 10%;
+}
+
 /************************************/
 main #add-button {
   position: fixed;
