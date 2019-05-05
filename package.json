@@ -6,7 +6,7 @@
 	"author": "Adam Braimbridge <adam@braimbridge.com>",
 	"license": "MIT",
 	"scripts": {
-		"local": "clear; heroku local"
+		"local": "./node_modules/.bin/nf start"
 	},
 	"dependencies": {
 		"express": "^4.16.4",
@@ -15,10 +15,10 @@
 	},
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
+		"chokidar": "^3.0.0",
 		"eslint": "^5.16.0",
-		"foreman": "^3.0.1",
-		"nodemon": "^1.18.11",
-		"prettier": "^1.17.0"
+		"prettier": "^1.17.0",
+		"foreman": "^3.0.1"
 	},
 	"prettier": "@adambraimbridge/prettierrc-2019-05"
 }
