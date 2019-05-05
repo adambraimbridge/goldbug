@@ -6,9 +6,7 @@
 	"author": "Adam Braimbridge <adam@braimbridge.com>",
 	"license": "MIT",
 	"scripts": {
-		"local": "./node_modules/.bin/nf start",
-		"build": "netlify-lambda build express",
-		"start": "node src/server"
+		"local": "./node_modules/.bin/nf start"
 	},
 	"dependencies": {
 		"express": "^4.16.4",
@@ -20,9 +18,7 @@
 		"chokidar": "^3.0.0",
 		"eslint": "^5.16.0",
 		"foreman": "^3.0.1",
-		"netlify-lambda": "^1.4.7",
-		"prettier": "^1.17.0",
-		"serverless-http": "^2.0.1"
+		"prettier": "^1.17.0"
 	},
 	"prettier": "@adambraimbridge/prettierrc-2019-05"
 }

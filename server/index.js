@@ -4,7 +4,7 @@ const serverless = require('serverless-http')
 const app = express()
 
 // Local watcher
-require('../watcher')
+require('../lib/watcher')
 
 // Database
 app.use('/database', require('express-pouchdb')(PouchDB.defaults({ prefix: './database/' })))
@@ -12,5 +12,8 @@ app.use('/database', require('express-pouchdb')(PouchDB.defaults({ prefix: './da
 // Static
 app.use(express.static('public'))
 
-module.exports = app
-module.exports.handler = serverless(app)
+// Run
+const port = process.env.PORT || 3000
+app.listen(port, () => {
+	console.log(`Running on http://localhost:${process.env.PORT}`)
+})
