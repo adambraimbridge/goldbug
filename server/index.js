@@ -13,7 +13,8 @@ app.use('/database', require('express-pouchdb')(PouchDB.defaults({ prefix: './da
 app.use(express.static('public'))
 
 // Run
+console.dir(process.env.PORT)
 const port = process.env.PORT || 3000
 app.listen(port, () => {
-	console.log(`Running on http://localhost:${process.env.PORT}`)
+	console.log(`Running on http://localhost:${port}`)
 })
