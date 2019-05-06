@@ -1,16 +1,11 @@
 const PouchDB = require('pouchdb')
 const express = require('express')
-const serverless = require('serverless-http')
 const app = express()
 
+app.use('/db', require('express-pouchdb')(PouchDB.defaults({ prefix: './database/' })))
+
 // Local watcher
-require('../lib/watcher')
-
-// Database
-app.use('/database', require('express-pouchdb')(PouchDB.defaults({ prefix: './database/' })))
-
-// Static
-app.use(express.static('public'))
+// require('../lib/watcher')
 
 // Run
 const port = process.env.PORT || 3000
