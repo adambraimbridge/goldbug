@@ -1,7 +1,7 @@
 {
 	"name": "goldbug",
 	"version": "1.0.0",
-	"description": "An offline treasure-hunting app with a remote back end",
+	"description": "An offline treasure-hunting app",
 	"repository": "git@github.com:adambraimbridge/goldbug.git",
 	"author": "Adam Braimbridge <adam@braimbridge.com>",
 	"license": "MIT",
@@ -9,9 +9,7 @@
 		"start": "node server"
 	},
 	"dependencies": {
-		"express": "^4.16.4",
-		"express-pouchdb": "^4.1.0",
-		"pouchdb": "^7.0.0"
+		"express": "^4.16.4"
 	},
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",

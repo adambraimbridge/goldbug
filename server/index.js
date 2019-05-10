@@ -1,14 +1,18 @@
-const PouchDB = require('pouchdb')
-const express = require('express')
-const app = express()
+const express = require("express");
+const path = require("path");
+const app = express();
+const port = process.env.PORT || 3000;
 
-app.use('/db', require('express-pouchdb')(PouchDB.defaults({ prefix: './database/' })))
+app.use("/js", express.static(path.join(__dirname, "js")));
+app.use("/css", express.static(path.join(__dirname, "css")));
+app.use("/favicons", express.static(path.join(__dirname, "favicons")));
+app.use("/", express.static(path.join(__dirname)));
 
-// Local watcher
-// require('../lib/watcher')
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 
 // Run
-const port = process.env.PORT || 3000
 app.listen(port, () => {
-	console.log(`Running on http://localhost:${port}`)
-})
+  console.log(`Running on http://localhost:${port}`);
+});
