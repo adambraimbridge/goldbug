@@ -1,21 +1,19 @@
 {
-	"name": "goldbug",
-	"version": "1.0.0",
-	"description": "An offline treasure-hunting app",
-	"repository": "git@github.com:adambraimbridge/goldbug.git",
-	"author": "Adam Braimbridge <adam@braimbridge.com>",
-	"license": "MIT",
-	"scripts": {
-		"start": "node server"
-	},
-	"dependencies": {
-		"express": "^4.16.4"
-	},
-	"devDependencies": {
-		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
-		"chokidar": "^3.0.0",
-		"eslint": "^5.16.0",
-		"prettier": "^1.17.0"
-	},
-	"prettier": "@adambraimbridge/prettierrc-2019-05"
+  "name": "goldbug",
+  "version": "1.0.0",
+  "description": "An offline treasure-hunting app",
+  "repository": "git@github.com:adambraimbridge/goldbug.git",
+  "author": "Adam Braimbridge <adam@braimbridge.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server"
+  },
+  "devDependencies": {
+    "express": "^4.16.4",
+    "@adambraimbridge/prettierrc-2019-05": "^1.0.0",
+    "chokidar": "^3.0.0",
+    "eslint": "^5.16.0",
+    "prettier": "^1.17.0"
+  },
+  "prettier": "@adambraimbridge/prettierrc-2019-05"
 }
