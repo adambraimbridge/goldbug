@@ -1,32 +1,33 @@
-(function() {
+/**
+ * Each goldbug.club treasure hunt is called an "Adventure".
+ * Each adventure has a series of "Puzzles".
+ * Each Puzzle has a number of messages, called "Clues"
+ * Each clue has one or more valid "Answers".
+ *
+ * Each user is called a "Player".
+ * Each player is given the puzzles one by one, which is called their "Progress"
+ */
+;(function() {
 	'use strict'
 
 	// PouchDB
 	var db = null
 
-	// Shopping List Schema
-	// https://github.com/ibm-watson-data-lab/shopping-list#shopping-list-example
-	var initListDoc = function(doc) {
+	// Puzzle Schema
+	var initPuzzleDoc = function(doc) {
 		return {
-			_id: 'list:' + new Date().toISOString(),
-			type: 'list',
+			_id: 'puzzle:' + new Date().toISOString(),
+			type: 'puzzle',
 			version: 1,
 			title: doc.title,
 			checked: !!doc.checked,
-			place: {
-				title: doc.place ? doc.place.title : '',
-				license: doc.place ? doc.place.license : '',
-				lat: doc.place ? doc.place.lat : null,
-				lon: doc.place ? doc.place.lon : null,
-				address: doc.place ? doc.place.address : {},
-			},
 			createdAt: new Date().toISOString(),
 			updatedAt: '',
 		}
 	}
 
 	var model = function(callback) {
-		db = new PouchDB('shopping')
+		db = new PouchDB('brackenHouse')
 
 		db.info(function(err, info) {
 			if (err) {
@@ -42,18 +43,18 @@
 			},
 			function(err, response) {
 				if (typeof callback === 'function') {
-					console.log('model ready!')
+					console.log('Model ready.')
 					callback(err, model)
 				}
 			}
 		)
 	}
 
-	model.lists = function(callback) {
+	model.puzzles = function(callback) {
 		db.find(
 			{
 				selector: {
-					type: 'list',
+					type: 'puzzle',
 				},
 			},
 			function(err, response) {
@@ -68,8 +69,8 @@
 	model.save = function(d, callback) {
 		var doc = null
 
-		if (d.type === 'list') {
-			doc = initListDoc(d)
+		if (d.type === 'puzzle') {
+			doc = initPuzzleDoc(d)
 		}
 
 		if (doc) {
@@ -86,6 +87,6 @@
 	}
 
 	window.addEventListener('DOMContentLoaded', function() {
-		window.shopper(model)
+		window.player(model)
 	})
 })()
