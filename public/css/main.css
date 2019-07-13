@@ -5,3 +5,9 @@ html {
 .hidden {
 	display: none !important;
 }
+#toast {
+	color: grey;
+}
+.bold {
+	font-weight: bold;
+}
