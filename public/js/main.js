@@ -14,10 +14,13 @@
 	}
 
 	const initialise = async () => {
+		const organisationTitle = 'The Ministry of Information'
+		const headerElement = document.getElementById('header-content')
+		headerElement.innerHTML = `${organisationTitle} | Initialising Secure Channel ...`
 		const adventure = await database.get('adventure')
 		console.dir(adventure)
 		await sleep()
-		document.getElementById('header-content').innerHTML = 'The Ministry | Secure Channel #SC-836.20.2'
+		headerElement.innerHTML = `${organisationTitle} | Secure Channel #SC-836.20.2`
 	}
 
 	const onboard = async () => {
