@@ -1,9 +1,7 @@
 html {
-	font-size: 10px;
+	font-size: 14px;
+	font-family: 'Roboto';
 }
-.font-1 {
-	font-family: 'Berkshire Swash', cursive;
-}
-.font-2 {
-	font-family: 'Indie Flower', cursive;
+.hidden {
+	display: none !important;
 }

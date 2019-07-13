@@ -1,46 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="application-name" content="💀 Goldbug">
-        <meta name="description" content="Experienced treasure hunters only">
-        <meta name="keywords" content="Offline First,HTML,CSS,XML,JavaScript,PouchDB">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-        <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Roboto|Berkshire+Swash" rel="stylesheet">
-        <link rel="stylesheet" href="/css/main.css">
-        <title>💀 Goldbug ~ Experienced treasure hunters only</title>
-    </head>
-    <body>
-        <header>
-            <div class="font-2">💀 GOLDBUG </div>
-        </header>
-        <main>
-            <img src="/img/winston.png" id="winston">
-            <h1 class="font-1">The Mystery of the Vexatious Viscount</h1>
-            <h3 class="font-2">Explore Bracken House in a thrilling challenge of action-packed adventure</h3>
-        </main>
-        <div class="chat-wrapper">
-            <div class="contact">
-                <div>
-                    <a href="#" class="">
-                        The Ministry of Information <span>4</span>
-                    </a>
-                </div>
-                <ul>
-                    <li>Message 03</li>
-                    <li>Message 02</li>
-                    <li>Message 01</li>
-                </ul>
-            </div>
-            <div class="chat-ui">
-                <form>
-                    <input type="text" />
-                </form>
-            </div>
-        </div>
-    </body>
-    <script src="https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.find.min.js"></script>
-    <script src="js/model.js"></script>
-    <script src="js/main.js"></script>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="application-name" content="💀 Goldbug" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+		<link rel="stylesheet" href="/css/main.css" />
+		<title>💀 Goldbug</title>
+	</head>
+	<body>
+		<header>
+			<div id="header-content">The Ministry | Initialising Secure Channel ...</div>
+		</header>
+		<main>
+			<div id="chat-wrapper">
+				<div id="messages"></div>
+				<div class="hidden" id="codename-ui">
+					<div class="card-title">Codename confirmation interrogative</div>
+					<form class="card">
+						<button value="marsile">Marsile</button>
+						<button value="dickson">Dickson</button>
+						<button value="equiset">Equiset</button>
+					</form>
+				</div>
+				<div class="hidden" id="chat-ui">
+					<form>
+						<input type="text" />
+					</form>
+				</div>
+			</div>
+		</main>
+	</body>
+	<script type="text/template" id="message-card-template">
+		<div class="message-card">
+		    <div class="contact">{{name}}</div>
+		    <div class="message-content"></div>
+		</div>
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.find.min.js"></script>
+	<script src="js/database.js"></script>
+	<script src="js/main.js"></script>
 </html>
