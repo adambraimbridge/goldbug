@@ -32,8 +32,8 @@
 			</div>
 		</main>
 	</body>
-	<script src="https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.find.min.js"></script>
-	<script src="js/database.js"></script>
-	<script src="js/main.js"></script>
+	<script type="module">
+		import { punchItChewey } from './js/main.js'
+		window.addEventListener('DOMContentLoaded', punchItChewey)
+	</script>
 </html>

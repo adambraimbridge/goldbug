@@ -16,9 +16,10 @@
 ;(() => {
 	const pouchDB = new PouchDB('bracken')
 	const database = {}
-	database.get = type => {
+	database.find = type => {
 		return pouchDB.find({ selector: { type } })
 	}
+
 	window.database = database
 })()
 
