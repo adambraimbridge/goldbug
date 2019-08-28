@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="application-name" content="💀 Goldbug" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+		<link rel="stylesheet" href="/css/main.css" />
+		<title>💀 Goldbug</title>
+	</head>
+	<body>
+		<header>
+			<div id="header-content"></div>
+		</header>
+		<main>
+			<div id="chat-wrapper">
+				<div id="messages"></div>
+				<div class="hidden" id="codename-ui">
+					<div class="card-title">Interrogative: Codename #CN-836.20.2</div>
+					<form class="card">
+						<button value="marsile">Marsile</button>
+						<button value="dickson">Dickson</button>
+						<button value="equiset">Equiset</button>
+					</form>
+				</div>
+				<div class="hidden" id="chat-ui">
+					<form>
+						<input type="text" />
+					</form>
+				</div>
+				<div id="toast"></div>
+			</div>
+		</main>
+	</body>
+	<script type="module">
+		import { punchItChewey } from './js/main.js'
+		window.addEventListener('DOMContentLoaded', punchItChewey)
+	</script>
+</html>
