@@ -1,7 +1,3 @@
-import 'https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.min.js'
-import 'https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.find.min.js'
-import '../../node_modules/netlify-identity-widget' // <-- I guess we need to do a build https://parceljs.org
-
 const DB_HOST = 'https://658ec9bf-a8e5-40e2-8fae-4c14ca03b65b-bluemix.cloudantnosqldb.appdomain.cloud'
 const ORGANIZATION_TITLE = 'The Ministry of Information'
 
