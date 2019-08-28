@@ -1,3 +1,6 @@
+const PouchDB = require('pouchdb-browser')
+import 'netlify-identity-widget'
+
 const DB_HOST = 'https://658ec9bf-a8e5-40e2-8fae-4c14ca03b65b-bluemix.cloudantnosqldb.appdomain.cloud'
 const ORGANIZATION_TITLE = 'The Ministry of Information'
 
