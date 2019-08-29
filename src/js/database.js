@@ -43,3 +43,21 @@
 // 		}
 // 	)
 // }
+
+// const initialise = async () => {
+// 	const syncOptions = {
+// 		live: true,
+// 		retry: true,
+// 		continuous: true,
+// 	}
+// 	const localDb = new PouchDB('bracken')
+// 	const remoteDb = new PouchDB(DB_HOST)
+// 	localDb.sync(remoteDb, syncOptions).on('change', info => {
+// 		console.log(8888, 'change', info)
+// 	})
+
+// 	console.log({ remoteDb, localDb })
+// 	//db.replicate.from(DB_REMOTE_URL) //, opts, syncError
+// 	// const adventure = await db.find({ selector: { } })
+// 	// console.log(adventure)
+// }

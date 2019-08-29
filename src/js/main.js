@@ -1,7 +1,6 @@
-const PouchDB = require('pouchdb-browser')
+import 'pouchdb-browser'
 import 'netlify-identity-widget'
 
-const DB_HOST = 'https://658ec9bf-a8e5-40e2-8fae-4c14ca03b65b-bluemix.cloudantnosqldb.appdomain.cloud'
 const ORGANIZATION_TITLE = 'The Ministry of Information'
 
 const sleep = milliseconds => {
@@ -47,24 +46,6 @@ const sendDelayedMessages = async ({ name, messages }) => {
 	}
 }
 
-const initialise = async () => {
-	const syncOptions = {
-		live: true,
-		retry: true,
-		continuous: true,
-	}
-	const localDb = new PouchDB('bracken')
-	const remoteDb = new PouchDB(DB_HOST)
-	localDb.sync(remoteDb, syncOptions).on('change', info => {
-		console.log(8888, 'change', info)
-	})
-
-	console.log({ remoteDb, localDb })
-	//db.replicate.from(DB_REMOTE_URL) //, opts, syncError
-	// const adventure = await db.find({ selector: { } })
-	// console.log(adventure)
-}
-
 const onboard = async () => {
 	const headerElement = document.getElementById('header-content')
 	headerElement.innerHTML = `${ORGANIZATION_TITLE} | Initialising Secure Channel ...`
@@ -88,10 +69,15 @@ const onboard = async () => {
 	document.getElementById('codename-ui').classList.remove('hidden')
 }
 
-export async function punchItChewey() {
+const initialise = async () => {
+	console.log('Initilized')
+	return Promise.resolve()
+}
+
+;(async () => {
 	// Initialise
 	await initialise()
 
 	// If appropriate, do onboarding
 	await onboard()
-}
+})()
