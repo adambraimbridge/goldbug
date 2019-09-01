@@ -11,9 +11,9 @@ console.log({ user })
  * Complete authentication if we were redirected back to from the provider.
  */
 const hashParams = new URLSearchParams(document.location.hash.replace(/^#?\/?/, ''))
-if (!hashParams.has('access_token') && !hashParams.has('error')) {
-	return
-}
+// if (!hashParams.has('access_token') && !hashParams.has('error')) {
+// 	return
+// }
 // Remove tokens from hash so that token does not remain in browser history.
 this.clearHash()
 
