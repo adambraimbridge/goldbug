@@ -22,7 +22,7 @@
 	"prettier": "@adambraimbridge/prettierrc-2019-05",
 	"dependencies": {
 		"@cloudant/cloudant": "^4.2.0",
-		"netlify-identity-widget": "^1.5.5",
+		"gotrue-js": "^0.9.25",
 		"pouchdb-browser": "^7.1.1"
 	}
 }
