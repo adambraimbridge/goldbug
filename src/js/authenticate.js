@@ -32,6 +32,7 @@ export const checkAuthentication = async () => {
 	const hash = document.location.hash
 	if (hash) {
 		const authenticationData = getAuthenticationData(hash)
+		localStorage.setItem(netlifyUser, authenticationData)
 		console.log({ authenticationData })
 		const list = getAppList(authenticationData.access_token)
 		console.log({ list })
