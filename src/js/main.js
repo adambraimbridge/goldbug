@@ -1,15 +1,12 @@
 import GoTrue from 'gotrue-js'
+import { checkAuthentication } from './authenticate'
+checkAuthentication()
 
 const auth = new GoTrue({
 	APIUrl: 'https://www.goldbug.club/.netlify/identity',
 	setCookie: true,
 })
 
-const user = auth.currentUser()
+const user = auth.getUserData()
 
 console.log(user)
-
-// // Todo: Check authentication and show the login link if appropriate.
-// import { checkAuthentication } from './authenticate'
-
-// checkAuthentication()
