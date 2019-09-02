@@ -6,7 +6,7 @@ const auth = new GoTrue({
 	setCookie: true,
 })
 
-const settings = auth.settings()
+const settings = await auth.settings()
 const user = auth.getUserData()
 
 console.log({ user, settings })
