@@ -24,5 +24,6 @@ export const checkAuthentication = async () => {
 
 		// Save the token in local storage
 		const user = auth.currentUser()
+		console.log({ user })
 	}
 }
