@@ -1,14 +1,17 @@
-/*
- * This function is called when a user returns from Netlify and has accepted the
- * request to authorize your app.
- *
- * It extracts the token from the response and use it to do a simple API request
- * fetching the latest sites from the user from Netlify.
- */
-const handleAccessToken = hash => {
-	// The access token is returned in the hash part of the document.location
-	// #access_token=1234&response_type=token
-	const response = hash
+const createNonce = () => {
+	const nonce = Math.random()
+	winsow.sessionStorage.setItem('netlify-nonce', nonce)
+	return nonce
+}
+
+const nonceIsValid = candidateNonce => {
+	const sessionNonce = window.sessionStorage.getItem('netlify-nonce')
+	window.sessionStorage.removeItem('netlify-nonce')
+	return sessionNonce === candidateNonce
+}
+
+const getAuthenticationData = hash => {
+	const authenticationData = hash
 		.replace(/^#/, '')
 		.split('&')
 		.reduce((result, pair) => {
@@ -17,21 +20,16 @@ const handleAccessToken = hash => {
 			return result
 		}, {})
 
-	// Remove the token so it's not visible in the URL after we're done
+	// Remove the token so it's not visible in the URL
 	document.location.hash = ''
+	return authenticationData
+}
 
-	if (!localStorage.getItem(response.state)) {
-		// We need to verify the random state we set before starting the request,
-		// otherwise this could be an access token from someone else than our user
-		alert('CSRF Attack')
-		return
-	}
-	localStorage.removeItem(response.state)
-
+const getAppList = accessToken => {
 	// Use the token to fetch the list of sites for the user
 	fetch('https://api.netlify.com/api/v1/sites', {
 		headers: {
-			Authorization: 'Bearer ' + response.access_token,
+			Authorization: 'Bearer ' + accessToken,
 		},
 	})
 		.then(response => response.json())
@@ -57,10 +55,17 @@ export const checkAuthentication = async () => {
 	 */
 	const hash = document.location.hash
 	if (hash) {
-		handleAccessToken(hash)
+		const authenticationData = getAuthenticationData(hash)
+		if (!nonceIsValid(authenticationData.state)) {
+			alert('CSRF Attack')
+			return false
+		}
 	} else {
-		// We generate a random state that we'll validate when Netlify redirects back.
-		const state = Math.random()
-		localStorage.setItem(state, true)
+		const clientId = 'https://www.goldbug.club'
+		const redirectURI = document.location.href
+		const nonce = createNonce()
+		const href = `https://app.netlify.com/authorize?client_id=${clientId}&redirect_uri=${redirectURI}&state=${nonce}&response_type=token`
+
+		console.log({ href })
 	}
 }
