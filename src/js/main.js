@@ -9,25 +9,5 @@ import { checkAuthentication } from './authenticate'
 	const authenticationData = await checkAuthentication()
 	if (authenticationData) {
 		const user = await auth.createUser(authenticationData, true).catch(console.error)
-		console.log({ user })
-
-		// localStorage.setItem('adam@braimbridge.com', authenticationData)
-		// console.log({ authenticationData })
-		// const list = getAppList(authenticationData.access_token)
-		// console.log({ list })
-	}
-	const getAppList = accessToken => {
-		fetch('https://api.netlify.com/api/v1/sites', {
-			headers: {
-				Authorization: 'Bearer ' + accessToken,
-			},
-		})
-			.then(response => response.json())
-			.then(json => {
-				console.log('Your sites: ' + json.map(site => `<a href="${site.url}">${site.url}</a>`).join(','))
-			})
-			.catch(error => {
-				console.log(`Error fetching sites: ${error}`)
-			})
 	}
 })()
