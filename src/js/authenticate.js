@@ -1,15 +1,3 @@
-const createNonce = () => {
-	const nonce = Math.random()
-	window.sessionStorage.setItem('netlify-nonce', nonce)
-	return nonce
-}
-
-const nonceIsValid = candidateNonce => {
-	const sessionNonce = window.sessionStorage.getItem('netlify-nonce')
-	window.sessionStorage.removeItem('netlify-nonce')
-	return sessionNonce === candidateNonce
-}
-
 const getAuthenticationData = hash => {
 	const authenticationData = hash
 		.replace(/^#/, '')
@@ -26,7 +14,6 @@ const getAuthenticationData = hash => {
 }
 
 const getAppList = accessToken => {
-	// Use the token to fetch the list of sites for the user
 	fetch('https://api.netlify.com/api/v1/sites', {
 		headers: {
 			Authorization: 'Bearer ' + accessToken,
@@ -45,14 +32,8 @@ export const checkAuthentication = async () => {
 	const hash = document.location.hash
 	if (hash) {
 		const authenticationData = getAuthenticationData(hash)
-		if (!nonceIsValid(authenticationData.state)) {
-			alert('CSRF Attack')
-			return false
-		}
-	} else {
-		const redirectURI = document.location.href
-		const nonce = createNonce()
-		const href = `https://www.goldbug.club/.netlify/identity/authorize?provider=google&redirect_uri=${redirectURI}&state=${nonce}&response_type=token`
-		console.log({ href })
+		console.log({ authenticationData })
+		const list = getAppList(authenticationData.access_token)
+		console.log({ list })
 	}
 }
