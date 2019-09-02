@@ -8,11 +8,11 @@ import { checkAuthentication } from './authenticate'
 
 	const authenticationData = await checkAuthentication()
 	if (authenticationData) {
-		const user = await auth.confirm(authenticationData.access_token, true)
+		const user = await auth.createUser(authenticationData, true).catch(console.error)
 		console.log({ user })
 
-		localStorage.setItem('adam@braimbridge.com', authenticationData)
-		console.log({ authenticationData })
+		// localStorage.setItem('adam@braimbridge.com', authenticationData)
+		// console.log({ authenticationData })
 		// const list = getAppList(authenticationData.access_token)
 		// console.log({ list })
 	}
