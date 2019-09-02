@@ -18,6 +18,8 @@ export const checkAuthentication = async () => {
 	history.replaceState(null, null, '/')
 
 	const params = new Map(hashParams.entries())
+	console.log({ params })
+
 	if (params.has('error')) {
 		console.error(`${params.get('error')}: ${params.get('error_description')}`)
 		// return {
@@ -28,7 +30,5 @@ export const checkAuthentication = async () => {
 		// }
 	}
 
-	const { access_token: token, ...data } = params.toJS()
-
-	console.log({ access_token, data })
+	// const { access_token: token, ...data } = params.toJS()
 }
