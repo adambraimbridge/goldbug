@@ -10,6 +10,9 @@ export const checkAuthentication = async () => {
 	// Remove tokens from hash so that token does not remain in browser history.
 	history.replaceState(null, null, '/')
 
+	const user = auth.currentUser()
+	console.log({ user })
+
 	const params = new Map(hashParams.entries())
 	if (params.has('error')) {
 		console.error(`${params.get('error')}: ${params.get('error_description')}`)
@@ -21,9 +24,6 @@ export const checkAuthentication = async () => {
 		// params.get('expires_in')
 		// params.get('refresh_token')
 		// params.get('token_type')
-
-		// Save the token in local storage
-		const user = auth.currentUser()
-		console.log({ user })
+		// Save the token in local storage?
 	}
 }
