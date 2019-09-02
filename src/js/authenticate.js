@@ -10,6 +10,9 @@ export const checkAuthentication = async () => {
 		APIUrl: 'https://www.goldbug.club/.netlify/identity',
 		setCookie: true,
 	})
+	const response = await auth.loginExternalUrl('google')
+	console.log({ response })
+
 	const user = auth.currentUser()
 	console.log({ user })
 
