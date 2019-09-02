@@ -1,6 +1,6 @@
 const createNonce = () => {
 	const nonce = Math.random()
-	winsow.sessionStorage.setItem('netlify-nonce', nonce)
+	window.sessionStorage.setItem('netlify-nonce', nonce)
 	return nonce
 }
 
