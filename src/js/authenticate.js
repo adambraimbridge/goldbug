@@ -60,7 +60,7 @@ export const checkAuthentication = async () => {
 		handleAccessToken(hash)
 	} else {
 		// We generate a random state that we'll validate when Netlify redirects back.
-		state = Math.random()
+		const state = Math.random()
 		localStorage.setItem(state, true)
 	}
 }
