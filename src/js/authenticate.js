@@ -1,8 +1,4 @@
 import GoTrue from 'gotrue-js'
-const auth = new GoTrue({
-	APIUrl: 'https://www.goldbug.club/.netlify/identity',
-	setCookie: true,
-})
 export const checkAuthentication = async () => {
 	// Hash parameters are like query parameters, except with a `#` instead of a `?`
 	const hashParams = new URLSearchParams(document.location.hash.replace(/^#?\/?/, ''))
@@ -10,6 +6,10 @@ export const checkAuthentication = async () => {
 	// Remove tokens from hash so that token does not remain in browser history.
 	history.replaceState(null, null, '/')
 
+	const auth = new GoTrue({
+		APIUrl: 'https://www.goldbug.club/.netlify/identity',
+		setCookie: true,
+	})
 	const user = auth.currentUser()
 	console.log({ user })
 
