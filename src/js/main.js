@@ -6,19 +6,16 @@ import { checkAuthentication } from './authenticate'
 		setCookie: true,
 	})
 
-	const settings = await auth.settings()
-	const user = auth.getUserData()
-
-	console.log({ user, settings })
-
 	const authenticationData = await checkAuthentication()
 	if (authenticationData) {
+		const user = auth.confirm(authenticationData.access_token, true)
+		console.log({ user })
+
 		localStorage.setItem('adam@braimbridge.com', authenticationData)
 		console.log({ authenticationData })
-		const list = getAppList(authenticationData.access_token)
-		console.log({ list })
+		// const list = getAppList(authenticationData.access_token)
+		// console.log({ list })
 	}
-
 	const getAppList = accessToken => {
 		fetch('https://api.netlify.com/api/v1/sites', {
 			headers: {
