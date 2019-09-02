@@ -8,7 +8,7 @@ import { checkAuthentication } from './authenticate'
 
 	const authenticationData = await checkAuthentication()
 	if (authenticationData) {
-		const user = auth.confirm(authenticationData.access_token, true)
+		const user = await auth.confirm(authenticationData.access_token, true)
 		console.log({ user })
 
 		localStorage.setItem('adam@braimbridge.com', authenticationData)
