@@ -13,28 +13,9 @@ const getAuthenticationData = hash => {
 	return authenticationData
 }
 
-const getAppList = accessToken => {
-	fetch('https://api.netlify.com/api/v1/sites', {
-		headers: {
-			Authorization: 'Bearer ' + accessToken,
-		},
-	})
-		.then(response => response.json())
-		.then(json => {
-			console.log('Your sites: ' + json.map(site => `<a href="${site.url}">${site.url}</a>`).join(','))
-		})
-		.catch(error => {
-			console.log(`Error fetching sites: ${error}`)
-		})
-}
-
 export const checkAuthentication = async () => {
 	const hash = document.location.hash
 	if (hash) {
-		const authenticationData = getAuthenticationData(hash)
-		localStorage.setItem(netlifyUser, authenticationData)
-		console.log({ authenticationData })
-		const list = getAppList(authenticationData.access_token)
-		console.log({ list })
+		return getAuthenticationData(hash)
 	}
 }
