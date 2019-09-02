@@ -1,5 +1,3 @@
-const oauthURL = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
-
 export const checkAuthentication = async () => {
 	// Hash parameters are like query parameters, except with a `#` instead of a `?`
 	const hashParams = new URLSearchParams(document.location.hash.replace(/^#?\/?/, ''))
