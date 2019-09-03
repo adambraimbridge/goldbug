@@ -24,7 +24,7 @@ export const getUserWidget = async () => {
 		return render(userHTML())
 	} else {
 		// Show the authentication link
-		const Welcome = () => h('div', { class: 'welcome-banner' }, h('h1', null, 'Hello World!'), h('p', null, 'Show the authentication link'))
+		const Welcome = () => h('div', { class: 'welcome-banner' }, h('h1', null, 'Hello World!'), h('p', null, h('a', { href: 'https://www.goldbug.club/.netlify/identity/authorize?provider=google' }, 'You know what to do')))
 		return render(Welcome())
 	}
 }
