@@ -12,7 +12,7 @@
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
 		"@babel/core": "^7.0.0-0",
-		"@babel/plugin-transform-runtime": "^7.5.5",
+		"@babel/plugin-transform-runtime": "^7.6.0",
 		"@babel/preset-env": "^7.5.5",
 		"@babel/preset-react": "^7.0.0",
 		"babel-core": "^6.26.3",

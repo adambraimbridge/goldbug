@@ -20,11 +20,23 @@ export const getUserWidget = async () => {
 
 	if (currentUser) {
 		const { avatar_url, full_name } = currentUser.user_metadata
-		const userHTML = () => h('div', { class: 'welcome-banner' }, h('h1', null, full_name), h('p', null, avatar_url))
-		return render(userHTML())
+		const UserWidget = () => (
+			<div class="welcome-banner">
+				<h1>
+					<img src={avatar_url} width="40" /> {full_name}
+				</h1>
+			</div>
+		)
+		return render(<UserWidget />)
 	} else {
 		// Show the authentication link
-		const Welcome = () => h('div', { class: 'welcome-banner' }, h('h1', null, 'Hello World!'), h('p', null, h('a', { href: 'https://www.goldbug.club/.netlify/identity/authorize?provider=google' }, 'You know what to do')))
-		return render(Welcome())
+		return render(() => (
+			<div class="welcome-banner">
+				<h1>Welcome</h1>
+				<p>
+					<a href="https://www.goldbug.club/.netlify/identity/authorize?provider=google">You know what to do</a>
+				</p>
+			</div>
+		))
 	}
 }
