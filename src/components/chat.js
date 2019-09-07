@@ -9,17 +9,56 @@ const toast = html => {
 }
 
 const printMessageCard = name => {
-	const id = 'foo'
-	const html = `<div class="message-card" id="${id}">
+	// Todo: hyperons
+	// <div class="box">
+	//   <article class="media">
+	//     <div class="media-left">
+	//       <figure class="image is-64x64">
+	//         <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+	//     </figure>
+	//   </div>
+	//       <div class="media-content">
+	//         <div class="content">
+	//           <p>
+	//             <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
+	//             <br>
+	//               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+	//       </p>
+	//     </div>
+	//           <nav class="level is-mobile">
+	//             <div class="level-left">
+	//               <a class="level-item" aria-label="reply">
+	//                 <span class="icon is-small">
+	//                   <i class="fas fa-reply" aria-hidden="true"></i>
+	//                 </span>
+	//               </a>
+	//               <a class="level-item" aria-label="retweet">
+	//                 <span class="icon is-small">
+	//                   <i class="fas fa-retweet" aria-hidden="true"></i>
+	//                 </span>
+	//               </a>
+	//               <a class="level-item" aria-label="like">
+	//                 <span class="icon is-small">
+	//                   <i class="fas fa-heart" aria-hidden="true"></i>
+	//                 </span>
+	//               </a>
+	//             </div>
+	//           </nav>
+	//         </div>
+	// </article>
+	//     </div>
+
+	const html = `<div class="message-card">
 		<div class="contact">${name}</div>
 	</div>`
 	document.getElementById('messages').innerHTML += html
 	return id
 }
 
-const printMessage = (id, content) => {
-	const html = `<div class="message-content">${content}</div>`
-	document.getElementById(id).innerHTML += html
+const printMessage = async (element, content) => {
+	const html = `<div class="">${content}</div>`
+	element.innerHTML += html
+	await sleep()
 }
 
 export const sendDelayedMessages = async ({ name, messages }) => {
@@ -43,10 +82,9 @@ export const sendDelayedMessages = async ({ name, messages }) => {
 }
 
 export const onboard = async () => {
-	const headerElement = document.getElementById('header-content')
-	headerElement.innerHTML = `Initialising Secure Channel ...`
-	await sleep()
-	headerElement.innerHTML = `Secure Channel Active. #SC-836.20.2`
+	const headerElement = document.getElementById('messages')
+	await printMessage(headerElement, '🔓 Initialising Secure Channel ...')
+	await printMessage(headerElement, '🔒 Secure Channel Active. #SC-836.20.2')
 	const onboardingMessages = {
 		name: '<span class="rank">Agent</span> <span class="name bold">Selaginel</span>',
 		messages: [
@@ -62,18 +100,14 @@ export const onboard = async () => {
 
 export const getChatWidget = async () => {
 	const ChatWidget = () => (
-		<div id="chat-wrapper">
-			<header>
-				<div id="header-content" />
-			</header>
+		<div class="chat-widget content is-small">
 			<div id="messages" />
 			<div id="chat-ui">
+				<div id="toast" />
 				<form>
-					<input type="text" />
-					<button>Send</button>
+					<input class="input" type="text" placeholder="Type a message" id="chat-ui-text" />
 				</form>
 			</div>
-			<div id="toast" />
 		</div>
 	)
 	return render(<ChatWidget />)

@@ -21,12 +21,14 @@
 		"eslint": "^5.16.0",
 		"express": "^4.16.4",
 		"parcel-bundler": "^1.12.3",
-		"prettier": "^1.17.0"
+		"prettier": "^1.17.0",
+		"sass": "^1.23.0-module.beta.1"
 	},
 	"prettier": "@adambraimbridge/prettierrc-2019-05",
 	"dependencies": {
 		"@babel/runtime": "^7.5.5",
 		"@cloudant/cloudant": "^4.2.0",
+		"bulma": "^0.7.5",
 		"gotrue-js": "^0.9.25",
 		"hyperons": "^1.0.0-beta.2",
 		"pouchdb-browser": "^7.1.1"

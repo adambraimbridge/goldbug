@@ -1,12 +1,11 @@
 import { getUserWidget } from './components/user'
 import { getChatWidget, sendDelayedMessages, onboard } from './components/chat'
-;(async () => {
+;(async appElement => {
 	const userWidgetHTML = await getUserWidget()
 	const chatWidgetHTML = await getChatWidget()
-	console.log({ chatWidgetHTML })
-	document.getElementById('app').innerHTML = `
+	appElement.innerHTML = `
 		${userWidgetHTML} 
 		${chatWidgetHTML}
 	`
 	await onboard()
-})()
+})(document.getElementById('app'))

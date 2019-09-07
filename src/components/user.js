@@ -18,20 +18,21 @@ export const getUserWidget = async () => {
 		currentUser = auth.currentUser()
 	}
 
+	// const { avatar_url, full_name } = currentUser.user_metadata
 	if (currentUser) {
-		const { avatar_url, full_name } = currentUser.user_metadata
 		const UserWidget = () => (
-			<div class="welcome-banner">
-				<h1>
-					<img src={avatar_url} width="40" /> {full_name}
-				</h1>
+			<div class="card is-mobile" role="navigation" aria-label="main navigation">
+				<div class="navbar-item is-pulled-right">
+					<button class="button is-small">Sign out</button>
+				</div>
+				<div class="navbar-item">💀 goldbug.club</div>
 			</div>
 		)
 		return render(<UserWidget />)
 	} else {
 		// Show the authentication link
 		return render(() => (
-			<div class="welcome-banner">
+			<div class="hero">
 				<h1>Welcome</h1>
 				<p>
 					<a href="https://www.goldbug.club/.netlify/identity/authorize?provider=google">You know what to do</a>
