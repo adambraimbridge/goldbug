@@ -1,36 +1,50 @@
 {
-	"name": "goldbug",
+	"name": "goldbug.club",
 	"version": "1.0.0",
-	"description": "An offline treasure-hunting app",
+	"description": "Treasure-hunting adventures for the wild at heart.",
 	"repository": "git@github.com:adambraimbridge/goldbug.git",
 	"author": "Adam Braimbridge <adam@braimbridge.com>",
 	"license": "MIT",
+	"prettier": "@adambraimbridge/prettierrc-2019-05",
 	"scripts": {
-		"dev": "parcel src/index.html",
-		"build": "parcel build src/index.html"
+		"start": "per-env",
+		"start:production": "yarn run -s serve",
+		"start:development": "yarn run -s dev",
+		"build": "preact build",
+		"serve": "preact build && preact serve",
+		"dev": "preact watch",
+		"lint": "eslint src",
+		"test": "jest"
 	},
+	"eslintConfig": {
+		"extends": "eslint-config-synacor"
+	},
+	"eslintIgnore": [
+		"build/*"
+	],
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
-		"@babel/core": "^7.0.0-0",
-		"@babel/plugin-transform-runtime": "^7.6.0",
-		"@babel/preset-env": "^7.5.5",
-		"@babel/preset-react": "^7.0.0",
-		"babel-core": "^6.26.3",
-		"babel-preset-env": "^1.7.0",
-		"chokidar": "^3.0.0",
-		"eslint": "^5.16.0",
-		"express": "^4.16.4",
-		"parcel-bundler": "^1.12.3",
+		"eslint": "^4.9.0",
+		"eslint-config-synacor": "^2.0.2",
+		"jest": "^21.2.1",
+		"jest-preset-preact": "^1.0.0",
+		"node-sass": "^4.12.0",
+		"per-env": "^1.0.2",
+		"preact-cli": "^2.1.0",
+		"preact-render-spy": "^1.2.1",
 		"prettier": "^1.17.0",
-		"sass": "^1.23.0-module.beta.1"
+		"sass-loader": "7.3.1"
 	},
-	"prettier": "@adambraimbridge/prettierrc-2019-05",
 	"dependencies": {
-		"@babel/runtime": "^7.5.5",
 		"@cloudant/cloudant": "^4.2.0",
 		"bulma": "^0.7.5",
 		"gotrue-js": "^0.9.25",
-		"hyperons": "^1.0.0-beta.2",
-		"pouchdb-browser": "^7.1.1"
+		"preact": "^8.5.2",
+		"preact-compat": "^3.17.0",
+		"preact-render-to-string": "^4.1.0",
+		"preact-router": "^2.5.7"
+	},
+	"jest": {
+		"preset": "jest-preset-preact"
 	}
 }

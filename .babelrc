@@ -1,12 +1,7 @@
 {
-	"presets": ["@babel/preset-env"],
-	"plugins": [
-		[
-			"@babel/plugin-transform-runtime",
-			{
-				"useESModules": true
-			}
-		],
-		["@babel/plugin-transform-react-jsx", { "pragma": "h", "pragmaFrag": "fragment" }]
-	]
+	"env": {
+		"test": {
+			"presets": [["preact-cli/babel", { "modules": "commonjs" }]]
+		}
+	}
 }
