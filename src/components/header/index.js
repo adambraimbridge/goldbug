@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { createElement } from 'preact'
 import { Link } from 'preact-router/match'
 import style from './style'
 

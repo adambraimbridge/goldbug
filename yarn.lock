@@ -425,9 +425,9 @@
   integrity sha1-fyrX7FX5FEgvybHsS7GuYCjUYGY=
 
 "@types/node@*":
-  version "12.7.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.4.tgz#64db61e0359eb5a8d99b55e05c729f130a678b04"
-  integrity sha512-W0+n1Y+gK/8G2P/piTkBBN38Qc5Q1ZSO6B5H3QmPCUewaiXOo2GCAWZ4ElZCcNhjJuBSUSLGFUJnmlCn5+nxOQ==
+  version "12.7.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
+  integrity sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==
 
 "@types/node@^7.0.11":
   version "7.10.7"
@@ -2134,9 +2134,9 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639, caniuse-db@^1.0.30000935:
-  version "1.0.30000992"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000992.tgz#95b37994cbc913cf6ac4aa5afda5c6c7881ba49e"
-  integrity sha512-9AZRaPuAGg7Dh3iiO5/i8APo9UjVEeyArfW1ZTvYpg0H/Eo4VrAe3ggqOaUY9mhyfxT3CLeAZgEKqo+1nRc0MA==
+  version "1.0.30000994"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000994.tgz#891d94864a8b4a49cae58a9b4a93c5b538667794"
+  integrity sha512-7KjfAAhO0qJOs92z8lMWkcRA2ig7Ewv5SQSAy+dik8MFQCDSua+j4RbPFnGrXuOSFe/3RhmGr+68DxKZrbJQGg==
 
 caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805, caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30000989:
   version "1.0.30000989"
@@ -3327,9 +3327,9 @@ ejs-loader@^0.3.0:
     lodash "^4.17.11"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.247, electron-to-chromium@^1.3.30, electron-to-chromium@^1.3.47:
-  version "1.3.254"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.254.tgz#af9795b9b2af0729997331a033ddc767af758224"
-  integrity sha512-7I5/OkgR6JKy6RFLJeru0kc0RMmmMu1UnkHBKInFKRrg1/4EQKIqOaUqITSww/SZ1LqWwp1qc/LLoIGy449eYw==
+  version "1.3.255"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.255.tgz#9f4b4f9ffd559dd7a81fef962186fc918d118b66"
+  integrity sha512-SZ6NlaNw3h4WR5kA1BK8XltdJCax02P+lW+z78RYoLDqmpyYuDQ5bS+/O6MCJ/j761qoZIFox2qYYt+UwqGA5w==
 
 elliptic@^6.0.0:
   version "6.5.1"
@@ -7940,7 +7940,7 @@ preact-cli@^2.1.0:
     which "^1.2.14"
     yargs "^8.0.1"
 
-preact-compat@^3.14.3, preact-compat@^3.17.0:
+preact-compat@^3.14.3:
   version "3.19.0"
   resolved "https://registry.yarnpkg.com/preact-compat/-/preact-compat-3.19.0.tgz#a71457b6a3bf051690a4411603bc2085aa061c2f"
   integrity sha512-f83A4hIhH8Uzhb9GbIcGk8SM19ffWlwP9mDaYwQdRnMdekZwcCA7eIAbeV4EMQaV9C0Yuy8iKgBAtyTKPZQt/Q==
@@ -7973,24 +7973,34 @@ preact-render-to-string@^3.6.0, preact-render-to-string@^3.6.3, preact-render-to
   dependencies:
     pretty-format "^3.5.1"
 
-preact-render-to-string@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-4.1.0.tgz#70d98a8385cb86558366c558aad7311ebecb881d"
-  integrity sha512-FlFBJRxo8z4cp6VsDmeYjIEx4ZK2clFJnKIvIj8K1IQCRm7ZgJ/SZ1+BotT86/Nc+V1pNtFabHoUi6gpjx5Pug==
+preact-render-to-string@^5.0.6:
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-5.0.6.tgz#3e89078f78e88157a044f91914b348894cd18d03"
+  integrity sha512-VOsbY/YNPJVIxEdzkUJNwhZNEOE5/w4lbEAsBvhsImbpeDsDhCtUvzpZav/j8tHF8HcG6lNWljmkmXfy+KEnsQ==
   dependencies:
     pretty-format "^3.8.0"
 
-preact-router@^2.5.2, preact-router@^2.5.7:
+preact-router@^2.5.2:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/preact-router/-/preact-router-2.6.1.tgz#eec60a9f2c07a1ae4fbc6604d8a0415742fbbd89"
   integrity sha512-Ql3fptQ8hiioIw5zUcWUq5NShl7yFR4e6KBUzLbGI7+HKMIgBnH+aOITN5IrY1rbr2vhKXBdHdd9nLbbjcJTOQ==
+
+preact-router@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/preact-router/-/preact-router-3.0.1.tgz#a42ef8a25b42847870658c636bb7c65a1deadb5f"
+  integrity sha512-vPnOBm9k79zWKLiOHnG72Mcq71XeEUXo/iWrHyQv8LQVzPT8SUeFauT1cqE/5R2+PPx2yA0tk77YmfbAcXHgUg==
 
 preact-transition-group@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/preact-transition-group/-/preact-transition-group-1.1.1.tgz#f0a49327ea515ece34ea2be864c4a7d29e5d6e10"
   integrity sha1-8KSTJ+pRXs406ivoZMSn0p5dbhA=
 
-preact@^8.1.0, preact@^8.5.2:
+preact@^10.0.0-rc.3:
+  version "10.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.0.0-rc.3.tgz#258d1bbf11744e0460b8681422cd6a0c18200df7"
+  integrity sha512-IvDc2AGvHJncEtORciLDzpluDF2MsZqf9eo6xHt7HVY4E6OvxZzAePYJtv3siVdEntxmB9NciQpbToT1APqJYQ==
+
+preact@^8.1.0:
   version "8.5.2"
   resolved "https://registry.yarnpkg.com/preact/-/preact-8.5.2.tgz#2f532da485287c07369e08150cf4d23921a09789"
   integrity sha512-37tlDJGq5IQKqGUbqPZ7qPtsTOWFyxe+ojAOFfzKo0dEPreenqrqgJuS83zGpeGAqD9h9L9Yr7QuxH2W4ZrKxg==

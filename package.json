@@ -1,7 +1,7 @@
 {
 	"name": "goldbug.club",
 	"version": "1.0.0",
-	"description": "Treasure-hunting adventures for the wild at heart.",
+	"description": "Treasure-hunting adventures for the child at heart.",
 	"repository": "git@github.com:adambraimbridge/goldbug.git",
 	"author": "Adam Braimbridge <adam@braimbridge.com>",
 	"license": "MIT",
@@ -40,10 +40,9 @@
 		"@cloudant/cloudant": "^4.2.0",
 		"bulma": "^0.7.5",
 		"gotrue-js": "^0.9.25",
-		"preact": "^8.5.2",
-		"preact-compat": "^3.17.0",
-		"preact-render-to-string": "^4.1.0",
-		"preact-router": "^2.5.7"
+		"preact": "^10.0.0-rc.3",
+		"preact-render-to-string": "^5.0.6",
+		"preact-router": "^3.0.0"
 	},
 	"jest": {
 		"preset": "jest-preset-preact"
