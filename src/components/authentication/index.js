@@ -24,7 +24,13 @@ const userUI = () => {
 	let currentUser
 
 	// See if the user has authenticated
-	const hash = document.location.hash
+	let hash
+	try {
+		hash = document.location.hash
+	} catch (error) {
+		// do nothing
+	}
+
 	if (hash) {
 		const authenticationData = getAuthenticationData(hash)
 		currentUser = auth.createUser(authenticationData, true).catch(console.error)
@@ -35,16 +41,16 @@ const userUI = () => {
 		currentUser = auth.currentUser()
 	}
 
-	console.log({ currentUser })
-
-	const [user, setUser] = useState(currentUser)
-
 	// const { avatar_url, full_name } = currentUser.user_metadata
 	if (currentUser) {
+		console.log({ currentUser })
+		const [user, setUser] = useState(currentUser)
 		return (
 			<div>
-				<img src={user.avatar_url} width="40" /> {user.full_name}
-				<a class="button is-small">Sign out</a>
+				<img src={user.avatar_url} width="40" /> {user.full_name}{' '}
+				<a class="button is-small" href="/">
+					Sign out
+				</a>
 			</div>
 		)
 	} else {
