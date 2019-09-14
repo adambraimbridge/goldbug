@@ -108,7 +108,7 @@ export default class Home extends Component {
 
 	render() {
 		return (
-			<div class="section content is-small">
+			<div class="section content">
 				<div id="messages" />
 				<div id="chat-ui">
 					<div id="toast" />

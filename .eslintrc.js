@@ -1,11 +1,10 @@
-const config = {
+constconfig = {
 	env: {
 		es6: true,
 		node: true,
 		jest: true,
 	},
 	parserOptions: {
-		ecmaVersion: 2017,
 		sourceType: 'module',
 		ecmaVersion: 2018,
 	},
@@ -22,20 +21,27 @@ const config = {
 		'no-underscore-dangle': 0,
 		'no-unused-vars': 2,
 		'no-var': 2,
-		'one-var': [2, 'never'],
+		'one-var': [
+			2,
+			'never'
+		],
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "warn",
 	},
-	globals: {},
-	plugins: ['no-only-tests'],
-	extends: ['plugin:prettier/recommended'],
-	overrides: [
-		{
-			files: ['test/**/*.js'],
-			rules: {
-				'no-only-tests/no-only-tests': 2,
-			},
-		},
+	plugins: [
+		'no-only-tests',
+		"react-hooks",
 	],
-	settings: {},
+	extends: [
+		'plugin:prettier/recommended'
+	],
+	overrides: [{
+		files: [
+			'test/**/*.js'
+		],
+		rules: {
+			'no-only-tests/no-only-tests': 2,
+		},
+	}],
 }
-
 module.exports = config

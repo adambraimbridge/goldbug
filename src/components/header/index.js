@@ -1,14 +1,11 @@
 import { createElement } from 'preact'
 import { Link } from 'preact-router/match'
+import Authentication from '../authentication'
 import style from './style'
 
-const Header = () => (
+export default () => (
 	<nav class="section card is-mobile" role="navigation" aria-label="main navigation">
-		<div class="is-pulled-right">
-			<button class="button is-small">Sign out</button>
-		</div>
+		<Authentication />
 		<div>💀 goldbug.club</div>
 	</nav>
 )
-
-export default Header
