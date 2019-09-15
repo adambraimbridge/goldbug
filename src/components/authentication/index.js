@@ -44,6 +44,8 @@ export default () => {
 	const authenticatedUser = getAuthenticatedUser()
 	const UserMeta = () => {
 		if (!authenticatedUser) return false
+
+		console.log({ authenticatedUser })
 		const { avatar_url, full_name } = authenticatedUser
 		return (
 			<span class="section">
@@ -54,7 +56,6 @@ export default () => {
 	const buttonText = authenticatedUser ? 'Sign Out' : 'Sign In'
 	const handleAuthentication = () => {
 		if (authenticatedUser) {
-			// Sign out
 		} else {
 			// Redirect to OAuth endpoint
 			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
