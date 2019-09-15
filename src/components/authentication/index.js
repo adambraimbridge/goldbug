@@ -22,7 +22,7 @@ const getAuthenticationFromHash = () => {
 					}, {})
 			: undefined
 		if (authenticationData) {
-			currentUser = auth.createUser(authenticationData, true).catch(console.error)
+			const currentUser = auth.createUser(authenticationData, true).catch(console.error)
 			return currentUser
 		}
 	} catch (error) {
