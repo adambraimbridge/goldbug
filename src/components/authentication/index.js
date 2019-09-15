@@ -11,7 +11,7 @@ const goTrueAuth = new GoTrue({
 
 const getAuthenticationFromHash = () => {
 	try {
-		return document.location.hash.length
+		const authenticationData = document.location.hash.length
 			? document.location.hash
 					.replace(/^#/, '')
 					.split('&')
@@ -21,6 +21,10 @@ const getAuthenticationFromHash = () => {
 						return result
 					}, {})
 			: undefined
+		if (authenticationData) {
+			currentUser = auth.createUser(authenticationData, true).catch(console.error)
+			return currentUser
+		}
 	} catch (error) {}
 	// do nothing on error
 }
