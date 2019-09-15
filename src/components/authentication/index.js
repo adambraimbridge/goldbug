@@ -9,7 +9,7 @@ const goTrueAuth = new GoTrue({
 	setCookie: true,
 })
 
-const getAuthenticationFromHash = () => {
+const getAuthenticationFromHash = async () => {
 	try {
 		const authenticationData = document.location.hash.length
 			? document.location.hash
@@ -22,7 +22,8 @@ const getAuthenticationFromHash = () => {
 					}, {})
 			: undefined
 		if (authenticationData) {
-			return goTrueAuth.createUser(authenticationData, true).catch(console.error)
+			const authenticatedUser = await goTrueAuth.createUser(authenticationData, true).catch(console.error)
+			return authenticatedUser
 		}
 	} catch (error) {
 		console.error(error)
