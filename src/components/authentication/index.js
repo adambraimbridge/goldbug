@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'preact/hooks'
+import { useReducer } from 'preact/hooks'
 
 /**
  * Authenticate against Google via Netlify.
@@ -47,68 +47,72 @@ const getAuthenticatedUser = () => {
 	return currentUser
 }
 
-const userComponent = () => {
-	// updateUser() is triggered by the Sign In / Sign Out button.
-	const updateUser = useCallback(() => {
-		const [localUser] = useState()
-		if (localUser) {
-			// User exists, so they must have clicked "Sign Out"
-			localUser
-				.logout()
-				.then(console.log('Signed out.'))
-				.catch(console.error)
+const anonUser = { localUser: false, buttonText: 'Google Sign In' }
 
-			setValue({ localUser: {}, buttonText: 'Sign In', updateUser }), [localUser]
-		} else {
+const initialUserState = () => {
+	const authenticatedUser = getAuthenticatedUser()
+	if (authenticatedUser) {
+		return {
+			localUser: authenticatedUser,
+			buttonText: 'Sign Out',
+		}
+	} else {
+		return anonUser
+	}
+}
+
+const updateUserState = (state, action) => {
+	// updateUser() is triggered by the Sign In / Sign Out button.
+	if (action === 'updateUser') {
+		const { localUser } = state || {}
+		if (!localUser) {
 			// User does not exist, so they must have clicked "Sign In"
 			// Redirect to OAuth endpoint to sign in.
 			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
+		} else {
+			// User exists, so they must have clicked "Sign Out"
+
+			// todo: doublecheck this promise
+			return localUser
+				.logout()
+				.then(() => {
+					console.log('Signed out.')
+					return anonUser
+				})
+				.catch(console.error)
 		}
-	})
-
-	// Return details to whoever called useState(userComponent)
-	const [localUser, setValue] = useState()
-	if (!localUser) {
-		getAuthenticatedUser()
-			.then(authenticatedUser => {
-				return { localUser: authenticatedUser, buttonText: 'Sign Out', updateUser }
-			})
-			.catch(console.error)
 	}
-	return { localUser, buttonText: 'Google Sign In', updateUser }
 }
 
-const UserMeta = () => {
-	const [{ localUser, buttonText, updateUser }] = useState(userComponent)
-	const { avatar_url, full_name } = localUser.user_metadata
-	return (
-		<Fragment>
-			<figure class="media-left image is-24x24">
-				<img class="is-rounded" src={avatar_url} />
-			</figure>
-			<div class="media-content">{full_name}</div>
-		</Fragment>
-	)
-}
+const UserComponent = () => {
+	const [state, dispatch] = useReducer(updateUserState, initialUserState)
+	const { localUser, buttonText } = state || {}
 
-const UserUI = () => {
-	const [{ buttonText, updateUser }] = useState(userComponent)
-	return (
-		<div class="media-right">
-			<button class="button is-small" onClick={updateUser}>
-				{buttonText}
-			</button>
-		</div>
-	)
-}
-
-export default () => {
+	const UserMeta = () => {
+		if (localUser) {
+			const { avatar_url, full_name } = localUser.user_metadata
+			return (
+				<Fragment>
+					<figure class="media-left image is-24x24">
+						<img class="is-rounded" src={avatar_url} />
+					</figure>
+					<div class="media-content">{full_name}</div>
+				</Fragment>
+			)
+		}
+	}
 	return (
 		<div class="is-pulled-right">
 			<div class="media">
 				<UserMeta />
-				<UserUI />
+				<div class="media-right">
+					<button class="button is-small" onClick={() => dispatch('updateUser')}>
+						{buttonText}
+					</button>
+				</div>
 			</div>
 		</div>
 	)
 }
+
+export default () => <UserComponent />
