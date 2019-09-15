@@ -25,7 +25,9 @@ const getAuthenticationFromHash = () => {
 			currentUser = auth.createUser(authenticationData, true).catch(console.error)
 			return currentUser
 		}
-	} catch (error) {}
+	} catch (error) {
+		console.error(error)
+	}
 	// do nothing on error
 }
 
