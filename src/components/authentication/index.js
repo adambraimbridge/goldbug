@@ -45,7 +45,7 @@ const getAuthenticatedUser = () => {
 	return currentUser
 }
 
-const UserUI = () => {
+const UserComponent = () => {
 	const handleAuthentication = () => {
 		if (authenticatedUser) {
 			// Todo: Wire this up to setState() to trigger a render of the component
@@ -72,22 +72,52 @@ const UserUI = () => {
 		)
 	}
 
-	const authenticatedUser = getAuthenticatedUser()
-
-	const buttonText = authenticatedUser ? 'Sign Out' : 'Sign In'
-	return (
-		<div class="media">
-			<UserMeta />
+	const UserUI = () => {
+		const buttonText = authenticatedUser ? 'Sign Out' : 'Sign In'
+		return (
 			<div class="media-right">
 				<button class="button is-small" onClick={handleAuthentication}>
 					{buttonText}
 				</button>
 			</div>
+		)
+	}
+
+	const authenticatedUser = getAuthenticatedUser()
+	return (
+		<div class="media">
+			<UserMeta />
+			<UserUI />
 		</div>
 	)
 }
+// =============================================================
+// const initialValue = {}
+
+// const userComponent = () => {
+//   const [user, setValue] = useState(initialValue);
+//   const updateUser = useCallback(() => {
+// 		alert(JSON.stringify(user))
+// 		setValue({
+// 			...user,
+// 			testing: "yes"
+// 		}), [user]
+// 	});
+//   return { user, updateUser };
+// }
+
+// function () {
+//   const { user, updateUser } = userComponent();
+//   return (
+//     <div>
+//       {user.name} {user.testing}
+//       <button onClick={updateUser}>Update User</button>
+//     </div>
+//   );
+// }
+
 export default () => (
 	<div class="is-pulled-right">
-		<UserUI />
+		<UserComponent />
 	</div>
 )
