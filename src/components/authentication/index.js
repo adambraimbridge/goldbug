@@ -1,5 +1,3 @@
-// import { useState, useCallback } from 'preact/hooks'
-
 /**
  * Authenticate against Google via Netlify.
  */
@@ -9,7 +7,7 @@ const goTrueAuth = new GoTrue({
 	setCookie: true,
 })
 
-const getAuthenticationFromHash = async () => {
+const getAuthenticationFromHash = () => {
 	try {
 		const authenticationData = document.location.hash.length
 			? document.location.hash
@@ -22,13 +20,14 @@ const getAuthenticationFromHash = async () => {
 					}, {})
 			: undefined
 		if (authenticationData) {
-			const authenticatedUser = await goTrueAuth.createUser(authenticationData, true).catch(console.error)
-			return authenticatedUser
+			goTrueAuth
+				.createUser(authenticationData, true)
+				.then(authenticatedUser => authenticatedUser)
+				.catch(console.error)
 		}
 	} catch (error) {
 		console.error(error)
 	}
-	// do nothing on error
 }
 
 /**
@@ -46,34 +45,49 @@ const getAuthenticatedUser = () => {
 	return currentUser
 }
 
-export default () => {
-	const authenticatedUser = getAuthenticatedUser()
-	const UserMeta = () => {
-		if (!authenticatedUser) return false
-
-		console.log({ authenticatedUser })
-		const { avatar_url, full_name } = authenticatedUser
-		return (
-			<span class="section">
-				<img src={avatar_url} width="40" /> {full_name}
-			</span>
-		)
-	}
-	const buttonText = authenticatedUser ? 'Sign Out' : 'Sign In'
+const UserUI = () => {
 	const handleAuthentication = () => {
 		if (authenticatedUser) {
+			// Todo: Wire this up to setState() to trigger a render of the component
+			authenticatedUser
+				.logout()
+				.then(console.log('Signed out.'))
+				.catch(console.error)
 		} else {
-			// Redirect to OAuth endpoint
+			// Redirect to OAuth endpoint to sign in
 			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 		}
 	}
+	const UserMeta = () => {
+		if (!authenticatedUser) return false
 
+		const { avatar_url, full_name } = authenticatedUser.user_metadata
+		return (
+			<Fragment>
+				<figure class="media-left image is-24x24">
+					<img class="is-rounded" src={avatar_url} />
+				</figure>
+				<div class="media-content">{full_name}</div>
+			</Fragment>
+		)
+	}
+
+	const authenticatedUser = getAuthenticatedUser()
+
+	const buttonText = authenticatedUser ? 'Sign Out' : 'Sign In'
 	return (
-		<div class="is-pulled-right">
+		<div class="media">
 			<UserMeta />
-			<button class="button is-small" onClick={handleAuthentication}>
-				{buttonText}
-			</button>
+			<div class="media-right">
+				<button class="button is-small" onClick={handleAuthentication}>
+					{buttonText}
+				</button>
+			</div>
 		</div>
 	)
 }
+export default () => (
+	<div class="is-pulled-right">
+		<UserUI />
+	</div>
+)
