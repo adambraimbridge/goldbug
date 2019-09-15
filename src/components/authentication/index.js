@@ -1,67 +1,72 @@
-import { useState } from 'preact/hooks'
+// import { useState, useCallback } from 'preact/hooks'
+
+/**
+ * Authenticate against Google via Netlify.
+ */
 import GoTrue from 'gotrue-js'
-const auth = new GoTrue({
+const goTrueAuth = new GoTrue({
 	APIUrl: 'https://www.goldbug.club/.netlify/identity',
 	setCookie: true,
 })
 
-const getAuthenticationData = hash => {
-	const authenticationData = hash
-		.replace(/^#/, '')
-		.split('&')
-		.reduce((result, pair) => {
-			const keyValue = pair.split('=')
-			result[keyValue[0]] = keyValue[1]
-			return result
-		}, {})
+const getAuthenticationFromHash = () => {
+	try {
+		return document.location.hash.length
+			? document.location.hash
+					.replace(/^#/, '')
+					.split('&')
+					.reduce((result, pair) => {
+						const keyValue = pair.split('=')
+						result[keyValue[0]] = keyValue[1]
+						return result
+					}, {})
+			: undefined
+	} catch (error) {}
+	// do nothing on error
+}
+
+/**
+ * Local storage trumps URL hash. To sign out local user, the Sign Out UI must be used.
+ */
+const getAuthenticatedUser = () => {
+	let currentUser = goTrueAuth.currentUser()
+	if (!currentUser) {
+		currentUser = getAuthenticationFromHash()
+	}
 
 	// Remove tokens from hash so that token does not remain in browser history.
 	history.replaceState(null, null, '/')
-	return authenticationData
-}
 
-const userUI = () => {
-	let currentUser
-
-	// See if the user has authenticated
-	let hash
-	try {
-		hash = document.location.hash
-	} catch (error) {
-		// do nothing
-	}
-
-	if (hash) {
-		const authenticationData = getAuthenticationData(hash)
-		currentUser = auth.createUser(authenticationData, true).catch(console.error)
-	}
-
-	if (!currentUser) {
-		// Look for the currentUser in local storage
-		currentUser = auth.currentUser()
-	}
-
-	// const { avatar_url, full_name } = currentUser.user_metadata
-	if (currentUser) {
-		console.log({ currentUser })
-		const [user, setUser] = useState(currentUser)
-		return (
-			<div>
-				<img src={user.avatar_url} width="40" /> {user.full_name}{' '}
-				<a class="button is-small" href="/">
-					Sign out
-				</a>
-			</div>
-		)
-	} else {
-		return (
-			<a class="button is-small" href="https://www.goldbug.club/.netlify/identity/authorize?provider=google">
-				Sign in
-			</a>
-		)
-	}
+	return currentUser
 }
 
 export default () => {
-	return <div class="is-pulled-right">{userUI()}</div>
+	const authenticatedUser = getAuthenticatedUser()
+	const UserMeta = () => {
+		if (!authenticatedUser) return false
+		const { avatar_url, full_name } = authenticatedUser
+		return (
+			<span class="section">
+				<img src={avatar_url} width="40" /> {full_name}
+			</span>
+		)
+	}
+	const buttonText = authenticatedUser ? 'Sign Out' : 'Sign In'
+	const handleAuthentication = () => {
+		if (authenticatedUser) {
+			// Sign out
+		} else {
+			// Redirect to OAuth endpoint
+			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
+		}
+	}
+
+	return (
+		<div class="is-pulled-right">
+			<UserMeta />
+			<button class="button is-small" onClick={handleAuthentication}>
+				{buttonText}
+			</button>
+		</div>
+	)
 }

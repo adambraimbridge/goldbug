@@ -4022,7 +4022,7 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-fast-async@^6.3.7:
+fast-async@^6.3.0, fast-async@^6.3.7:
   version "6.3.8"
   resolved "https://registry.yarnpkg.com/fast-async/-/fast-async-6.3.8.tgz#031b9e1d5a84608b117b3e7c999ad477ed2b08a2"
   integrity sha512-TjlooyqrYm/gOXjD2UHNwfrWkvTbzU105Nk4bvcRTeRoL+wIeK6rqbqDg3CN9z5p37cE2iXhP6SxQFz8OVIaUg==
@@ -8076,7 +8076,14 @@ postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.16, postcss@^7.0.1
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-preact-cli@^3.0.0-rc.1:
+preact-cli-plugin-fast-async@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/preact-cli-plugin-fast-async/-/preact-cli-plugin-fast-async-1.0.1.tgz#9dba988dcbe210a3a2dc69c016f1cc8d34d9693a"
+  integrity sha512-r725LMb7S6iY6HAKspzdzmNM4N9Wa0mRkDrl5b3USjw2rlOMq+krjvNevP5PXZJED/Ym2kipnRHMaR4gtHzQ6A==
+  dependencies:
+    fast-async "^6.3.0"
+
+preact-cli@^3.0.0-rc.5:
   version "3.0.0-rc.5"
   resolved "https://registry.yarnpkg.com/preact-cli/-/preact-cli-3.0.0-rc.5.tgz#d9820d7c1b3e9de3d7446ff29ce53013fc865927"
   integrity sha512-lIb1XY1+XFZgxu8ELT8WdFLL6DXhOTZ8Q06BPYPWI8aQXmqi21dq6C7lMumkMYB+c1IOsoRzy8HZ08bVZlYcww==
