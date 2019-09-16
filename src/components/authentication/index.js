@@ -9,6 +9,9 @@ const goTrueAuth = new GoTrue({
 	setCookie: true,
 })
 
+const SIGN_OUT_TEXT = 'Sign Out'
+const SIGN_IN_TEXT = 'Google Sign In'
+
 const getAuthenticationFromHash = () => {
 	try {
 		const authenticationData = document.location.hash.length
@@ -73,23 +76,26 @@ const UserMeta = () => {
 }
 
 const UserUI = () => {
-	const initialButtonState = () => {
+	const getButtonText = () => {
 		const localUser = getLocalUser()
-		return localUser ? 'Sign Out' : 'Google Sign In'
+		return localUser ? SIGN_OUT_TEXT : SIGN_IN_TEXT
 	}
-	const [buttonText, setValue] = useState(initialButtonState)
-	const handleClick = useCallback(() => {
-		const localUser = getLocalUser()
-		setValue(localUser ? 'Sign Out' : 'Google Sign In')
+	const [buttonText, setValue] = useState(getButtonText)
+
+	const handleClick = useCallback(async () => {
+		const buttonText = getButtonText()
+		setValue(buttonText)
 
 		// User does not exist, so they must have clicked "Sign In"
 		// Redirect to OAuth endpoint.
-		if (!localUser) location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
-	}, [buttonText])
+		if (buttonText === SIGN_IN_TEXT) {
+			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
+		} else {
+			// User exists, so they must have clicked "Sign Out"
+			await localUser.logout().catch(console.error)
 
-	// Todo: Will useEffect() handle logging out / redirecting to oauth?
-	useEffect(() => {
-		console.log({ buttonText })
+			//todo: update usermeta
+		}
 	}, [buttonText])
 
 	return (
@@ -109,21 +115,3 @@ export default () => (
 		</div>
 	</div>
 )
-
-// // Todo: Get local user from state
-// if (!localUser) {
-// 	// User does not exist, so they must have clicked "Sign In"
-// 	// Redirect to OAuth endpoint.
-// 	location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
-// } else {
-// 	// User exists, so they must have clicked "Sign Out"
-
-// 	// todo: doublecheck this promise
-// 	return localUser
-// 		.logout()
-// 		.then(() => {
-// 			console.log('Signed out.')
-// 			return anonUser
-// 		})
-// 		.catch(console.error)
-// }
