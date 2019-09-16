@@ -54,7 +54,7 @@ const getAuthenticatedUser = () => {
 			 * Because Preact complains if you export an async function, use an iife here for that sweet async/await goodness
 			 */
 			!(async () => {
-				authenticatedUser = await goTrueAuth.createUser(authenticationData, true).catch(console.error)
+				authenticatedUser = await goTrueAuth.createUser(authenticationData, true)
 				return authenticatedUser
 			})()
 		}
