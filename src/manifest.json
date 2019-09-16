@@ -2,10 +2,10 @@
 	"name": "goldbug.club",
 	"short_name": "goldbug.club",
 	"start_url": "/",
-	"display": "standalone",
+	"display": "fullscreen",
 	"orientation": "portrait",
 	"background_color": "#000",
-	"theme_color": "#FFCC00",
+	"theme_color": "#000",
 	"icons": [
 		{
 			"src": "/assets/icons/android-chrome-192x192.png",

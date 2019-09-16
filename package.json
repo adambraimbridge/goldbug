@@ -41,6 +41,7 @@
 	"dependencies": {
 		"@cloudant/cloudant": "^4.2.0",
 		"bulma": "^0.7.5",
+		"bulma-prefers-dark": "^0.1.0-beta.0",
 		"gotrue-js": "^0.9.25",
 		"preact": "^10.0.0-rc.3",
 		"preact-render-to-string": "^5.0.6",
