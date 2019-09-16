@@ -28,6 +28,11 @@ const getAuthenticationDataFromHash = () => {
 						return result
 					}, {})
 			: false
+
+		// Remove hash from url so that token does not remain in browser history.
+		// Todo: Confirm this works as expected
+		history.replaceState(null, null, '/')
+
 		return authenticationData
 	} catch (error) {
 		console.error(error)
@@ -40,28 +45,20 @@ const getAuthenticationDataFromHash = () => {
  */
 const getAuthenticatedUser = () => {
 	let authenticatedUser = goTrueAuth.currentUser()
-	if (!authenticatedUser) {
+	if (!!authenticatedUser) {
+		return authenticatedUser
+	} else {
 		const authenticationData = getAuthenticationDataFromHash()
-
-		// Remove hash from url so that token does not remain in browser history.
-		history.replaceState(null, null, '/') // Todo: Confirm this works as expected
-
-		// Todo: Convert this to async/await somehow
 		if (authenticationData) {
-			goTrueAuth
-				.createUser(authenticationData, true)
-				.then(response => {
-					authenticatedUser = response
-					return authenticatedUser || false
-				})
-				.catch(console.error)
-
-			// !(async () => {
-			// 	authenticatedUser = await goTrueAuth.createUser(authenticationData, true).catch(console.error)
-			// })()
+			/**
+			 * Because Preact complains if you export an async function, use an iife here for that sweet async/await goodness
+			 */
+			!(async () => {
+				authenticatedUser = await goTrueAuth.createUser(authenticationData, true).catch(console.error)
+				return authenticationData
+			})()
 		}
 	}
-	return authenticatedUser || false
 }
 
 /**
