@@ -84,8 +84,7 @@ const UserUI = () => {
 
 		// User does not exist, so they must have clicked "Sign In"
 		// Redirect to OAuth endpoint.
-		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
-
+		if (!localUser) location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 	}, [buttonText])
 
 	// Todo: Will useEffect() handle logging out / redirecting to oauth?
