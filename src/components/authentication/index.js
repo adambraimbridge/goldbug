@@ -42,17 +42,25 @@ const getAuthenticatedUser = () => {
 	let authenticatedUser = goTrueAuth.currentUser()
 	if (!authenticatedUser) {
 		const authenticationData = getAuthenticationDataFromHash()
+
+		// Remove hash from url so that token does not remain in browser history.
+		history.replaceState(null, null, '/') // Todo: Confirm this works as expected
+
+		// Todo: Convert this to async/await somehow
 		if (authenticationData) {
-			!(async () => {
-				authenticatedUser = await goTrueAuth.createUser(authenticationData, true).catch(console.error)
-			})()
+			goTrueAuth
+				.createUser(authenticationData, true)
+				.then(response => {
+					authenticatedUser = response
+					return authenticatedUser || false
+				})
+				.catch(console.error)
+
+			// !(async () => {
+			// 	authenticatedUser = await goTrueAuth.createUser(authenticationData, true).catch(console.error)
+			// })()
 		}
 	}
-
-	// Remove hash from url so that token does not remain in browser history.
-	// Todo: Confirm this works as expected
-	history.replaceState(null, null, '/')
-
 	return authenticatedUser || false
 }
 
