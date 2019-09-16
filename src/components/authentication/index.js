@@ -74,7 +74,7 @@ const UserMeta = ({ avatar_url, full_name }) => (
 const UserUI = ({ buttonText, handleClick }) => {
 	return (
 		<div class="media-right">
-			<button class="button" onClick={handleClick}>
+			<button class="button is-small" onClick={handleClick}>
 				{buttonText}
 			</button>
 		</div>
