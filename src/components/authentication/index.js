@@ -55,7 +55,7 @@ const getAuthenticatedUser = () => {
 			 */
 			!(async () => {
 				authenticatedUser = await goTrueAuth.createUser(authenticationData, true).catch(console.error)
-				return authenticationData
+				return authenticatedUser
 			})()
 		}
 	}
