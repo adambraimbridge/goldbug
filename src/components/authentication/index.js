@@ -99,19 +99,20 @@ const UserMeta = () => {
 const UserUI = () => {
 	const handleClick = () => {
 		const localUser = getLocalUser()
-
-		const signoutUser = useCallback(async () => {
-			const [localUser, setValue] = useState(localUser)
-			await localUser.logout().catch(console.error)
-			setValue(false)
-		})
-
 		if (!!localUser) {
 			// User exists, so they must have clicked "Sign Out"
-			signoutUser()
+			const [localUser, setValue] = useState()
+			setValue(false)
+			localUser
+				.logout()
+				.then(() => {
+					const [buttonText, setValue] = useState(SIGN_OUT_TEXT)
+					setValue(buttonText)
+				})
+				.catch(console.error)
 		} else {
 			// User does not exist, so they must have clicked "Sign In"
-			// Redirect to OAuth endpoint.
+			// Redirect to OAuth endpoint. It'll redirect back.
 			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 		}
 	}
