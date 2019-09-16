@@ -50,13 +50,7 @@ const getAuthenticatedUser = () => {
 	} else {
 		const authenticationData = getAuthenticationDataFromHash()
 		if (authenticationData) {
-			/**
-			 * Because Preact complains if you export an async function, use an iife here for that sweet async/await goodness
-			 */
-			!(async () => {
-				authenticatedUser = await goTrueAuth.createUser(authenticationData, true)
-				return authenticatedUser
-			})()
+			return goTrueAuth.createUser(authenticationData, true).then(authenticatedUser)
 		}
 	}
 }
@@ -91,33 +85,36 @@ const UserUI = ({ buttonText, handleClick }) => {
  * Export a component for User authentication
  */
 export default () => {
-	const [localUser, setLocalUser] = useState(getAuthenticatedUser())
-	const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
-	setLocalUser(localUser)
+	// Todo: Change this to async/await somehow
+	getAuthenticatedUser().then(authenticatedUser => {
+		const [localUser, setLocalUser] = useState()
+		const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
+		setLocalUser(localUser)
 
-	const [buttonText, setButtonText] = useState(!!localUser ? SIGN_OUT_TEXT : SIGN_IN_TEXT)
-	setButtonText(buttonText)
+		const [buttonText, setButtonText] = useState(!!localUser ? SIGN_OUT_TEXT : SIGN_IN_TEXT)
+		setButtonText(buttonText)
 
-	const handleClick = async () => {
-		if (!!localUser) {
-			// User exists, so they must have clicked "Sign Out"
-			await localUser.logout()
+		const handleClick = async () => {
+			if (!!localUser) {
+				// User exists, so they must have clicked "Sign Out"
+				await localUser.logout()
 
-			setLocalUser(false)
-			setButtonText(SIGN_IN_TEXT)
-		} else {
-			// User does not exist, so they must have clicked "Sign In"
-			// Redirect to OAuth endpoint. It'll redirect back.
-			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
+				setLocalUser(false)
+				setButtonText(SIGN_IN_TEXT)
+			} else {
+				// User does not exist, so they must have clicked "Sign In"
+				// Redirect to OAuth endpoint. It'll redirect back.
+				location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
+			}
 		}
-	}
 
-	return (
-		<div class="is-pulled-right">
-			<div class="media">
-				<UserMeta avatar_url={avatar_url} full_name={full_name} />
-				<UserUI buttonText={buttonText} handleClick={handleClick} />
+		return (
+			<div class="is-pulled-right">
+				<div class="media">
+					<UserMeta avatar_url={avatar_url} full_name={full_name} />
+					<UserUI buttonText={buttonText} handleClick={handleClick} />
+				</div>
 			</div>
-		</div>
-	)
+		)
+	})
 }
