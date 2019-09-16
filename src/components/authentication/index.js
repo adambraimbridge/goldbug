@@ -85,12 +85,13 @@ const UserUI = ({ buttonText, handleClick }) => {
  * Export a component for User authentication
  */
 export default () => {
+	const [buttonText, setButtonText] = useState(' ... ')
 	const [localUser, setLocalUser] = useState()
 	const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
-	setLocalUser(localUser)
-
-	const [buttonText, setButtonText] = useState(!!localUser ? SIGN_OUT_TEXT : SIGN_IN_TEXT)
-	setButtonText(buttonText)
+	getAuthenticatedUser().then(authenticatedUser => {
+		setLocalUser(authenticatedUser)
+		setButtonText(!!authenticatedUser ? SIGN_OUT_TEXT : SIGN_IN_TEXT)
+	})
 
 	const handleClick = async () => {
 		if (!!localUser) {
