@@ -12,7 +12,10 @@ const goTrueAuth = new GoTrue({
 const SIGN_OUT_TEXT = 'Sign Out'
 const SIGN_IN_TEXT = 'Google Sign In'
 
-const getAuthenticationFromHash = () => {
+/**
+ * After authenticating with Google, the URL contains a secret hash of tokens.
+ */
+const getAuthenticationDataFromHash = () => {
 	try {
 		const authenticationData = document.location.hash.length
 			? document.location.hash
@@ -23,43 +26,57 @@ const getAuthenticationFromHash = () => {
 						result[keyValue[0]] = keyValue[1]
 						return result
 					}, {})
-			: undefined
-		if (authenticationData) {
-			return goTrueAuth
-				.createUser(authenticationData, true)
-				.then(authenticatedUser => authenticatedUser)
-				.catch(console.error)
-		}
+			: false
+		return authenticationData
 	} catch (error) {
 		console.error(error)
 	}
 }
 
 /**
- * GoTrue local storage trumps URL hash. To sign out local user, the Sign Out UI must be used.
+ * Retreive the authenticated user from local storage
+ * or generate it from a hashed token in the url and save it locally
  */
 const getAuthenticatedUser = () => {
-	let currentUser = goTrueAuth.currentUser()
-	if (!currentUser) {
-		currentUser = getAuthenticationFromHash()
+	let authenticatedUser = false
+	const currentUser = goTrueAuth.currentUser()
+	if (currentUser) {
+		authenticatedUser = currentUser
+	} else {
+		const authenticationData = getAuthenticationDataFromHash()
+		if (authenticationData) {
+			goTrueAuth
+				.createUser(authenticationData, true)
+				.then(authenticatedUser || false)
+				.catch(console.error)
+		}
 	}
 
-	// Remove tokens from hash so that token does not remain in browser history.
+	// Remove hash from url so that token does not remain in browser history.
+	// Todo: Confirm this works as expected
 	history.replaceState(null, null, '/')
-	return currentUser || false
+
+	return authenticatedUser || false
 }
 
+/**
+ * Retreive user from app state
+ * or get authenticated user and save it to app state
+ */
 const getLocalUser = () => {
-	const initialUserState = () => {
+	const [localUser, setValue] = useState()
+	if (!!localUser) {
+		return localUser
+	} else {
 		const authenticatedUser = getAuthenticatedUser()
-		return authenticatedUser ? authenticatedUser : false
+		setValue(authenticatedUser)
+		return authenticatedUser
 	}
-
-	// Todo: If localuser has been set in state already, does this return from state, or from initialUserState?
-	const [localUser] = useState(initialUserState)
-	return localUser
 }
 
+/**
+ * Return the UserMeta component
+ */
 const UserMeta = () => {
 	const localUser = getLocalUser()
 	if (localUser) {
@@ -74,6 +91,11 @@ const UserMeta = () => {
 		)
 	}
 }
+
+/**
+ * Return the UserUI component
+ * Handle signing in and out
+ */
 
 const UserUI = () => {
 	const getButtonText = () => {
