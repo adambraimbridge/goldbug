@@ -74,7 +74,7 @@ const UserMeta = ({ avatar_url, full_name }) => (
 const UserUI = ({ buttonText, handleClick }) => {
 	return (
 		<div class="media-right">
-			<button class="button is-small" onClick={handleClick}>
+			<button class="button" onClick={handleClick}>
 				{buttonText}
 			</button>
 		</div>
@@ -97,7 +97,6 @@ export default () => {
 		if (!!localUser) {
 			// User exists, so they must have clicked "Sign Out"
 			await localUser.logout()
-
 			setLocalUser(false)
 			setButtonText(SIGN_IN_TEXT)
 		} else {
