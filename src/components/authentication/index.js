@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'preact/hooks'
+import { useState, useCallback } from 'preact/hooks'
 
 /**
  * Authenticate against Google via Netlify.
@@ -96,30 +96,28 @@ const UserMeta = () => {
  * Return the UserUI component
  * Handle signing in and out
  */
-
 const UserUI = () => {
-	const getButtonText = () => {
+	const handleClick = () => {
 		const localUser = getLocalUser()
-		return localUser ? SIGN_OUT_TEXT : SIGN_IN_TEXT
-	}
-	const [buttonText, setValue] = useState(getButtonText)
 
-	const handleClick = useCallback(async () => {
-		const buttonText = getButtonText()
-		setValue(buttonText)
-
-		// User does not exist, so they must have clicked "Sign In"
-		// Redirect to OAuth endpoint.
-		if (buttonText === SIGN_IN_TEXT) {
-			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
-		} else {
-			// User exists, so they must have clicked "Sign Out"
-			const localUser = getLocalUser()
+		const signoutUser = useCallback(async () => {
+			const [localUser, setValue] = useState(localUser)
 			await localUser.logout().catch(console.error)
+			setValue(false)
+		})
 
-			//todo: update usermeta
+		if (!!localUser) {
+			// User exists, so they must have clicked "Sign Out"
+			signoutUser()
+		} else {
+			// User does not exist, so they must have clicked "Sign In"
+			// Redirect to OAuth endpoint.
+			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 		}
-	}, [buttonText])
+	}
+
+	const [buttonText, setValue] = useState(getLocalUser() ? SIGN_OUT_TEXT : SIGN_IN_TEXT)
+	setValue(buttonText)
 
 	return (
 		<div class="media-right">
