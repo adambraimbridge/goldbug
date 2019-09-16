@@ -92,6 +92,7 @@ const UserUI = () => {
 			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 		} else {
 			// User exists, so they must have clicked "Sign Out"
+			const localUser = getLocalUser()
 			await localUser.logout().catch(console.error)
 
 			//todo: update usermeta
