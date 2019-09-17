@@ -3,7 +3,11 @@ import style from './style'
 
 export default () => (
 	<nav id="primary-nav" class="section card is-mobile" role="navigation" aria-label="main navigation">
-		<Authentication />
-		<div>💀 goldbug.club</div>
+		<div class="columns is-mobile is-gapless">
+			<div class="column">
+				<div>💀 goldbug.club</div>
+			</div>
+			<Authentication />
+		</div>
 	</nav>
 )

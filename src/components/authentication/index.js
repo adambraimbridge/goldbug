@@ -55,29 +55,36 @@ const getAuthenticatedUser = async () => {
 	}
 }
 
-/**
- * Return the UserMeta component
- */
-const UserMeta = ({ avatar_url, full_name }) => (
-	<Fragment>
-		<figure class="media-left image is-24x24">
-			<img class="is-rounded" src={avatar_url} />
-		</figure>
-		<div class="media-content">{full_name}</div>
-	</Fragment>
-)
+// /**
+//  * Return the UserMeta component
+//  */
+// const UserMeta = ({ avatar_url, full_name }) => (
+// 	<Fragment>
+// 		<figure class="image is-24x24">
+// 			<img class="is-rounded" src={avatar_url} />
+// 		</figure>
+// 		<div class="media-content">{full_name}</div>
+// 	</Fragment>
+// )
 
 /**
  * Return the UserUI component
  * Handle signing in and out
  */
-const UserUI = ({ buttonText, handleClick }) => {
+const UserUI = ({ avatar_url, full_name, buttonText, handleClick }) => {
 	return (
-		<div class="media-right">
-			<button class="button is-small" onClick={handleClick}>
-				{buttonText}
-			</button>
-		</div>
+		<Fragment>
+			<div class="column is-narrow">
+				<figure class="image is-24x24">
+					<img alt="{full_name}" class="is-rounded" src={avatar_url} />
+				</figure>
+			</div>
+			<div class="column is-narrow">
+				<button class="button is-small" onClick={handleClick}>
+					{buttonText}
+				</button>
+			</div>
+		</Fragment>
 	)
 }
 
@@ -87,11 +94,6 @@ const UserUI = ({ buttonText, handleClick }) => {
 export default () => {
 	const [buttonText, setButtonText] = useState(' ... ')
 	const [localUser, setLocalUser] = useState()
-	const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
-	getAuthenticatedUser().then(authenticatedUser => {
-		setLocalUser(authenticatedUser)
-		setButtonText(!!authenticatedUser ? SIGN_OUT_TEXT : SIGN_IN_TEXT)
-	})
 
 	const handleClick = async () => {
 		if (!!localUser) {
@@ -106,12 +108,11 @@ export default () => {
 		}
 	}
 
-	return (
-		<div class="is-pulled-right">
-			<div class="media">
-				<UserMeta avatar_url={avatar_url} full_name={full_name} />
-				<UserUI buttonText={buttonText} handleClick={handleClick} />
-			</div>
-		</div>
-	)
+	getAuthenticatedUser().then(authenticatedUser => {
+		setLocalUser(authenticatedUser)
+		setButtonText(!!authenticatedUser ? SIGN_OUT_TEXT : SIGN_IN_TEXT)
+	})
+
+	const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
+	return <UserUI avatar_url={avatar_url} full_name={full_name} buttonText={buttonText} handleClick={handleClick} />
 }

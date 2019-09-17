@@ -3,6 +3,7 @@ const Messages = () => <div></div>
 export default () => (
 	<div class="section content">
 		<div id="chat-ui">
+			Hello world
 			<Messages />
 			<form>
 				<input class="input" type="text" placeholder="Type a message" id="chat-ui-text" />
