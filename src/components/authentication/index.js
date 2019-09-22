@@ -67,7 +67,6 @@ const UserUI = ({ avatar_url, full_name }) => {
 		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 	}
 
-
 	const signOut = async () => {
 		await localUser.logout()
 			setLocalUser(false)
@@ -80,7 +79,7 @@ const UserUI = ({ avatar_url, full_name }) => {
 					<div class="dropdown-trigger">
 						<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
 							<span class="icon is-small">
-								<i class="fas fa-angle-down" aria-hidden="true"></i>
+								<i class="fas fa-bars"></i>
 							</span>
 						</button>
 					</div>
