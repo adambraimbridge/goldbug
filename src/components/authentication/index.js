@@ -10,9 +10,6 @@ const goTrueAuth = new GoTrue({
 	setCookie: true,
 })
 
-const SIGN_OUT_TEXT = 'Sign Out'
-const SIGN_IN_TEXT = 'Google Sign In'
-
 /**
  * After authenticating with Google via Netlify, the URL contains a secret hash of tokens.
  */
@@ -71,48 +68,47 @@ const getAuthenticatedUser = async () => {
  * Return the UserUI component
  * Handle signing in and out
  */
-const UserUI = ({ avatar_url, full_name, buttonText, handleClick }) => {
-	return (
-		<Fragment>
+const UserUI = ({ avatar_url, full_name }) => {
+	const showProfile = () => {
+		// Show a user select or modal
+		console.log('showprofile')
+	}
+
+	const signIn = () => {
+		// Redirect to OAuth endpoint. It'll redirect back.
+		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
+	}
+
+	if (avatar_url && full_name) {
+		return (
 			<div class="column is-narrow">
 				<figure class="image is-24x24">
-					<img alt="{full_name}" class="is-rounded" src={avatar_url} />
+					<img alt={full_name} class="is-rounded" src={avatar_url} onClick={showProfile} />
 				</figure>
 			</div>
+		)	
+	}
+	else {
+		return (
 			<div class="column is-narrow">
-				<button class="button is-small" onClick={handleClick}>
-					{buttonText}
-				</button>
+				<button class="button is-small" onClick={signIn}>Google Sign In</button>
 			</div>
-		</Fragment>
-	)
+		)
+	
+	}
+
 }
 
 /**
  * Export a component for User authentication
  */
 export default () => {
-	const [buttonText, setButtonText] = useState(' ... ')
 	const [localUser, setLocalUser] = useState()
-
-	const handleClick = async () => {
-		if (!!localUser) {
-			// User exists, so they must have clicked "Sign Out"
-			await localUser.logout()
-			setLocalUser(false)
-			setButtonText(SIGN_IN_TEXT)
-		} else {
-			// User does not exist, so they must have clicked "Sign In"
-			// Redirect to OAuth endpoint. It'll redirect back.
-			location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
-		}
-	}
 
 	getAuthenticatedUser().then(authenticatedUser => {
 		setLocalUser(authenticatedUser)
-		setButtonText(!!authenticatedUser ? SIGN_OUT_TEXT : SIGN_IN_TEXT)
 	})
 
 	const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
-	return <UserUI avatar_url={avatar_url} full_name={full_name} buttonText={buttonText} handleClick={handleClick} />
+	return <UserUI avatar_url={avatar_url} full_name={full_name} />
 }
