@@ -78,8 +78,8 @@ const UserUI = ({ avatar_url, full_name }) => {
 				<div class="dropdown is-right">
 					<div class="dropdown-trigger">
 						<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-							<span class="icon is-small">
-								<i class="fas fa-bars"></i>
+							<span class="icon has-text-warning">
+								<i class="fas fa-info-circle"></i>
 							</span>
 						</button>
 					</div>
@@ -90,7 +90,7 @@ const UserUI = ({ avatar_url, full_name }) => {
 									<img class="is-rounded" src={avatar_url} />
 								</figure>
 								<div class="media-content">{full_name}</div>
-									<button class="button is-small" onClick={signOut}>Sign Out</button>
+								<button class="button is-small" onClick={signOut}>Sign Out</button>
 							</div>
 						</div>
 					</div>
