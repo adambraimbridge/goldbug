@@ -82,9 +82,26 @@ const UserUI = ({ avatar_url, full_name }) => {
 	if (avatar_url && full_name) {
 		return (
 			<div class="column is-narrow">
-				<button class="image is-24x24" onClick={signIn}>Google Sign In
-					<img alt={full_name} class="is-rounded" src={avatar_url} onClick={showProfile} />
-				</button>
+				<div class="dropdown is-right">
+					<div class="dropdown-trigger">
+						<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+							<span class="icon is-small">
+								<i class="fas fa-angle-down" aria-hidden="true"></i>
+							</span>
+						</button>
+					</div>
+					<div class="dropdown-menu" id="dropdown-menu" role="menu">
+						<div class="dropdown-content">
+							<div class="dropdown-item">
+								<figure class="image is-24x24">
+									<img class="is-rounded" src={avatar_url} />
+								</figure>
+								<div class="media-content">{full_name}</div>
+									<button class="button is-small" onClick={handleClick}>Sign Out</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		)	
 	}
@@ -94,9 +111,7 @@ const UserUI = ({ avatar_url, full_name }) => {
 				<button class="button is-small" onClick={signIn}>Google Sign In</button>
 			</div>
 		)
-	
 	}
-
 }
 
 /**
