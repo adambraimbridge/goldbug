@@ -82,9 +82,9 @@ const UserUI = ({ avatar_url, full_name }) => {
 	if (avatar_url && full_name) {
 		return (
 			<div class="column is-narrow">
-				<figure class="image is-24x24">
+				<button class="image is-24x24" onClick={signIn}>Google Sign In
 					<img alt={full_name} class="is-rounded" src={avatar_url} onClick={showProfile} />
-				</figure>
+				</button>
 			</div>
 		)	
 	}
