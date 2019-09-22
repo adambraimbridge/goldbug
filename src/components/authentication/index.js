@@ -17,7 +17,7 @@ const getAuthenticationDataFromHash = () => {
 	try {
 		const authenticationData = document.location.hash.length
 			? document.location.hash
-					.replace(/^#/, '')
+				.replace(/^#/, '')
 					.split('&')
 					.reduce((result, pair) => {
 						const keyValue = pair.split('=')
@@ -52,18 +52,6 @@ const getAuthenticatedUser = async () => {
 	}
 }
 
-// /**
-//  * Return the UserMeta component
-//  */
-// const UserMeta = ({ avatar_url, full_name }) => (
-// 	<Fragment>
-// 		<figure class="image is-24x24">
-// 			<img class="is-rounded" src={avatar_url} />
-// 		</figure>
-// 		<div class="media-content">{full_name}</div>
-// 	</Fragment>
-// )
-
 /**
  * Return the UserUI component
  * Handle signing in and out
@@ -77,6 +65,12 @@ const UserUI = ({ avatar_url, full_name }) => {
 	const signIn = () => {
 		// Redirect to OAuth endpoint. It'll redirect back.
 		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
+	}
+
+
+	const signOut = async () => {
+		await localUser.logout()
+			setLocalUser(false)
 	}
 
 	if (avatar_url && full_name) {
@@ -97,7 +91,7 @@ const UserUI = ({ avatar_url, full_name }) => {
 									<img class="is-rounded" src={avatar_url} />
 								</figure>
 								<div class="media-content">{full_name}</div>
-									<button class="button is-small" onClick={handleClick}>Sign Out</button>
+									<button class="button is-small" onClick={signOut}>Sign Out</button>
 							</div>
 						</div>
 					</div>
