@@ -21,8 +21,8 @@ export default () => {
 	const [visible, setVisible] = useState(false)
 
 	return (
-		<Container>
-			<Sidebar.Pushable as={Segment} style={background}>
+		<Container style={background}>
+			<Sidebar.Pushable as={Segment}>
 				<Sidebar animation="uncover" icon="labeled" direction="right" onHide={() => setVisible(false)} vertical visible={visible} width="very wide">
 					<Header>Profile</Header>
 				</Sidebar>
@@ -38,15 +38,13 @@ export default () => {
 							</Button>
 						</Menu.Item>
 					</Menu>
-
-					<Authentication />
-
-					<Router onChange={handleRoute}>
-						<Home path="/" />
-						<Workshop path="/workshop/" />
-					</Router>
 				</Sidebar.Pusher>
 			</Sidebar.Pushable>
+			<Authentication />
+			<Router onChange={handleRoute}>
+				<Home path="/" />
+				<Workshop path="/workshop/" />
+			</Router>
 		</Container>
 	)
 }

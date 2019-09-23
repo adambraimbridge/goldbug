@@ -77,7 +77,7 @@ const SignInUI = () => {
 		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 	}
 	return (
-		<Card centered>
+		<Card centered color="violet">
 			<Card.Content>
 				<Card.Header>Private communication portal</Card.Header>
 				<Card.Meta>Authenticate with your Google account for access.</Card.Meta>
