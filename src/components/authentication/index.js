@@ -1,4 +1,5 @@
 import { useState } from 'preact/hooks'
+import { Card, Button } from 'semantic-ui-react'
 
 /**
  * Authentication is provided by Netlify via Google OAuth.
@@ -56,35 +57,38 @@ const getAuthenticatedUser = async () => {
  * Return the UserUI component
  * Handle signing in and out
  */
-const UserUI = ({ avatar_url, full_name }) => {
-	const showProfile = () => {
-		// Show a user select or modal
-		console.log('showprofile')
-	}
+// const UserUI = ({ avatar_url, full_name }) => {
 
+// 	const signOut = async () => {
+// 		await localUser.logout()
+// 		setLocalUser(false)
+// 	}
+
+// 	if (avatar_url && full_name) {
+// 		return <Button onClick={signOut}>Google Sign Out</Button>
+// 	} else {
+// 		return <Button onClick={signIn}>Google Sign In</Button>
+// 	}
+// }
+
+const SignInUI = () => {
 	const signIn = () => {
 		// Redirect to OAuth endpoint. It'll redirect back.
 		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 	}
-
-	const signOut = async () => {
-		await localUser.logout()
-		setLocalUser(false)
-	}
-
-	if (avatar_url && full_name) {
-		return (
-			<button class="button is-small" onClick={signOut}>
-				Google Sign Out
-			</button>
-		)
-	} else {
-		return (
-			<button class="button is-small" onClick={signIn}>
-				Google Sign In
-			</button>
-		)
-	}
+	return (
+		<Card centered>
+			<Card.Content>
+				<Card.Header>Private communication portal</Card.Header>
+				<Card.Meta>Authenticate with your Google account for access.</Card.Meta>
+			</Card.Content>
+			<Card.Content>
+				<Button fluid onClick={signIn}>
+					Google Sign In
+				</Button>
+			</Card.Content>
+		</Card>
+	)
 }
 
 /**
@@ -93,10 +97,14 @@ const UserUI = ({ avatar_url, full_name }) => {
 export default () => {
 	const [localUser, setLocalUser] = useState()
 
-	getAuthenticatedUser().then(authenticatedUser => {
-		setLocalUser(authenticatedUser)
-	})
-
-	const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
-	return <UserUI avatar_url={avatar_url} full_name={full_name} />
+	getAuthenticatedUser()
+		.then(authenticatedUser => {
+			setLocalUser(authenticatedUser)
+			const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
+			if (avatar_url && full_name) {
+				return true
+			}
+		})
+		.catch(console.error)
+	return <SignInUI />
 }
