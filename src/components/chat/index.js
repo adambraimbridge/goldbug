@@ -12,5 +12,5 @@ export default () => (
 	</div>
 )
 
-// 		await printMessage('🔓 Initialising Secure Channel ...')
-// 		await printMessage('🔒 Secure Channel Active. #SC-836.20.2')
+// 		await printMessage('Initialising Secure Channel ...')
+// 		await printMessage('Secure Channel Active. #SC-836.20.2')

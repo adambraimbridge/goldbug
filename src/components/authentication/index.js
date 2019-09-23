@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'preact/hooks'
+import { useState } from 'preact/hooks'
 
 /**
  * Authentication is provided by Netlify via Google OAuth.
@@ -17,7 +17,7 @@ const getAuthenticationDataFromHash = () => {
 	try {
 		const authenticationData = document.location.hash.length
 			? document.location.hash
-				.replace(/^#/, '')
+					.replace(/^#/, '')
 					.split('&')
 					.reduce((result, pair) => {
 						const keyValue = pair.split('=')
@@ -69,40 +69,20 @@ const UserUI = ({ avatar_url, full_name }) => {
 
 	const signOut = async () => {
 		await localUser.logout()
-			setLocalUser(false)
+		setLocalUser(false)
 	}
 
 	if (avatar_url && full_name) {
 		return (
-			<div class="column is-narrow">
-				<div class="dropdown is-right">
-					<div class="dropdown-trigger">
-						<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-							<span class="icon has-text-warning">
-								<i class="fas fa-info-circle"></i>
-							</span>
-						</button>
-					</div>
-					<div class="dropdown-menu" id="dropdown-menu" role="menu">
-						<div class="dropdown-content">
-							<div class="dropdown-item">
-								<figure class="image is-24x24">
-									<img class="is-rounded" src={avatar_url} />
-								</figure>
-								<div class="media-content">{full_name}</div>
-								<button class="button is-small" onClick={signOut}>Sign Out</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		)	
-	}
-	else {
+			<button class="button is-small" onClick={signOut}>
+				Google Sign Out
+			</button>
+		)
+	} else {
 		return (
-			<div class="column is-narrow">
-				<button class="button is-small" onClick={signIn}>Google Sign In</button>
-			</div>
+			<button class="button is-small" onClick={signIn}>
+				Google Sign In
+			</button>
 		)
 	}
 }
