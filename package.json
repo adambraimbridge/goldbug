@@ -24,7 +24,6 @@
 	],
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
-		"babel-plugin-transform-async-to-promises": "^0.8.14",
 		"eslint": "^4.9.0",
 		"eslint-config-synacor": "^2.0.2",
 		"eslint-plugin-react-hooks": "^2.0.1",
