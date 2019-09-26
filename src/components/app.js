@@ -21,10 +21,21 @@ export default () => {
 	const [visible, setVisible] = useState(false)
 
 	return (
-		<Container>
-			<Sidebar.Pushable as={Segment}>
-				<Sidebar as={Menu} animation="uncover" icon="labeled" direction="right" onHide={() => setVisible(false)} vertical visible={visible} width="thin">
-					<Header>Profile</Header>
+		<Container style={{ minHeight: '100vh', display: 'flex', flexFlow: 'column nowrap' }}>
+			<Sidebar.Pushable as={Segment} style={{ flex: 1 }}>
+				<Sidebar inverted as={Menu} animation="uncover" icon="labeled" direction="right" onHide={() => setVisible(false)} vertical visible={visible} width="thin">
+					<Menu.Item as="a">
+						<Icon name="home" />
+						Home
+					</Menu.Item>{' '}
+					<Menu.Item as="a">
+						<Icon name="edit" />
+						Workshop
+					</Menu.Item>
+					<Menu.Item as="a">
+						<Icon name="sign out" />
+						Sign Out
+					</Menu.Item>
 				</Sidebar>
 				<Sidebar.Pusher style={background}>
 					<Menu>
