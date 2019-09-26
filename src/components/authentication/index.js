@@ -27,10 +27,6 @@ const getAuthenticationDataFromHash = () => {
 					}, {})
 			: false
 
-		// Remove hash from url so that token does not remain in browser history.
-		// Todo: Confirm this works as expected
-		history.replaceState(null, null, '/')
-
 		return authenticationData
 	} catch (error) {
 		console.error(error)
@@ -73,11 +69,11 @@ const getAuthenticatedUser = async () => {
 
 const SignInUI = () => {
 	const signIn = () => {
-		// Redirect to OAuth endpoint. It'll redirect back.
+		// Redirect to OAuth endpoint. It'll redirect back after the user signs in.
 		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 	}
 	return (
-		<Card centered color="violet">
+		<Card centered>
 			<Card.Content>
 				<Card.Header>Private communication portal</Card.Header>
 				<Card.Meta>Authenticate with your Google account for access.</Card.Meta>
@@ -100,11 +96,17 @@ export default () => {
 	getAuthenticatedUser()
 		.then(authenticatedUser => {
 			setLocalUser(authenticatedUser)
+			document.getElementById('chat').classList.remove('hidden')
 			const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
 			if (avatar_url && full_name) {
 				return true
 			}
 		})
 		.catch(console.error)
-	return <SignInUI />
+
+	// Remove hash from url so that token does not remain in browser history.
+	// Todo: Confirm this works as expected
+	history.replaceState(null, null, '/')
+
+	return !!localUser ? false : <SignInUI />
 }

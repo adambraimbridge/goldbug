@@ -1,5 +1,5 @@
 import Trianglify from 'trianglify'
-import { useState, useEffect } from 'preact/hooks'
+import { useState } from 'preact/hooks'
 import { Router } from 'preact-router'
 import { Header, Image, Icon, Menu, Segment, Sidebar, Container, Button } from 'semantic-ui-react'
 
@@ -21,12 +21,12 @@ export default () => {
 	const [visible, setVisible] = useState(false)
 
 	return (
-		<Container style={background}>
+		<Container>
 			<Sidebar.Pushable as={Segment}>
-				<Sidebar animation="uncover" icon="labeled" direction="right" onHide={() => setVisible(false)} vertical visible={visible} width="very wide">
+				<Sidebar as={Menu} animation="uncover" icon="labeled" direction="right" onHide={() => setVisible(false)} vertical visible={visible} width="thin">
 					<Header>Profile</Header>
 				</Sidebar>
-				<Sidebar.Pusher>
+				<Sidebar.Pusher style={background}>
 					<Menu>
 						<Menu.Item>
 							<Image avatar spaced="right" src="/assets/icons/favicon-32x32.png" />
@@ -38,13 +38,13 @@ export default () => {
 							</Button>
 						</Menu.Item>
 					</Menu>
+					<Authentication />
+					<Router onChange={handleRoute}>
+						<Home path="/" />
+						<Workshop path="/workshop/" />
+					</Router>
 				</Sidebar.Pusher>
 			</Sidebar.Pushable>
-			<Authentication />
-			<Router onChange={handleRoute}>
-				<Home path="/" />
-				<Workshop path="/workshop/" />
-			</Router>
 		</Container>
 	)
 }

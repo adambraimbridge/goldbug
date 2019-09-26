@@ -1,16 +1,15 @@
-const Messages = () => <div></div>
-
+import { Container, Segment, Card, Transition } from 'semantic-ui-react'
 export default () => (
-	<div class="section content">
-		<div id="chat-ui">
-			Hello world
-			<Messages />
-			<form>
-				<input class="input" type="text" placeholder="Type a message" id="chat-ui-text" />
-			</form>
-		</div>
-	</div>
-)
+	<Transition duration={500} visible={false} id="chat">
+		<Container text>
+			<Segment>
+				<Card>Initialising Secure Channel ...</Card>
+				<Card>Secure Channel Active. #SC-836.20.2</Card>
 
-// 		await printMessage('Initialising Secure Channel ...')
-// 		await printMessage('Secure Channel Active. #SC-836.20.2')
+				<form>
+					<input class="input" type="text" placeholder="Type a message" id="chat-ui-text" />
+				</form>
+			</Segment>
+		</Container>
+	</Transition>
+)
