@@ -60,7 +60,7 @@ const SignInUI = () => {
 		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 	}
 	return (
-		<Button variant="primary" onClick={signIn}>
+		<Button variant="primary" size="sm" onClick={signIn}>
 			Google Sign In
 		</Button>
 	)
