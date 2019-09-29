@@ -1,5 +1,4 @@
 import Button from 'react-bootstrap/Button'
-
 import { useState } from 'preact/hooks'
 
 /**
@@ -72,7 +71,7 @@ const SignOutUI = () => {
 		setLocalUser(false)
 	}
 	return (
-		<Button variant="primary" onClick={signOut}>
+		<Button variant="secondary" onClick={signOut}>
 			Sign Out
 		</Button>
 	)
