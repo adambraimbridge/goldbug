@@ -1,4 +1,3 @@
-import { Container, Segment, Card, Transition } from 'semantic-ui-react'
 export default () => (
 	<Transition duration={500} visible={false} id="chat">
 		<Container text>

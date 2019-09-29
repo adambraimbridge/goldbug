@@ -1,61 +1,29 @@
-import Trianglify from 'trianglify'
-import { useState } from 'preact/hooks'
-import { Router } from 'preact-router'
-import { Header, Image, Icon, Menu, Segment, Sidebar, Container, Button } from 'semantic-ui-react'
+// import { useState } from 'preact/hooks'
+// import { Router } from 'preact-router'
 
 import Authentication from './authentication'
-import Home from '../routes/home'
-import Workshop from '../routes/workshop'
+// import Home from '../routes/home'
+// import Workshop from '../routes/workshop'
 
-const handleRoute = e => {
-	const currentUrl = e.url
-}
+// const handleRoute = e => {
+// 	const currentUrl = e.url
+// }
 
-const background = `background-image:url('${Trianglify({
-	width: window.innerWidth,
-	height: window.innerHeight,
-	x_colors: ['#2e2e2e', '#2d2d2d', '#2c2c2c', '#2a2a2a', '#292929', '#282828', '#262626', '#252525', '#242424', '#232323', '#212121', '#202020', '#1f1f1f', '#1e1e1e', '#1c1c1c', '#1b1b1b', '#1a1a1a', '#191919', '#181818', '#161616', '#151515', '#141414', '#131313', '#121212', '#101010', '#0f0f0f', '#0e0e0e', '#0d0d0d', '#0c0c0c', '#0a0a0a', '#090909', '#080808', '#070707', '#060606', '#050505', '#030303', '#020202', '#010101', '#000000'],
-}).png()}');`
+// export default () => {
+// 	const [visible, setVisible] = useState(false)
+
+// 	return (
+// 		<Fragment>
+// 			Goldbug Club
+// 			<Authentication />
+// 			<Router onChange={handleRoute}>
+// 				<Home path="/" />
+// 				<Workshop path="/workshop/" />
+// 			</Router>
+// 		</Fragment>
+// 	)
+// }
 
 export default () => {
-	const [visible, setVisible] = useState(false)
-
-	return (
-		<Container style={{ minHeight: '100vh', display: 'flex', flexFlow: 'column nowrap' }}>
-			<Sidebar.Pushable as={Segment} style={{ flex: 1 }}>
-				<Sidebar inverted as={Menu} animation="uncover" icon="labeled" direction="right" onHide={() => setVisible(false)} vertical visible={visible} width="thin">
-					<Menu.Item as="a">
-						<Icon name="home" />
-						Home
-					</Menu.Item>{' '}
-					<Menu.Item as="a">
-						<Icon name="edit" />
-						Workshop
-					</Menu.Item>
-					<Menu.Item as="a">
-						<Icon name="sign out" />
-						Sign Out
-					</Menu.Item>
-				</Sidebar>
-				<Sidebar.Pusher style={background}>
-					<Menu>
-						<Menu.Item>
-							<Image avatar spaced="right" src="/assets/icons/favicon-32x32.png" />
-							Goldbug Club
-						</Menu.Item>
-						<Menu.Item position="right">
-							<Button secondary icon onClick={() => setVisible(true)}>
-								<Icon name="bars" />
-							</Button>
-						</Menu.Item>
-					</Menu>
-					<Authentication />
-					<Router onChange={handleRoute}>
-						<Home path="/" />
-						<Workshop path="/workshop/" />
-					</Router>
-				</Sidebar.Pusher>
-			</Sidebar.Pushable>
-		</Container>
-	)
+	return <Authentication />
 }

@@ -1,5 +1,6 @@
+import Button from 'react-bootstrap/Button'
+
 import { useState } from 'preact/hooks'
-import { Card, Button } from 'semantic-ui-react'
 
 /**
  * Authentication is provided by Netlify via Google OAuth.
@@ -53,37 +54,27 @@ const getAuthenticatedUser = async () => {
  * Return the UserUI component
  * Handle signing in and out
  */
-// const UserUI = ({ avatar_url, full_name }) => {
-
-// 	const signOut = async () => {
-// 		await localUser.logout()
-// 		setLocalUser(false)
-// 	}
-
-// 	if (avatar_url && full_name) {
-// 		return <Button onClick={signOut}>Google Sign Out</Button>
-// 	} else {
-// 		return <Button onClick={signIn}>Google Sign In</Button>
-// 	}
-// }
-
 const SignInUI = () => {
 	const signIn = () => {
 		// Redirect to OAuth endpoint. It'll redirect back after the user signs in.
 		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 	}
 	return (
-		<Card centered>
-			<Card.Content>
-				<Card.Header>Private communication portal</Card.Header>
-				<Card.Meta>Authenticate with your Google account for access.</Card.Meta>
-			</Card.Content>
-			<Card.Content>
-				<Button fluid onClick={signIn}>
-					Google Sign In
-				</Button>
-			</Card.Content>
-		</Card>
+		<Button variant="primary" onClick={signIn}>
+			Google Sign In
+		</Button>
+	)
+}
+
+const SignOutUI = () => {
+	const signOut = async () => {
+		await localUser.logout()
+		setLocalUser(false)
+	}
+	return (
+		<Button variant="primary" onClick={signOut}>
+			Sign Out
+		</Button>
 	)
 }
 
@@ -96,7 +87,6 @@ export default () => {
 	getAuthenticatedUser()
 		.then(authenticatedUser => {
 			setLocalUser(authenticatedUser)
-			document.getElementById('chat').classList.remove('hidden')
 			const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
 			if (avatar_url && full_name) {
 				return true
@@ -108,5 +98,5 @@ export default () => {
 	// Todo: Confirm this works as expected
 	history.replaceState(null, null, '/')
 
-	return !!localUser ? false : <SignInUI />
+	return !!localUser ? <SignOutUI /> : <SignInUI />
 }

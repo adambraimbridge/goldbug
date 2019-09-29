@@ -24,6 +24,8 @@
 	],
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
+		"babel-plugin-transform-async-to-promises": "^0.8.14",
+		"bootstrap": "^4.3.1",
 		"eslint": "^4.9.0",
 		"eslint-config-synacor": "^2.0.2",
 		"eslint-plugin-react-hooks": "^2.0.1",
@@ -31,16 +33,13 @@
 		"jest-preset-preact": "^1.0.0",
 		"node-sass": "^4.12.0",
 		"per-env": "^1.0.2",
-		"preact-cli": "^3.0.0-rc.5",
-		"preact-cli-plugin-fast-async": "^1.0.1",
-		"preact-render-spy": "^1.2.1",
-		"sass-loader": "7.3.1",
-		"semantic-ui-forest-themes": "^1.0.3",
-		"trianglify": "^2.0.0",
-		"semantic-ui-react": "^0.88.1",
 		"preact": "^10.0.0-rc.3",
+		"preact-cli": "^3.0.0-rc.5",
+		"preact-render-spy": "^1.2.1",
 		"preact-render-to-string": "^5.0.6",
-		"preact-router": "^3.0.0"
+		"preact-router": "^3.0.0",
+		"react-bootstrap": "^1.0.0-beta.12",
+		"sass-loader": "7.3.1"
 	},
 	"dependencies": {
 		"@cloudant/cloudant": "^4.2.0",
