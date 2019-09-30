@@ -50,7 +50,7 @@ const getAuthenticatedUser = async () => {
 	}
 }
 
-const SignOutUI = () => {
+const SignOutUI = ({ setLocalUser, setAuthenticated }) => {
 	const signOut = async () => {
 		await localUser.logout()
 		setLocalUser(false)
@@ -83,5 +83,5 @@ export default ({ setAuthenticated }) => {
 	// Todo: Confirm this works as expected
 	history.replaceState(null, null, '/')
 
-	return !!localUser ? <SignOutUI /> : <SignInUI />
+	return !!localUser ? <SignOutUI setLocalUser={setLocalUser} setAuthenticated={setAuthenticated} /> : <SignInUI />
 }
