@@ -16,7 +16,7 @@ const AuthenticationUI = () => {
 
 export default ({ authenticated }) => {
 	if (authenticated) {
-		return Chat
+		return <Chat />
 	} else {
 		return <AuthenticationUI />
 	}
