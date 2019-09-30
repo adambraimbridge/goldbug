@@ -83,5 +83,5 @@ export default ({ setAuthenticated }) => {
 	// Todo: Confirm this works as expected
 	history.replaceState(null, null, '/')
 
-	return !!localUser ? <SignOutUI setLocalUser={setLocalUser} setAuthenticated={setAuthenticated} /> : <SignInUI />
+	return !!localUser ? <SignOutUI localUser={localUser} setLocalUser={setLocalUser} setAuthenticated={setAuthenticated} /> : <SignInUI />
 }
