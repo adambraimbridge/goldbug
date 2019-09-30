@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/Button'
 import { useState } from 'preact/hooks'
+import SignInUI from './SignInUI'
 
 /**
  * Authentication is provided by Netlify via Google OAuth.
@@ -49,26 +50,11 @@ const getAuthenticatedUser = async () => {
 	}
 }
 
-/**
- * Return the UserUI component
- * Handle signing in and out
- */
-const SignInUI = () => {
-	const signIn = () => {
-		// Redirect to OAuth endpoint. It'll redirect back after the user signs in.
-		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
-	}
-	return (
-		<Button variant="primary" size="sm" onClick={signIn}>
-			Google Sign In
-		</Button>
-	)
-}
-
 const SignOutUI = () => {
 	const signOut = async () => {
 		await localUser.logout()
 		setLocalUser(false)
+		setAuthenticated(false)
 	}
 	return (
 		<Button variant="secondary" onClick={signOut}>
@@ -80,7 +66,7 @@ const SignOutUI = () => {
 /**
  * Export a component for User authentication
  */
-export default () => {
+export default ({ setAuthenticated }) => {
 	const [localUser, setLocalUser] = useState()
 
 	getAuthenticatedUser()
@@ -88,7 +74,7 @@ export default () => {
 			setLocalUser(authenticatedUser)
 			const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
 			if (avatar_url && full_name) {
-				return true
+				setAuthenticated(true)
 			}
 		})
 		.catch(console.error)
