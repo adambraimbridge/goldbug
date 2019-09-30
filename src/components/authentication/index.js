@@ -50,24 +50,24 @@ const getAuthenticatedUser = async () => {
 	}
 }
 
-const SignOutUI = ({ setLocalUser, setAuthenticated }) => {
-	const signOut = async () => {
-		await localUser.logout()
-		setLocalUser(false)
-		setAuthenticated(false)
-	}
-	return (
-		<Button variant="secondary" onClick={signOut}>
-			Sign Out
-		</Button>
-	)
-}
-
 /**
  * Export a component for User authentication
  */
 export default ({ setAuthenticated }) => {
 	const [localUser, setLocalUser] = useState()
+
+	const SignOutUI = () => {
+		const signOut = async () => {
+			await localUser.logout()
+			setLocalUser(false)
+			setAuthenticated(false)
+		}
+		return (
+			<Button variant="secondary" onClick={signOut}>
+				Sign Out
+			</Button>
+		)
+	}
 
 	getAuthenticatedUser()
 		.then(authenticatedUser => {
@@ -83,5 +83,5 @@ export default ({ setAuthenticated }) => {
 	// Todo: Confirm this works as expected
 	history.replaceState(null, null, '/')
 
-	return !!localUser ? <SignOutUI localUser={localUser} setLocalUser={setLocalUser} setAuthenticated={setAuthenticated} /> : <SignInUI />
+	return !!localUser ? <SignOutUI /> : <SignInUI />
 }
