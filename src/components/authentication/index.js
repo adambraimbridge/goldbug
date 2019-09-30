@@ -63,7 +63,7 @@ export default ({ setAuthenticated }) => {
 			setAuthenticated(false)
 		}
 		return (
-			<Button variant="secondary" onClick={signOut}>
+			<Button variant="secondary" size="sm" onClick={signOut}>
 				Sign Out
 			</Button>
 		)
