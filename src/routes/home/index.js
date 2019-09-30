@@ -4,7 +4,7 @@ import SignInUI from '../../components/authentication/SignInUI'
 
 const AuthenticationUI = () => {
 	return (
-		<Card>
+		<Card bg="light">
 			<Card.Body>
 				<Card.Title>Private communication portal</Card.Title>
 				<Card.Text>Authenticate with your Google account for access.</Card.Text>
