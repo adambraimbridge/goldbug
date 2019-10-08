@@ -13,7 +13,7 @@ import Home from '../routes/home'
 export default () => {
 	const [authenticated, setAuthenticated] = useState(false)
 	return (
-		<Container className="py-1">
+		<Fragment>
 			<Navbar bg="dark" variant="dark" className="justify-content-between">
 				<Navbar.Brand href="/">
 					<img alt="💀" src="/assets/favicon.png" width="20" height="20" className="align-text-top mr-1" />
@@ -22,6 +22,6 @@ export default () => {
 				<Authentication setAuthenticated={setAuthenticated} />
 			</Navbar>
 			<Home path="/" authenticated={authenticated} />
-		</Container>
+		</Fragment>
 	)
 }
