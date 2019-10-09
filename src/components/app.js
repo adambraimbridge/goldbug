@@ -1,6 +1,5 @@
 // import { Router } from 'preact-router'
 import { useState } from 'preact/hooks'
-import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import Authentication from './authentication'
 import Home from '../routes/home'
@@ -14,7 +13,7 @@ export default () => {
 	const [authenticated, setAuthenticated] = useState(false)
 	return (
 		<Fragment>
-			<Navbar bg="dark" variant="dark" className="justify-content-between">
+			<Navbar variant="dark" className="justify-content-between">
 				<Navbar.Brand href="/">
 					<img alt="💀" src="/assets/favicon.png" width="20" height="20" className="align-text-top mr-1" />
 					Goldbug Club
