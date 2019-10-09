@@ -1,3 +1,7 @@
+@page {
+	size: auto;
+}
+$screen-md-min: auto;
 @import '~bootswatch/dist/cyborg/variables';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootswatch/dist/cyborg/bootswatch';
