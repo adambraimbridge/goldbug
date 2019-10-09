@@ -1,5 +1,6 @@
 // import { Router } from 'preact-router'
 import { useState } from 'preact/hooks'
+import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import Authentication from './authentication'
 import Home from '../routes/home'
@@ -12,7 +13,7 @@ import Home from '../routes/home'
 export default () => {
 	const [authenticated, setAuthenticated] = useState(false)
 	return (
-		<Fragment>
+		<Container fluid={true}>
 			<Navbar variant="dark" className="justify-content-between">
 				<Navbar.Brand href="/">
 					<img alt="💀" src="/assets/favicon.png" width="20" height="20" className="align-text-top mr-1" />
@@ -21,6 +22,6 @@ export default () => {
 				<Authentication setAuthenticated={setAuthenticated} />
 			</Navbar>
 			<Home path="/" authenticated={authenticated} />
-		</Fragment>
+		</Container>
 	)
 }
