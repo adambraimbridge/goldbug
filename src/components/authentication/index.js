@@ -1,5 +1,5 @@
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
-import { useState } from 'preact/hooks'
 import SignInUI from './SignInUI'
 
 /**
@@ -72,7 +72,8 @@ export default ({ setAuthenticated }) => {
 	getAuthenticatedUser()
 		.then(authenticatedUser => {
 			setLocalUser(authenticatedUser)
-			const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
+			const { avatar_url, full_name } =
+				(localUser && localUser.user_metadata) || {}
 			if (avatar_url && full_name) {
 				setAuthenticated(true)
 			}
@@ -81,7 +82,7 @@ export default ({ setAuthenticated }) => {
 
 	// Remove hash from url so that token does not remain in browser history.
 	// Todo: Confirm this works as expected
-	history.replaceState(null, null, '/')
+	window.history.replaceState(null, null, '/')
 
 	return !!localUser ? <SignOutUI /> : <SignInUI />
 }

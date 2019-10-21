@@ -1,4 +1,5 @@
-import { useState } from 'preact/hooks'
+import React, { useState } from 'react'
+
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
@@ -29,11 +30,15 @@ export default () => {
 	return (
 		<>
 			{chatContent}
-			<Container style="position: fixed; bottom: 0">
+			<Container style={{ position: 'fixed', bottom: 0 }}>
 				<div id="chatToast">{chatToast}</div>
 				<Form id="formChat" onSubmit={updateChatContent}>
 					<Form.Group>
-						<Form.Control id="formChatText" type="text" placeholder="Enter message" />
+						<Form.Control
+							id="formChatText"
+							type="text"
+							placeholder="Enter message"
+						/>
 					</Form.Group>
 				</Form>
 			</Container>

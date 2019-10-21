@@ -1,3 +1,4 @@
+import React from 'react'
 import Button from 'react-bootstrap/Button'
 
 /**
@@ -7,7 +8,8 @@ import Button from 'react-bootstrap/Button'
 export default () => {
 	const signIn = () => {
 		// Redirect to OAuth endpoint. It'll redirect back after the user signs in.
-		location = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
+		window.location =
+			'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 	}
 	return (
 		<Button variant="primary" size="sm" onClick={signIn}>

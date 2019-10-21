@@ -5,47 +5,39 @@
 	"repository": "git@github.com:adambraimbridge/goldbug.git",
 	"author": "Adam Braimbridge <adam@braimbridge.com>",
 	"license": "MIT",
-	"prettier": "@adambraimbridge/prettierrc-2019-05",
-	"scripts": {
-		"start": "per-env",
-		"start:production": "yarn run -s serve",
-		"start:development": "yarn run -s dev",
-		"build": "preact build --no-prerender --inline-css false",
-		"serve": "preact build --no-prerender && preact serve",
-		"dev": "preact watch",
-		"lint": "eslint src",
-		"test": "jest"
+	"dependencies": {
+		"@cloudant/cloudant": "^4.2.0",
+		"gotrue-js": "^0.9.25",
+		"node-sass": "^4.12.0",
+		"react": "^16.10.2",
+		"react-dom": "^16.10.2",
+		"react-scripts": "3.2.0"
 	},
-	"eslintConfig": {
-		"extends": "eslint-config-synacor"
-	},
-	"eslintIgnore": [
-		"build/*"
-	],
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
 		"bootstrap": "^4.3.1",
 		"bootswatch": "^4.3.1",
-		"eslint": "^4.9.0",
-		"eslint-config-synacor": "^2.0.2",
-		"eslint-plugin-react-hooks": "^2.0.1",
-		"jest": "^21.2.1",
-		"jest-preset-preact": "^1.0.0",
-		"node-sass": "^4.12.0",
-		"per-env": "^1.0.2",
-		"preact": "^10.0.0-rc.3",
-		"preact-cli": "^3.0.0-rc.5",
-		"preact-render-spy": "^1.2.1",
-		"preact-render-to-string": "^5.0.6",
-		"preact-router": "^3.0.0",
-		"react-bootstrap": "^1.0.0-beta.12",
-		"sass-loader": "7.3.1"
+		"react-bootstrap": "^1.0.0-beta.14"
 	},
-	"dependencies": {
-		"@cloudant/cloudant": "^4.2.0",
-		"gotrue-js": "^0.9.25"
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
 	},
-	"jest": {
-		"preset": "jest-preset-preact"
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
 	}
 }

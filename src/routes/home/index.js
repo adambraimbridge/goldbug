@@ -1,3 +1,4 @@
+import React from 'react'
 import Card from 'react-bootstrap/Card'
 import Chat from '../../components/chat'
 import SignInUI from '../../components/authentication/SignInUI'
@@ -6,8 +7,8 @@ const AuthenticationUI = () => {
 	return (
 		<Card bg="light" className="m-1">
 			<Card.Body>
-				<Card.Title>Private communication portal</Card.Title>
-				<Card.Text>Authenticate with your Google account for access.</Card.Text>
+				<Card.Title>🔏Private channel</Card.Title>
+				<Card.Text>Authenticate with your Google account.</Card.Text>
 				<SignInUI />
 			</Card.Body>
 		</Card>
