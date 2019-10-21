@@ -5,7 +5,7 @@ import Authentication from './authentication'
 import Home from '../routes/home'
 // import Workshop from '../routes/workshop'
 
-export default () => {
+const App = () => {
 	const [authenticated, setAuthenticated] = useState(false)
 	return (
 		<div className="px-1">
@@ -25,6 +25,7 @@ export default () => {
 		</div>
 	)
 }
+export default App
 
 // const handleRoute = e => {
 // 	const currentUrl = e.url
