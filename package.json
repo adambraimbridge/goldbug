@@ -8,36 +8,23 @@
 	"dependencies": {
 		"@cloudant/cloudant": "^4.2.0",
 		"gotrue-js": "^0.9.25",
-		"node-sass": "^4.12.0",
 		"react": "^16.10.2",
-		"react-dom": "^16.10.2",
-		"react-scripts": "3.2.0"
+		"react-dom": "^16.10.2"
 	},
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
 		"bootstrap": "^4.3.1",
 		"bootswatch": "^4.3.1",
-		"react-bootstrap": "^1.0.0-beta.14"
+		"parcel-bundler": "^1.12.4",
+		"react-bootstrap": "^1.0.0-beta.14",
+		"sass": "^1.23.1"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"start": "parcel ./src/index.js",
+		"build": "parcel build ./src/index.js",
+		"test": "jest"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
 	}
 }
