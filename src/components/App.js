@@ -8,7 +8,7 @@ import Home from '../routes/home'
 const App = () => {
 	const [authenticated, setAuthenticated] = useState(false)
 	return (
-		<div className="px-1">
+		<div className="mx-auto" style={{ maxWidth: '800px' }}>
 			<Navbar variant="dark" className="p-1 justify-content-between">
 				<Navbar.Brand href="/">
 					<img
