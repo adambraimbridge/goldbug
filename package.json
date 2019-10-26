@@ -16,8 +16,13 @@
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
 		"bootstrap": "^4.3.1",
-		"bootswatch": "^4.3.1"
+		"bootswatch": "^4.3.1",
+		"eslint": "^6.6.0",
+		"eslint-config-prettier": "^6.4.0",
+		"eslint-plugin-prettier": "^3.1.1",
+		"prettier": "^1.18.2"
 	},
+	"prettier": "@adambraimbridge/prettierrc-2019-05",
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
@@ -25,7 +30,20 @@
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
-		"extends": "react-app"
+		"extends": [
+			"react-app",
+			"eslint:recommended",
+			"plugin:prettier/recommended"
+		],
+		"env": {
+			"es6": true,
+			"node": true,
+			"jest": true
+		},
+		"parserOptions": {
+			"sourceType": "module",
+			"ecmaVersion": 2018
+		}
 	},
 	"browserslist": {
 		"production": [

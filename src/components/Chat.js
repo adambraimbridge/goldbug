@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { userInfo } from 'os'
 
-export default () => {
+export default ({ localUser }) => {
 	const [chatContent, setChatContent] = useState([])
 	const [chatToast, setChatToast] = useState('')
 
@@ -26,6 +26,11 @@ export default () => {
 		return false
 	}
 
+	const updateUI = () => {
+		// set timeout
+		console.log(localUser, 'Typing ... ')
+	}
+
 	// setChatToast('Initialising Secure Channel ...')
 	// setChatToast('Secure Channel Active. #SC-836.20.2')
 
@@ -40,6 +45,7 @@ export default () => {
 						id="form-chat-text"
 						type="text"
 						placeholder="Enter message"
+						onKeyDown={updateUI}
 					/>
 				</div>
 			</form>

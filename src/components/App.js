@@ -1,31 +1,26 @@
 import React, { useState } from 'react'
 
-import Authentication from './authentication'
 import Home from '../routes/home'
+import { AuthenticationButton } from './Authentication'
 // import Workshop from '../routes/workshop'
 
 const App = () => {
-	const [authenticated, setAuthenticated] = useState(false)
+	const [localUser, setLocalUser] = useState(false)
 	return (
 		<div id="layout" className="full-height">
 			<nav className="p-0 justify-content-between navbar navbar-expand navbar-dark">
 				<div href="/">
-					<img
-						alt="💀"
-						src="/favicon.png"
-						className="align-baseline mr-2"
-						style={{ width: '1rem' }}
-					/>
+					<img alt="💀" src="/favicon.png" className="align-baseline mr-2" style={{ width: '1rem' }} />
 					Goldbug Club
 				</div>
-				<Authentication setAuthenticated={setAuthenticated} />
+				<AuthenticationButton localUser={localUser} setLocalUser={setLocalUser} />
 			</nav>
-			<Home path="/" authenticated={authenticated} />
+			<Home path="/" localUser={localUser} />
 		</div>
 	)
 }
 
-export default App
+export { App }
 
 // const handleRoute = e => {
 // 	const currentUrl = e.url
