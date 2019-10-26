@@ -16,8 +16,7 @@
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
 		"bootstrap": "^4.3.1",
-		"bootswatch": "^4.3.1",
-		"react-bootstrap": "^1.0.0-beta.14"
+		"bootswatch": "^4.3.1"
 	},
 	"scripts": {
 		"start": "react-scripts start",

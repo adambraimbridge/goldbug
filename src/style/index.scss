@@ -1,10 +1,33 @@
 html {
 	font-size: 1.1rem;
 }
+html,
+body,
+.full-height {
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+}
+#layout {
+	margin: 0 auto;
+	max-width: 500px;
+	display: grid;
+	gap: 0.1rem;
+	grid-template-rows: min-content auto min-content;
+}
+#chat-content {
+	overflow-y: auto;
+}
+#chat-form {
+	align-self: end;
+}
 @page {
 	size: auto;
 }
 $screen-md-min: auto;
+$theme-colors: (
+	'info': orange,
+);
 @import '~bootswatch/dist/cyborg/variables';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootswatch/dist/cyborg/bootswatch';

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Button from 'react-bootstrap/Button'
 import SignInUI from './SignInUI'
 
 /**
@@ -63,9 +62,9 @@ export default ({ setAuthenticated }) => {
 			setAuthenticated(false)
 		}
 		return (
-			<Button variant="secondary" size="sm" onClick={signOut}>
+			<div class="btn btn-light btn-sm" onClick={signOut}>
 				Sign Out
-			</Button>
+			</div>
 		)
 	}
 

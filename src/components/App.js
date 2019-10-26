@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Navbar from 'react-bootstrap/Navbar'
 
 import Authentication from './authentication'
 import Home from '../routes/home'
@@ -8,23 +7,24 @@ import Home from '../routes/home'
 const App = () => {
 	const [authenticated, setAuthenticated] = useState(false)
 	return (
-		<div className="mx-auto" style={{ maxWidth: '800px' }}>
-			<Navbar variant="dark" className="p-1 justify-content-between">
-				<Navbar.Brand href="/">
+		<div id="layout" className="full-height">
+			<nav className="p-0 justify-content-between navbar navbar-expand navbar-dark">
+				<div href="/">
 					<img
 						alt="💀"
 						src="/favicon.png"
-						className="align-text-top mr-1"
+						className="align-baseline mr-2"
 						style={{ width: '1rem' }}
 					/>
 					Goldbug Club
-				</Navbar.Brand>
+				</div>
 				<Authentication setAuthenticated={setAuthenticated} />
-			</Navbar>
+			</nav>
 			<Home path="/" authenticated={authenticated} />
 		</div>
 	)
 }
+
 export default App
 
 // const handleRoute = e => {

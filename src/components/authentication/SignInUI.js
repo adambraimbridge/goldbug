@@ -1,19 +1,21 @@
 import React from 'react'
-import Button from 'react-bootstrap/Button'
-
+const oAuthUrl =
+	'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 /**
  * Return the UserUI component
  * Handle signing in and out
  */
-export default () => {
+export default ({ size }) => {
 	const signIn = () => {
 		// Redirect to OAuth endpoint. It'll redirect back after the user signs in.
-		window.location =
-			'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
+		window.location = oAuthUrl
 	}
+	const classList = `btn ${
+		size === 'large' ? 'btn-lg btn-primary' : 'btn-sm btn-light'
+	}`
 	return (
-		<Button variant="primary" size="sm" onClick={signIn}>
+		<div className={classList} onClick={signIn}>
 			Google Sign In
-		</Button>
+		</div>
 	)
 }
