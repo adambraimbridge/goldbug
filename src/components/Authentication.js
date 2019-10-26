@@ -48,7 +48,7 @@ const getAuthenticatedUser = async () => {
 	}
 }
 
-const SignInUI = size => {
+const SignInUI = ({ size }) => {
 	const oAuthUrl = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 	const signIn = () => {
 		// Redirect to OAuth endpoint. It'll redirect back after the user signs in.
@@ -83,7 +83,6 @@ const AuthenticationButton = ({ localUser, setLocalUser }) => {
 			let authenticatedUser
 			try {
 				authenticatedUser = await getAuthenticatedUser()
-				console.log({ authenticatedUser })
 				setLocalUser(authenticatedUser)
 			} catch (error) {
 				console.error(error)
