@@ -4,7 +4,7 @@ html {
 html,
 body,
 .full-height {
-	height: 100vh;
+	height: 100%;
 	margin: 0;
 	padding: 0;
 }
@@ -12,14 +12,18 @@ body,
 	margin: 0 auto;
 	max-width: 500px;
 	display: grid;
-	gap: 0.1rem;
+	grid-gap: 0;
 	grid-template-rows: min-content auto min-content;
 }
-#chat-content {
-	overflow-y: auto;
-}
-#chat-form {
-	align-self: end;
+#chat-container {
+	position: relative;
+	#message-list {
+		position: absolute;
+		bottom: 0px;
+		max-height: 100%;
+		width: 100%;
+		overflow-y: auto;
+	}
 }
 @page {
 	size: auto;

@@ -1,48 +1,58 @@
 import React, { useState } from 'react'
-import { userInfo } from 'os'
 
-export default ({ localUser }) => {
-	const [chatContent, setChatContent] = useState([])
-	const [chatToast, setChatToast] = useState('')
+const Message = ({ message, index, removeMessage }) => {
+	return <div className="message">{message.text}</div>
+}
 
-	const ChatCard = ({ text }) => (
-		<div className="card">
-			<div className="card-body">
-				<div className="card-text">{text}</div>
-			</div>
-		</div>
-	)
-	const updateChatContent = event => {
-		console.log({ chatContent })
+const MessageForm = ({ addMessage }) => {
+	const [inputValue, setInputValue] = useState('')
+	const containerElement = document.querySelector('#message-list')
+
+	const handleSubmit = event => {
 		event.preventDefault()
-		const formChatText = document.getElementById('form-chat-text')
-		const text = formChatText.value
-		chatContent.push({
-			...userInfo,
-			text,
-		})
-		setChatContent(chatContent)
-		formChatText.value = ''
-		return false
+		if (!inputValue) return false
+		addMessage(inputValue)
+		setInputValue('')
+		containerElement.scrollTop = containerElement.scrollHeight
 	}
 
-	const updateUI = () => {
-		// set timeout
-		console.log(localUser, 'Typing ... ')
+	return (
+		<form onSubmit={handleSubmit} id="chat-form">
+			<div className="form-group mx-2">
+				<input type="text" className="form-control" value={inputValue} onChange={event => setInputValue(event.target.value)} placeholder="Enter message" />
+			</div>
+		</form>
+	)
+}
+
+const Chat = ({ localUser }) => {
+	const [messages, setMessages] = useState([])
+	const addMessage = text => {
+		setMessages([...messages, { text }])
 	}
 
-	// setChatToast('Initialising Secure Channel ...')
-	// setChatToast('Secure Channel Active. #SC-836.20.2')
+	const removeMessage = index => {
+		const newMessages = [...messages]
+		newMessages.splice(index, 1)
+		setMessages(newMessages)
+	}
 
 	return (
 		<>
-			<div id="chat-content">{chatContent}</div>
-			<div id="chat-toast">{chatToast}</div>
-			<form className="form mx-2" id="chat-form" onSubmit={updateChatContent}>
-				<div className="form-group">
-					<input className="form-control" id="form-chat-text" type="text" placeholder="Enter message" onKeyDown={updateUI} />
+			<div id="chat-container" className="mx-3 mb-3">
+				<div id="message-list">
+					{messages.map((message, index) => (
+						<Message key={index} index={index} message={message} removeMessage={removeMessage} />
+					))}
 				</div>
-			</form>
+			</div>
+			<MessageForm addMessage={addMessage} />
 		</>
 	)
 }
+
+export { Chat }
+
+// <div id="chat-toast">{chatToast}</div>
+// setChatToast('Initialising Secure Channel ...')
+// setChatToast('Secure Channel Active. #SC-836.20.2')
