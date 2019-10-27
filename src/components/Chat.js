@@ -38,15 +38,9 @@ export default ({ localUser }) => {
 		<>
 			<div id="chat-content">{chatContent}</div>
 			<div id="chat-toast">{chatToast}</div>
-			<form className="form m-1" id="chat-form" onSubmit={updateChatContent}>
+			<form className="form mx-2" id="chat-form" onSubmit={updateChatContent}>
 				<div className="form-group">
-					<input
-						className="form-control"
-						id="form-chat-text"
-						type="text"
-						placeholder="Enter message"
-						onKeyDown={updateUI}
-					/>
+					<input className="form-control" id="form-chat-text" type="text" placeholder="Enter message" onKeyDown={updateUI} />
 				</div>
 			</form>
 		</>
