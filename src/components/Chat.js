@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 
-const Message = ({ message, index, removeMessage }) => {
-	return <div className="message">{message.text}</div>
+const Message = ({ message, userMeta }) => {
+	console.log(userMeta)
+	return <div className="message text-right">{message.text}</div>
 }
 
 const MessageForm = ({ addMessage }) => {
@@ -26,6 +27,7 @@ const MessageForm = ({ addMessage }) => {
 }
 
 const Chat = ({ localUser }) => {
+	const userMeta = localUser.user_metadata || {}
 	const [messages, setMessages] = useState([])
 	const addMessage = text => {
 		setMessages([...messages, { text }])
@@ -42,7 +44,7 @@ const Chat = ({ localUser }) => {
 			<div id="chat-container" className="mx-3 mb-3">
 				<div id="message-list">
 					{messages.map((message, index) => (
-						<Message key={index} index={index} message={message} removeMessage={removeMessage} />
+						<Message key={index} index={index} message={message} removeMessage={removeMessage} userMeta={userMeta} />
 					))}
 				</div>
 			</div>
