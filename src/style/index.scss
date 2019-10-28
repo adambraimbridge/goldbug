@@ -25,6 +25,17 @@ body,
 		overflow-y: auto;
 	}
 }
+.message-container {
+	display: grid;
+	grid-gap: 0.5rem;
+	grid-template-columns: 1fr 5fr min-content;
+	.message-avatar {
+		width: 2rem;
+		img {
+			border-width: 0.5rem;
+		}
+	}
+}
 @page {
 	size: auto;
 }

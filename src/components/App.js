@@ -6,7 +6,7 @@ import { AuthenticationButton } from './Authentication'
 const App = () => {
 	const [localUser, setLocalUser] = useState(false)
 	return (
-		<div id="layout" className="full-height p-0 m-0">
+		<div id="layout" className="full-height p-0 m-0 mx-auto">
 			<nav className="p-2 justify-content-between navbar navbar-expand navbar-dark">
 				<div href="/">
 					<img alt="💀" src="/favicon.png" className="align-baseline mr-2" style={{ width: '1rem' }} />
