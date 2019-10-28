@@ -15,19 +15,22 @@ const goTrueAuth = new GoTrue({
  * After authenticating with Google via Netlify, the URL contains a secret hash of tokens.
  */
 const getAuthenticationDataFromHash = () => {
-	try {
-		const authenticationData = document.location.hash.length
-			? document.location.hash
-					.replace(/^#/, '')
-					.split('&')
-					.reduce((result, pair) => {
-						const keyValue = pair.split('=')
-						result[keyValue[0]] = keyValue[1]
-						return result
-					}, {})
-			: false
+	if (!document.location.hash.length) return false
+	const authenticationData = document.location.hash
 
+	// Remove hash from url so that token does not remain in browser history.
+	// Todo: Confirm this works as expected
+	window.history.replaceState(null, null, '/')
+
+	try {
 		return authenticationData
+			.replace(/^#/, '')
+			.split('&')
+			.reduce((result, pair) => {
+				const keyValue = pair.split('=')
+				result[keyValue[0]] = keyValue[1]
+				return result
+			}, {})
 	} catch (error) {
 		console.error(error)
 	}
@@ -39,7 +42,7 @@ const getAuthenticationDataFromHash = () => {
  */
 const getAuthenticatedUser = async () => {
 	let authenticatedUser = goTrueAuth.currentUser()
-	if (!!authenticatedUser) {
+	if (authenticatedUser) {
 		return authenticatedUser
 	} else {
 		const authenticationData = getAuthenticationDataFromHash()
