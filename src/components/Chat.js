@@ -1,4 +1,18 @@
 import React, { useState } from 'react'
+import EmojiPicker from 'emoji-picker-react'
+import EmojiJs from 'emoji-js'
+
+const emojiJs = () => {
+	const emojiJs = new EmojiJs()
+	// emojiJs.img_set = 'emojione'
+	// emojiJs.img_sets.emojione.path = 'https://cdn.jsdelivr.net/emojione/assets/3.0/png/32/'
+
+	// emojiJs.supports_css = false
+	// emojiJs.allow_native = false
+	emojiJs.replace_mode = 'unified'
+
+	return emojiJs
+}
 
 const Message = ({ message, userMeta }) => {
 	const { full_name, avatar_url } = userMeta
@@ -20,6 +34,7 @@ const MessageForm = ({ addMessage }) => {
 	const handleSubmit = event => {
 		event.preventDefault()
 		if (!inputValue) return false
+
 		addMessage(inputValue)
 		setInputValue('')
 		containerElement.scrollTop = containerElement.scrollHeight
@@ -28,6 +43,7 @@ const MessageForm = ({ addMessage }) => {
 	return (
 		<form onSubmit={handleSubmit} id="chat-form">
 			<div className="form-group mx-2">
+				{/* <EmojiPicker preload /> */}
 				<input type="text" className="form-control" value={inputValue} onChange={event => setInputValue(event.target.value)} placeholder="Enter message" />
 			</div>
 		</form>
@@ -37,8 +53,12 @@ const MessageForm = ({ addMessage }) => {
 const Chat = ({ localUser }) => {
 	const userMeta = localUser.user_metadata || {}
 	const [messages, setMessages] = useState([])
+	const emoji = emojiJs()
+
 	const addMessage = text => {
-		setMessages([...messages, { text }])
+		const parsedText = emoji.replace_colons(text)
+
+		setMessages([...messages, { text: parsedText }])
 	}
 
 	const removeMessage = index => {
@@ -49,7 +69,7 @@ const Chat = ({ localUser }) => {
 
 	return (
 		<>
-			<div id="chat-container" className="mx-2 mb-3">
+			<div id="chat-container" className="mx-2 mb-3 text-white">
 				<div id="message-list">
 					{messages.map((message, index) => (
 						<Message key={index} index={index} message={message} removeMessage={removeMessage} userMeta={userMeta} />
