@@ -23,6 +23,7 @@ const Message = ({ message, userMeta }) => {
 			<div className="message-avatar">
 				<img src={avatar_url} alt={full_name} className="img-thumbnail rounded-circle border-0"></img>
 			</div>
+			<span className="arrow"></span>
 		</div>
 	)
 }
