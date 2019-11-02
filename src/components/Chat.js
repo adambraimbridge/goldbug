@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import EmojiPicker from 'emoji-picker-react'
+import { getAllMessages, putMessage } from './Database'
+
+// import EmojiPicker from 'emoji-picker-react'
 import EmojiJs from 'emoji-js'
 
 const emojiJs = () => {
@@ -60,6 +62,7 @@ const Chat = ({ localUser }) => {
 		const parsedText = emoji.replace_colons(text)
 
 		setMessages([...messages, { text: parsedText }])
+		putMessage({ text })
 	}
 
 	const removeMessage = index => {
@@ -67,6 +70,9 @@ const Chat = ({ localUser }) => {
 		newMessages.splice(index, 1)
 		setMessages(newMessages)
 	}
+
+	getAllMessages().then(setMessages)
+	// getAllMessages().then(console.log)
 
 	return (
 		<>
