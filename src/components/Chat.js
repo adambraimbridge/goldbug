@@ -22,8 +22,8 @@ const Message = ({ message, userMeta }) => {
 		<div className="message-container mb-2">
 			<div></div>
 			<div className="message text-right bg-light rounded p-2">{message.text}</div>
-			<div className="message-avatar">
-				<img src={avatar_url} alt={full_name} className="img-thumbnail rounded-circle border-0"></img>
+			<div className="avatar-thumbnail">
+				<img src={avatar_url} alt={full_name} className="icon rounded-circle border-0"></img>
 			</div>
 			<span className="arrow"></span>
 		</div>

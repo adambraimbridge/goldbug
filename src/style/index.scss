@@ -36,16 +36,13 @@ body,
 		overflow-y: auto;
 	}
 }
+.icon {
+	width: 1.5rem;
+}
 .message-container {
 	display: grid;
 	grid-gap: 0.5rem;
 	grid-template-columns: 1fr 5fr min-content;
-	.message-avatar {
-		width: 2rem;
-		img {
-			border-width: 0.5rem;
-		}
-	}
 	.arrow {
 		-webkit-transform: rotate(360deg);
 		width: 0;
@@ -55,7 +52,13 @@ body,
 		border-color: transparent transparent transparent #777;
 		border-style: inset;
 		position: absolute;
-		right: 2rem;
+		right: 1.5rem;
 		margin-top: 0.1rem;
 	}
+}
+.centered {
+	display: grid;
+	grid-gap: 0.5rem;
+	grid-template-columns: auto auto;
+	align-items: center;
 }

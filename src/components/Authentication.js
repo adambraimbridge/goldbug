@@ -71,9 +71,13 @@ const SignOutUI = ({ localUser, setLocalUser }) => {
 		await localUser.logout()
 		setLocalUser(false)
 	}
+	const { full_name, avatar_url } = localUser.user_metadata
 	return (
-		<div className="btn btn-light btn-sm" onClick={signOut}>
-			Sign Out
+		<div className="btn btn-sm centered" onClick={signOut}>
+			<div>Sign Out</div>
+			<div className="avatar-thumbnail">
+				<img src={avatar_url} alt={full_name} className="icon rounded-circle border border-primary"></img>
+			</div>
 		</div>
 	)
 }

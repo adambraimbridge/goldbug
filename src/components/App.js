@@ -8,8 +8,8 @@ const App = () => {
 	return (
 		<div id="layout" className="full-height py-0 px-3 m-0 mx-auto">
 			<nav className="p-2 justify-content-between navbar navbar-expand navbar-dark">
-				<div href="/">
-					<img alt="💀" src="/favicon.png" className="align-baseline mr-2" style={{ width: '1rem' }} />
+				<div href="/" className="centered">
+					<img alt="💀" src="/favicon.png" className="align-baseline mr-2 icon" />
 					Goldbug Club
 				</div>
 				<AuthenticationButton localUser={localUser} setLocalUser={setLocalUser} />
