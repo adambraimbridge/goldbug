@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { getAllMessages, putMessage } from './Database'
 
 // import EmojiPicker from 'emoji-picker-react'
@@ -54,13 +54,23 @@ const MessageForm = ({ addMessage }) => {
 }
 
 const Chat = ({ localUser }) => {
+	const emoji = emojiJs()
 	const userMeta = localUser.user_metadata || {}
 	const [messages, setMessages] = useState([])
-	const emoji = emojiJs()
+
+	useEffect(() => {
+		;(async () => {
+			try {
+				const messageHistory = await getAllMessages()
+				setMessages(messageHistory)
+			} catch (error) {
+				console.error(error)
+			}
+		})()
+	}, [messages, setMessages])
 
 	const addMessage = text => {
 		const parsedText = emoji.replace_colons(text)
-
 		setMessages([...messages, { text: parsedText }])
 		putMessage({ text })
 	}
@@ -70,9 +80,6 @@ const Chat = ({ localUser }) => {
 		newMessages.splice(index, 1)
 		setMessages(newMessages)
 	}
-
-	getAllMessages().then(setMessages)
-	// getAllMessages().then(console.log)
 
 	return (
 		<>

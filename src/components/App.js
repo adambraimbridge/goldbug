@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import Home from '../routes/home'
+import { Home } from '../routes/home'
 import { AuthenticationButton } from './Authentication'
 
 const App = () => {
