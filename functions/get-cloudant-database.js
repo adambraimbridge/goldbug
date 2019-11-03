@@ -1,5 +1,5 @@
-import Cloudant from '@cloudant/cloudant'
-import querystring from 'querystring'
+const Cloudant = require('@cloudant/cloudant')
+const querystring = require('querystring')
 
 export default async (event, context) => {
 	console.log({ event, context })
@@ -11,7 +11,6 @@ export default async (event, context) => {
 	}
 
 	const params = querystring.parse(body)
-	const name = params.name || 'World'
 
 	console.log({ params })
 
