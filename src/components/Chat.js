@@ -56,6 +56,7 @@ const MessageForm = ({ addMessage }) => {
 const Chat = ({ localUser }) => {
 	const emoji = emojiJs()
 	const userMeta = localUser.user_metadata || {}
+
 	const [messages, setMessages] = useState([])
 
 	useEffect(() => {
@@ -67,7 +68,7 @@ const Chat = ({ localUser }) => {
 				console.error(error)
 			}
 		})()
-	}, [messages, setMessages])
+	}, [])
 
 	const addMessage = text => {
 		const parsedText = emoji.replace_colons(text)
