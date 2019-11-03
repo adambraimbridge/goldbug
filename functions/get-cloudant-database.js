@@ -17,8 +17,7 @@ exports.handler = async ({ httpMethod, body, ...rest }) => {
 	console.log({ databases })
 
 	return {
-		body,
-		databases,
+		body: databases,
 		statusCode: 200,
 	}
 }
