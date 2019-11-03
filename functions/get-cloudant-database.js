@@ -1,6 +1,8 @@
 const Cloudant = require('@cloudant/cloudant')
 const querystring = require('querystring')
 exports.handler = async ({ httpMethod, body }) => {
+	console.log(querystring.parse(body))
+
 	if (httpMethod !== 'POST') {
 		return { statusCode: 405, body: 'Method Not Allowed' }
 	}
@@ -14,6 +16,8 @@ exports.handler = async ({ httpMethod, body }) => {
 	console.log({ databases })
 
 	return {
+		body,
+		databases,
 		statusCode: 200,
 	}
 }
