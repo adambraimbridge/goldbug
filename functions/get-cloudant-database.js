@@ -1,6 +1,7 @@
 const Cloudant = require('@cloudant/cloudant')
 const querystring = require('querystring')
-exports.handler = async ({ httpMethod, body }) => {
+exports.handler = async ({ httpMethod, body, ...rest }) => {
+	console.log({ rest })
 	console.log(querystring.parse(body))
 
 	if (httpMethod !== 'POST') {
