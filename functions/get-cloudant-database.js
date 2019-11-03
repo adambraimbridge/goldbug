@@ -3,6 +3,7 @@ const querystring = require('querystring')
 
 exports.handler = async (event, context) => {
 	console.log({ event, context })
+	console.log(event, context)
 
 	const { httpMethod, body } = event
 
