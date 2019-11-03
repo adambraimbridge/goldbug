@@ -1,7 +1,7 @@
 const Cloudant = require('@cloudant/cloudant')
 const querystring = require('querystring')
 
-export default async (event, context) => {
+exports.handler = async (event, context) => {
 	console.log({ event, context })
 
 	const { httpMethod, body } = event
