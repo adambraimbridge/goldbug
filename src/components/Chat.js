@@ -20,12 +20,15 @@ const Message = ({ message, userMeta }) => {
 	const { full_name, avatar_url } = userMeta
 	return (
 		<div className="message-container mb-2">
-			<div></div>
-			<div className="message text-right bg-light rounded p-2">{message.text}</div>
-			<div className="avatar-thumbnail">
-				<img src={avatar_url} alt={full_name} className="icon rounded-circle border-0"></img>
+			<div className="message bg-light rounded p-2 px-3">
+				<span className="arrow"></span>
+
+				{message.text}
+
+				<div className="avatar-thumbnail">
+					<img src={avatar_url} alt={full_name} className="icon rounded-circle border-0"></img>
+				</div>
 			</div>
-			<span className="arrow"></span>
 		</div>
 	)
 }

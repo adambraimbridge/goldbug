@@ -39,10 +39,16 @@ body,
 .icon {
 	width: 1.5rem;
 }
+
 .message-container {
-	display: grid;
-	grid-gap: 0.5rem;
-	grid-template-columns: 1fr 5fr min-content;
+	position: relative;
+    text-align: right;
+	margin-right: 2.5rem;
+	.message{
+		position: relative;
+		display: inline-block;
+		text-align: left;
+	}
 	.arrow {
 		-webkit-transform: rotate(360deg);
 		width: 0;
@@ -52,8 +58,12 @@ body,
 		border-color: transparent transparent transparent #777;
 		border-style: inset;
 		position: absolute;
-		right: 1.5rem;
-		margin-top: 0.1rem;
+		right: -0.5rem;
+	}
+	.avatar-thumbnail{
+		position: absolute;
+		right: -2.5rem;
+		top: 0;
 	}
 }
 .centered {
