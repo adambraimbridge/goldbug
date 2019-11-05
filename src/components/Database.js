@@ -16,7 +16,6 @@ const putMessage = async message => {
 			...message,
 			_id: new Date().toISOString(),
 		})
-		console.log(message, response)
 		return response
 	} catch (err) {
 		console.log(err)

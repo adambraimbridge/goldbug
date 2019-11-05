@@ -37,13 +37,13 @@ const MessageForm = ({ addMessage }) => {
 	const [inputValue, setInputValue] = useState('')
 	const containerElement = document.querySelector('#message-list')
 
-	const handleSubmit = event => {
+	const handleSubmit = async event => {
 		event.preventDefault()
 		if (!inputValue) return false
 
-		addMessage(inputValue)
+		await addMessage(inputValue)
 		setInputValue('')
-		containerElement.scrollTop = containerElement.scrollHeight
+		containerElement.scrollTop = containerElement.scrollHeight + 1000
 	}
 
 	return (
