@@ -23,6 +23,7 @@
 		"eslint": "^6.6.0",
 		"eslint-config-prettier": "^6.4.0",
 		"eslint-plugin-prettier": "^3.1.1",
+		"netlify-cli": "^2.20.2",
 		"prettier": "^1.18.2"
 	},
 	"prettier": "@adambraimbridge/prettierrc-2019-05",
@@ -30,7 +31,9 @@
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"dev": "netlify dev",
+		"dev-live": "netlify dev --live"
 	},
 	"eslintConfig": {
 		"extends": [
