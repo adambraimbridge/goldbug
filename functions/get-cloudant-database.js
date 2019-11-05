@@ -21,9 +21,9 @@ exports.handler = async (event, context) => {
 		const databases = await cloudant.db.list()
 		console.log({ databases })
 
-		if (!databases.length) {
-			throw new Error('No databases found.')
-		}
+		// if (!databases.length) {
+		// 	throw new Error('No databases found.')
+		// }
 
 		return { statusCode: 200, body: JSON.stringify(event), headers: { 'Content-Type': 'application/json' } }
 	} catch (error) {
