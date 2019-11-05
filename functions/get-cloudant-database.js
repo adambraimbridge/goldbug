@@ -2,6 +2,7 @@ const Cloudant = require('@cloudant/cloudant')
 const querystring = require('querystring')
 
 exports.handler = async (event, context) => {
+	// I expect these logs to appear in https://app.netlify.com/sites/beer-oclock/functions/slack-webhook
 	console.log({ event, context })
 	console.log(event, context)
 
@@ -25,11 +26,12 @@ exports.handler = async (event, context) => {
 		console.log({ databases })
 
 		if (!databases.length) {
-			console.log('No databases found. ')
+			throw new Error('No databases found.')
 		}
 
 		return { statusCode: 200, body: JSON.stringify(event), headers: { 'Content-Type': 'application/json' } }
 	} catch (error) {
+		console.error({ error })
 		return { statusCode: 500, body: String(error) }
 	}
 }
