@@ -24,11 +24,14 @@ const getDatabase = async id => {
 
 	console.log({ newRemoteDatabase })
 
-	const database = cloudant.db.use(newRemoteDatabase)
 	try {
+		const database = cloudant.db.use(newRemoteDatabase)
 		const security = await database.get_security()
 		security[newApiKey.key] = ['_reader', '_writer', '_replicator']
-		await database.set_security(security)
+		const result = await database.set_security(security)
+
+		console.log(result)
+
 		return database
 	} catch (error) {
 		console.error(error)
