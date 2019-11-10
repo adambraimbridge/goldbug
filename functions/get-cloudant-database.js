@@ -9,13 +9,16 @@ const getDatabase = async id => {
 		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
 	})
 
-	const remoteDatabase = await cloudant.db.get(id)
-	if (remoteDatabase) {
-		return remoteDatabase
+	try {
+		const remoteDatabase = await cloudant.db.get(id)
+		if (remoteDatabase) {
+			return remoteDatabase
+		}
+	} catch (error) {
+		console.error(error)
 	}
 
 	console.log('Database not found. Provisioning ...')
-
 	const newApiKey = await cloudant.generate_api_key()
 	const newRemoteDatabase = await cloudant.db.create(id)
 
