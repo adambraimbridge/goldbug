@@ -29,9 +29,8 @@ exports.handler = async (event, context) => {
 	}
 
 	const params = JSON.parse(body)
-	console.log({ params, body })
-	const { user } = params
-	if (!user.id) {
+	const { id } = params.user
+	if (!id) {
 		throw new Error('Could not get user ID.')
 	}
 
