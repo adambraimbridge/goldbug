@@ -7,8 +7,13 @@ const getDatabase = async (cloudant, id) => {
 		return remoteDatabase
 	}
 
+	console.log('Database no found. Provisioning ...')
+
 	const newApiKey = await cloudant.generate_api_key()
 	const newRemoteDatabase = await cloudant.db.create(id)
+
+	console.log({ newRemoteDatabase })
+
 	const database = cloudant.db.use(newRemoteDatabase)
 	try {
 		const security = await db.get_security()
@@ -28,8 +33,8 @@ exports.handler = async (event, context) => {
 		return { statusCode: 405, body: 'Method Not Allowed' }
 	}
 
-	const params = JSON.parse(body)
-	const { id } = params.user
+	const payload = JSON.parse(body)
+	const { id } = payload.user
 	if (!id) {
 		throw new Error('Could not get user ID.')
 	}
