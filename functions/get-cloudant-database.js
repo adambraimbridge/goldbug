@@ -2,7 +2,6 @@ const Cloudant = require('@cloudant/cloudant')
 const querystring = require('querystring')
 
 const getDatabase = async (cloudant, id) => {
-	// Check for cached credentials - if they exist, return the credentials.
 	const remoteDatabase = await cloudant.db.get(id)
 	if (remoteDatabase) {
 		return remoteDatabase
@@ -19,9 +18,6 @@ const getDatabase = async (cloudant, id) => {
 	} catch (error) {
 		return { statusCode: 500, body: '' }
 	}
-
-	// Cache the credentials in the user's app_metadata (for subsequent logins).
-	// Return the credentials.
 }
 
 exports.handler = async (event, context) => {
@@ -33,10 +29,13 @@ exports.handler = async (event, context) => {
 	}
 
 	const params = querystring.parse(body)
-	const { id } = params.user
-	if (!id) {
-		return { statusCode: 500, body: '' }
+	console.log({ params })
+	const { user } = params
+	if (!user.id) {
+		throw new Error('Could not get user ID.')
 	}
+
+	// TODO: Check for credentials in the user's app_metadata. If they exist, return the credentials.
 
 	try {
 		const cloudant = await Cloudant({
@@ -44,11 +43,12 @@ exports.handler = async (event, context) => {
 			password: process.env.CLOUDANT_PASSWORD,
 			url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
 		})
-
 		const database = await getDatabase(cloudant, id)
-		return database
+		console.log({ database })
 
-		return { statusCode: 200, body: JSON.stringify(event), headers: { 'Content-Type': 'application/json' } }
+		// TODO: Cache the credentials in the user's app_metadata (for subsequent logins).
+
+		return { statusCode: 200, body: JSON.stringify(database), headers: { 'Content-Type': 'application/json' } }
 	} catch (error) {
 		console.error({ error })
 		return { statusCode: 500, body: String(error) }
