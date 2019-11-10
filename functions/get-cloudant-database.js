@@ -1,13 +1,20 @@
 const Cloudant = require('@cloudant/cloudant')
-const querystring = require('querystring')
 
-const getDatabase = async (cloudant, id) => {
+const getDatabase = async id => {
+	console.log('Getting database. Connecting ...')
+
+	const cloudant = await Cloudant({
+		username: process.env.CLOUDANT_USERNAME,
+		password: process.env.CLOUDANT_PASSWORD,
+		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
+	})
+
 	const remoteDatabase = await cloudant.db.get(id)
 	if (remoteDatabase) {
 		return remoteDatabase
 	}
 
-	console.log('Database no found. Provisioning ...')
+	console.log('Database not found. Provisioning ...')
 
 	const newApiKey = await cloudant.generate_api_key()
 	const newRemoteDatabase = await cloudant.db.create(id)
@@ -42,12 +49,7 @@ exports.handler = async (event, context) => {
 	// TODO: Check for credentials in the user's app_metadata. If they exist, return the credentials.
 
 	try {
-		const cloudant = await Cloudant({
-			username: process.env.CLOUDANT_USERNAME,
-			password: process.env.CLOUDANT_PASSWORD,
-			url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
-		})
-		const database = await getDatabase(cloudant, id)
+		const database = await getDatabase(id)
 		console.log({ database })
 
 		// TODO: Cache the credentials in the user's app_metadata (for subsequent logins).
