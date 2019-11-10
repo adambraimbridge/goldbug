@@ -31,7 +31,8 @@ const getDatabase = async id => {
 		await database.set_security(security)
 		return database
 	} catch (error) {
-		return { statusCode: 500, body: '' }
+		console.error(error)
+		return { statusCode: 500, body: String(error) }
 	}
 }
 
