@@ -7,7 +7,7 @@ const Cloudant = require('@cloudant/cloudant')
 const GoTrue = require('gotrue-js').GoTrue
 
 const getDatabaseCredentials = async id => {
-	console.log('Getting database credentials. Connecting ...')
+	// console.log('Getting database credentials. Connecting ...')
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
 		password: process.env.CLOUDANT_PASSWORD,
@@ -19,9 +19,9 @@ const getDatabaseCredentials = async id => {
 		remoteDatabase = await cloudant.db.get(id)
 	} catch (error) {
 		// console.error(error)
-		console.log(`Database not found for ${id}. Provisioning ...`)
+		// console.log(`Database not found for ${id}. Provisioning ...`)
 		response = await cloudant.db.create(id)
-		console.log(`Database provisioned.`, { response })
+		// console.log(`Database provisioned.`, { response })
 		remoteDatabase = await cloudant.db.get(id)
 	}
 
@@ -29,7 +29,7 @@ const getDatabaseCredentials = async id => {
 	const security = await database.get_security()
 	const credentials = await cloudant.generate_api_key()
 
-	console.log({ database, security, credentials })
+	// console.log({ database, security, credentials })
 
 	const newSecurity = Object.assign({}, security, {
 		[credentials.key]: ['_reader', '_writer', '_replicator'],
@@ -44,7 +44,11 @@ const updateUser = async context => {
 		APIUrl: 'https://www.goldbug.club/.netlify/identity',
 		setCookie: false,
 	})
-	// 	const { identity, user } = context.clientContext
+	const { identity, user } = context.clientContext
+	console.log({ identity, user })
+
+	const response = await user.update()
+
 	//   	const userID = user.sub
 	//   	const userUrl = `${identity.url}/admin/users/${userID}`
 	//   	const adminAuthHeader = "Bearer " + identity.token
@@ -59,8 +63,8 @@ const updateUser = async context => {
 	//         return response.json();
 	//       })
 	//       .then(data => {
-	//         console.log("Updated a user! 204!");
-	//         console.log(JSON.stringify({ data }));
+	// console.log("Updated a user! 204!");
+	// console.log(JSON.stringify({ data }));
 	//         return { statusCode: 204 };
 	//       })
 	//       .catch(e => return {...});
@@ -79,7 +83,7 @@ exports.handler = async (event, context) => {
 
 	try {
 		const credentials = await getDatabaseCredentials(id)
-		console.log({ credentials })
+		// console.log({ credentials })
 
 		// Save the credentials in the Netlify user's app_metadata.
 		const response = updateUser(context, credentials)
