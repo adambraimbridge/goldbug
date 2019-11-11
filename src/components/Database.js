@@ -24,17 +24,13 @@ const getRemoteDatabase = async (credentials, id) => {
 
 const syncLocalDatabaseToRemote = async ({ localUser, remoteDatabase, setRemoteDatabase }) => {
 	if (!remoteDatabase) {
-		try {
-			const credentials = localUser.app_metadata.credentials
-			const { id } = localUser
-			setRemoteDatabase(await getRemoteDatabase(credentials, id))
-		} catch (error) {
-			console.error(error)
-		}
+		const credentials = localUser.app_metadata.credentials
+		const { id } = localUser || null
+		setRemoteDatabase(await getRemoteDatabase(credentials, id))
 	}
 	const localDatabase = await getLocalDatabase()
 
-	console.log({ id, localUser, remoteDatabase, localDatabase })
+	console.log({ localUser, remoteDatabase, localDatabase })
 
 	localDatabase
 		.sync(remoteDatabase, { live: true, retry: true })
