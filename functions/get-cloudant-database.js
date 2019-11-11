@@ -84,8 +84,6 @@ exports.handler = async (event, context) => {
 		// Save the credentials in the Netlify user's app_metadata.
 		const response = updateUser(context, credentials)
 
-		authenticatedUser.update(userData)
-
 		return { statusCode: 200 }
 	} catch (error) {
 		console.error({ error })
