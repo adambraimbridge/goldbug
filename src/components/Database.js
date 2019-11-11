@@ -33,9 +33,10 @@ const syncLocalDatabaseToRemote = async ({ localUser, remoteDatabase, setRemoteD
 		setRemoteDatabase(remoteDatabase)
 	}
 	const localDatabase = await getLocalDatabase()
+	// .sync(remoteDatabase, { live: true, retry: true })
 
 	localDatabase
-		.sync(remoteDatabase, { live: true, retry: true })
+		.sync(remoteDatabase)
 		.on('change', change => {
 			console.log({ change }, 'yo, something changed!')
 		})
