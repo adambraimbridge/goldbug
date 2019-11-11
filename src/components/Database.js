@@ -10,23 +10,25 @@ const getLocalDatabase = () => {
 	return Promise.resolve(localDatabase)
 }
 
-const getRemoteDatabase = async (credentials, id) => {
+const getRemoteDatabase = async (credentials, url, id) => {
 	console.log('Connecting to remote database ...')
 	const { username, password } = credentials
 	const cloudant = await Cloudant({
 		username,
 		password,
-		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
+		url,
 	})
 	const remoteDatabase = await cloudant.db.get(id)
 	return remoteDatabase
 }
 
 const syncLocalDatabaseToRemote = async ({ localUser, remoteDatabase, setRemoteDatabase }) => {
+	console.log({ localUser })
+
 	if (!remoteDatabase) {
 		const credentials = localUser.app_metadata.credentials
 		const { id } = localUser
-		const remoteDatabase = await getRemoteDatabase(credentials, id)
+		const remoteDatabase = await getRemoteDatabase(credentials, url, id)
 		console.log({ remoteDatabase })
 		setRemoteDatabase(remoteDatabase)
 	}
