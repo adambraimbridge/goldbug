@@ -36,20 +36,21 @@ const getDatabase = async id => {
 }
 
 exports.handler = async (event, context) => {
-	console.log({ event, context })
-
 	const { httpMethod, body } = event
 	if (httpMethod !== 'POST') {
-		return { statusCode: 405, body: 'Method Not Allowed' }
+		return { statusCode: 405, body: 'Method Not Allowed.' }
 	}
 
 	const payload = JSON.parse(body)
-	const { id } = payload.user
+	const { id, app_metadata } = payload.user
 	if (!id) {
-		throw new Error('Could not get user ID.')
+		return { statusCode: 500, body: 'Could not get user ID.' }
 	}
 
-	// TODO: Check for credentials in the user's app_metadata. If they exist, return the credentials.
+	// Check for credentials in the user's app_metadata. If they exist, return the credentials.
+	if (app_metadata) {
+		return { statuscode: 200, body: JSON.stringify(payload.user) }
+	}
 
 	try {
 		const database = await getDatabase(id)
