@@ -1,11 +1,5 @@
 const Cloudant = require('@cloudant/cloudant')
 
-/**
- * Authentication is provided by Netlify via Google OAuth.
- * Identites are created in Netlify for newly authenticated users.
- */
-const GoTrue = require('gotrue-js')
-
 const getDatabaseCredentials = async id => {
 	console.log('Getting database credentials. Connecting ...')
 	const cloudant = await Cloudant({
@@ -39,40 +33,6 @@ const getDatabaseCredentials = async id => {
 	return result
 }
 
-const updateUser = async context => {
-	console.log({ Gotrue })
-
-	const goTrueAuth = new GoTrue({
-		APIUrl: 'https://www.goldbug.club/.netlify/identity',
-		setCookie: false,
-	})
-	const { identity, user } = context.clientContext
-	console.log({ identity, user })
-
-	const response = await user.update()
-
-	//   	const userID = user.sub
-	//   	const userUrl = `${identity.url}/admin/users/${userID}`
-	//   	const adminAuthHeader = "Bearer " + identity.token
-
-	//   try {
-	//     return fetch(userUrl, {
-	//       method: "PUT",
-	//       headers: { Authorization: adminAuthHeader },
-	//       body: JSON.stringify({ app_metadata: { roles: ["superstar"] } })
-	//     })
-	//       .then(response => {
-	//         return response.json();
-	//       })
-	//       .then(data => {
-	// console.log("Updated a user! 204!");
-	// console.log(JSON.stringify({ data }));
-	//         return { statusCode: 204 };
-	//       })
-	//       .catch(e => return {...});
-	//   } catch (e) { return e; }
-}
-
 exports.handler = async (event, context) => {
 	const { httpMethod, body } = event
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
@@ -86,11 +46,8 @@ exports.handler = async (event, context) => {
 		console.log({ credentials })
 
 		// Save the credentials in the Netlify user's app_metadata.
-		console.log('Updating user app_metadata with credentials.')
-		const response = updateUser(context, credentials)
-		console.log({ response })
-
-		return { statusCode: 200 }
+		// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
+		return { statusCode: 200, body: { app_metadata: { credentials } } }
 	} catch (error) {
 		console.error({ error })
 		return { statusCode: 500, body: String(error) }
