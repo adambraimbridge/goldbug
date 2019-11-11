@@ -18,14 +18,16 @@ const getDatabase = async id => {
 		remoteDatabase = await cloudant.db.create(id)
 	}
 
-	console.log({ remoteDatabase })
 	const database = cloudant.db.use(remoteDatabase.db_name)
 	const security = await database.get_security()
 	const newApiKey = await cloudant.generate_api_key()
-	security[newApiKey.key] = ['_reader', '_writer', '_replicator']
+	security.cloudant[newApiKey.key] = ['_reader', '_writer', '_replicator']
 	const result = await database.set_security(security)
 
+	console.log(JSON.stringify({ security }))
 	console.log({ database, security, newApiKey, result })
+
+	return result
 }
 
 exports.handler = async (event, context) => {
@@ -41,9 +43,9 @@ exports.handler = async (event, context) => {
 	}
 
 	// Check for credentials in the user's app_metadata. If they exist, return the credentials.
-	if (app_metadata) {
+	if (app_metadata && app_metatdata.databaseCredentials) {
 		console.log({ app_metadata })
-		// return { statuscode: 200, body: JSON.stringify(payload.user) }
+		return { statuscode: 200 }
 	}
 
 	try {
@@ -52,7 +54,7 @@ exports.handler = async (event, context) => {
 
 		// TODO: Cache the credentials in the user's app_metadata (for subsequent logins).
 
-		return { statusCode: 200, body: JSON.stringify(database), headers: { 'Content-Type': 'application/json' } }
+		return { statusCode: 200 }
 	} catch (error) {
 		console.error({ error })
 		return { statusCode: 500, body: String(error) }
