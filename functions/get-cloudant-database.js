@@ -20,15 +20,15 @@ const getDatabase = async id => {
 
 	try {
 		console.log({ remoteDatabase })
-		const database = cloudant.db.use(remoteDatabase)
-		const security = await database.get_security()
-		const newApiKey = await cloudant.generate_api_key()
-		security[newApiKey.key] = ['_reader', '_writer', '_replicator']
-		const result = await database.set_security(security)
+		// const database = cloudant.db.use(remoteDatabase)
+		// const security = await database.get_security()
+		// const newApiKey = await cloudant.generate_api_key()
+		// security[newApiKey.key] = ['_reader', '_writer', '_replicator']
+		// const result = await database.set_security(security)
 
-		console.log(result)
+		// console.log(result)
 
-		return database
+		// return database
 	} catch (error) {
 		console.error(error)
 		return { statusCode: 500, body: String(error) }
@@ -53,15 +53,15 @@ exports.handler = async (event, context) => {
 		return { statuscode: 200, body: JSON.stringify(payload.user) }
 	}
 
-	// try {
-	// 	const database = await getDatabase(id)
-	// 	console.log({ database })
+	try {
+		const database = await getDatabase(id)
+		console.log({ database })
 
-	// 	// TODO: Cache the credentials in the user's app_metadata (for subsequent logins).
+		// TODO: Cache the credentials in the user's app_metadata (for subsequent logins).
 
-	// 	return { statusCode: 200, body: JSON.stringify(database), headers: { 'Content-Type': 'application/json' } }
-	// } catch (error) {
-	// 	console.error({ error })
-	// 	return { statusCode: 500, body: String(error) }
-	// }
+		return { statusCode: 200, body: JSON.stringify(database), headers: { 'Content-Type': 'application/json' } }
+	} catch (error) {
+		console.error({ error })
+		return { statusCode: 500, body: String(error) }
+	}
 }

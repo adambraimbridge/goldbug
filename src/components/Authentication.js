@@ -43,6 +43,9 @@ const getAuthenticationDataFromHash = () => {
 const getAuthenticatedUser = async () => {
 	let authenticatedUser = goTrueAuth.currentUser()
 	if (authenticatedUser) {
+		console.log({ authenticatedUser })
+
+		// Get 'app_metadata'
 		return authenticatedUser
 	} else {
 		const authenticationData = getAuthenticationDataFromHash()
