@@ -25,7 +25,7 @@ const getDatabase = async id => {
 	security[newApiKey.key] = ['_reader', '_writer', '_replicator']
 	const result = await database.set_security(security)
 
-	console.log(result)
+	console.log({ database, security, newApiKey, result })
 }
 
 exports.handler = async (event, context) => {
