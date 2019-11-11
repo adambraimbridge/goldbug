@@ -26,7 +26,7 @@ const getDatabaseCredentials = async id => {
 		// console.error(error)
 		console.log(`Database not found for ${id}. Provisioning ...`)
 		remoteDatabase = await cloudant.db.create(id)
-		console.log(`Database provisionined.`, remoteDatabase)
+		console.log(`Database provisionined.`, { remoteDatabase })
 	}
 
 	const database = await cloudant.db.use(remoteDatabase.db_name)
@@ -41,32 +41,31 @@ const getDatabaseCredentials = async id => {
 	return result
 }
 
-const updateUser = async context => {
-	const { identity, user } = context.clientContext;
-  	const userID = user.sub;
-  	const userUrl = `${identity.url}/admin/users/${userID}`;
-  	const adminAuthHeader = "Bearer " + identity.token;
+// const updateUser = async context => {
+// 	const { identity, user } = context.clientContext
+//   	const userID = user.sub
+//   	const userUrl = `${identity.url}/admin/users/${userID}`
+//   	const adminAuthHeader = "Bearer " + identity.token
 
-  try {
-    return fetch(userUrl, {
-      method: "PUT",
-      headers: { Authorization: adminAuthHeader },
-      body: JSON.stringify({ app_metadata: { roles: ["superstar"] } })
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        console.log("Updated a user! 204!");
-        console.log(JSON.stringify({ data }));
-        return { statusCode: 204 };
-      })
-      .catch(e => return {...});
-  } catch (e) { return e; }
-};
-}
+//   try {
+//     return fetch(userUrl, {
+//       method: "PUT",
+//       headers: { Authorization: adminAuthHeader },
+//       body: JSON.stringify({ app_metadata: { roles: ["superstar"] } })
+//     })
+//       .then(response => {
+//         return response.json();
+//       })
+//       .then(data => {
+//         console.log("Updated a user! 204!");
+//         console.log(JSON.stringify({ data }));
+//         return { statusCode: 204 };
+//       })
+//       .catch(e => return {...});
+//   } catch (e) { return e; }
+// };
 
-
+// }
 
 exports.handler = async (event, context) => {
 	const { httpMethod, body } = event
