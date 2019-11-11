@@ -5,7 +5,6 @@ const Cloudant = require('@cloudant/cloudant')
  * Identites are created in Netlify for newly authenticated users.
  */
 const GoTrue = require('gotrue-js')
-console.log({ Gotrue })
 
 const getDatabaseCredentials = async id => {
 	console.log('Getting database credentials. Connecting ...')
@@ -41,6 +40,8 @@ const getDatabaseCredentials = async id => {
 }
 
 const updateUser = async context => {
+	console.log({ Gotrue })
+
 	const goTrueAuth = new GoTrue({
 		APIUrl: 'https://www.goldbug.club/.netlify/identity',
 		setCookie: false,
