@@ -10,7 +10,7 @@ const getLocalDatabase = () => {
 	return Promise.resolve(localDatabase)
 }
 
-const getRemoteDatabase = async credentials => {
+const getRemoteDatabase = async (credentials, id) => {
 	console.log('Connecting to remote database ...')
 	const { username, password } = credentials
 	const cloudant = await Cloudant({
@@ -26,7 +26,8 @@ const syncLocalDatabaseToRemote = ({ localUser, remoteDatabase, setRemoteDatabas
 	if (!remoteDatabase) {
 		try {
 			const credentials = localUser.app_metadata.credentials
-			setRemoteDatabase(getRemoteDatabase(credentials))
+			const { id } = localUser
+			setRemoteDatabase(getRemoteDatabase(credentials, id))
 		} catch (error) {
 			console.error(error)
 		}
