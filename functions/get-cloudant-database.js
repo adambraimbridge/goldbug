@@ -19,8 +19,8 @@ const getDatabase = async id => {
 	}
 
 	try {
-		console.log({ newRemoteDatabase })
-		const database = cloudant.db.use(newRemoteDatabase)
+		console.log({ remoteDatabase })
+		const database = cloudant.db.use(remoteDatabase)
 		const security = await database.get_security()
 		const newApiKey = await cloudant.generate_api_key()
 		security[newApiKey.key] = ['_reader', '_writer', '_replicator']
