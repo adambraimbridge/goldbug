@@ -46,10 +46,10 @@ exports.handler = async (event, context) => {
 	}
 
 	// Check for credentials in the user's app_metadata. If they exist, return the credentials.
-	if (!!app_metadata && !!app_metatdata.databaseCredentials) {
-		console.log({ app_metadata })
-		return { statuscode: 200 }
-	}
+	// if (!!app_metadata && !!app_metatdata.databaseCredentials) {
+	// 	console.log({ app_metadata })
+	// 	return { statuscode: 200 }
+	// }
 
 	try {
 		const database = await getDatabase(id)
