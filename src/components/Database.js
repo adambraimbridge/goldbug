@@ -2,7 +2,7 @@ import Cloudant from '@cloudant/cloudant'
 import PouchDB from 'pouchdb'
 const localDatabase = new PouchDB('goldbug-club')
 
-const getLocalDatabase = ({ localUser }) => {
+const getLocalDatabase = ({ localUser, setLocalDatabase }) => {
 	console.log({ localUser })
 	// const { username, password } = localUser
 	// const remoteUrl = `https://${username}:${password}@%CLOUDANT_USERNAME%.cloudantnosqldb.appdomain.cloud/`
