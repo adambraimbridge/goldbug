@@ -7,7 +7,7 @@ const Cloudant = require('@cloudant/cloudant')
 const GoTrue = require('gotrue-js').GoTrue
 
 const getDatabaseCredentials = async id => {
-	// console.log('Getting database credentials. Connecting ...')
+	console.log('Getting database credentials. Connecting ...')
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
 		password: process.env.CLOUDANT_PASSWORD,
@@ -19,9 +19,9 @@ const getDatabaseCredentials = async id => {
 		remoteDatabase = await cloudant.db.get(id)
 	} catch (error) {
 		// console.error(error)
-		// console.log(`Database not found for ${id}. Provisioning ...`)
+		console.log(`Database not found for ${id}. Provisioning ...`)
 		response = await cloudant.db.create(id)
-		// console.log(`Database provisioned.`, { response })
+		console.log(`Database provisioned.`, { response })
 		remoteDatabase = await cloudant.db.get(id)
 	}
 
@@ -71,8 +71,6 @@ const updateUser = async context => {
 	//   } catch (e) { return e; }
 }
 
-// }
-
 exports.handler = async (event, context) => {
 	const { httpMethod, body } = event
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
@@ -83,10 +81,12 @@ exports.handler = async (event, context) => {
 
 	try {
 		const credentials = await getDatabaseCredentials(id)
-		// console.log({ credentials })
+		console.log({ credentials })
 
 		// Save the credentials in the Netlify user's app_metadata.
+		console.log('Updating user app_metadata with credentials.')
 		const response = updateUser(context, credentials)
+		console.log({ response })
 
 		return { statusCode: 200 }
 	} catch (error) {
