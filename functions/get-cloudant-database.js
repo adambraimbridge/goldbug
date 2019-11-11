@@ -47,7 +47,7 @@ exports.handler = async (event, context) => {
 
 		// Save the credentials in the Netlify user's app_metadata.
 		// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
-		return { statusCode: 200, body: { app_metadata: { credentials } } }
+		return { statusCode: 200, body: JSON.stringify({ app_metadata: { credentials } }) }
 	} catch (error) {
 		console.error({ error })
 		return { statusCode: 500, body: String(error) }
