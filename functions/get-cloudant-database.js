@@ -37,7 +37,7 @@ exports.handler = async (event, context) => {
 	}
 
 	const payload = JSON.parse(body)
-	const { id, app_metadata } = payload.user
+	const { id = null, app_metadata = null } = payload.user
 	if (!id) {
 		return { statusCode: 500, body: 'Could not get user ID.' }
 	}
