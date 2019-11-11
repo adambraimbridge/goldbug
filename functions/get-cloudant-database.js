@@ -45,7 +45,7 @@ exports.handler = async (event, context) => {
 	// Check for credentials in the user's app_metadata. If they exist, return the credentials.
 	if (app_metadata) {
 		console.log({ app_metadata })
-		return { statuscode: 200, body: JSON.stringify(payload.user) }
+		// return { statuscode: 200, body: JSON.stringify(payload.user) }
 	}
 
 	try {
