@@ -26,7 +26,7 @@ const getLocalDatabase = ({ localUser }) => {
 	// 		console.error(error)
 	// 	})
 
-	// return Promise.resolve(localDatabase)
+	return Promise.resolve(localDatabase)
 }
 
 const putMessage = async message => {
