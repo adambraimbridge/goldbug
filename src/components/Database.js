@@ -27,14 +27,14 @@ const syncLocalDatabaseToRemote = async ({ localUser, remoteDatabase, setRemoteD
 		try {
 			const credentials = localUser.app_metadata.credentials
 			const { id } = localUser
-			setRemoteDatabase(getRemoteDatabase(credentials, id))
+			setRemoteDatabase(await getRemoteDatabase(credentials, id))
 		} catch (error) {
 			console.error(error)
 		}
 	}
 	const localDatabase = await getLocalDatabase()
 
-	console.log({ localDatabase })
+	console.log({ remoteDatabase, localDatabase })
 
 	localDatabase
 		.sync(remoteDatabase, { live: true, retry: true })
