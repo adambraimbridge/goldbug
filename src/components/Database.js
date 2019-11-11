@@ -67,4 +67,4 @@ const getAllMessages = async localUser => {
 	}
 }
 
-export { getLocalDatabase, getAllMessages, putMessage, deleteMessage }
+export { getAllMessages, putMessage, deleteMessage }
