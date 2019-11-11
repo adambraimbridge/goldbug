@@ -49,18 +49,19 @@ exports.handler = async (event, context) => {
 
 	// Check for credentials in the user's app_metadata. If they exist, return the credentials.
 	if (app_metadata) {
+		console.log({ app_metadata })
 		return { statuscode: 200, body: JSON.stringify(payload.user) }
 	}
 
-	try {
-		const database = await getDatabase(id)
-		console.log({ database })
+	// try {
+	// 	const database = await getDatabase(id)
+	// 	console.log({ database })
 
-		// TODO: Cache the credentials in the user's app_metadata (for subsequent logins).
+	// 	// TODO: Cache the credentials in the user's app_metadata (for subsequent logins).
 
-		return { statusCode: 200, body: JSON.stringify(database), headers: { 'Content-Type': 'application/json' } }
-	} catch (error) {
-		console.error({ error })
-		return { statusCode: 500, body: String(error) }
-	}
+	// 	return { statusCode: 200, body: JSON.stringify(database), headers: { 'Content-Type': 'application/json' } }
+	// } catch (error) {
+	// 	console.error({ error })
+	// 	return { statusCode: 500, body: String(error) }
+	// }
 }
