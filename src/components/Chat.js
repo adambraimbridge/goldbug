@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getAllMessages, putMessage, syncLocalDatabaseToRemote } from './Database'
+import { getLocalDatabase, getAllMessages, putMessage } from './Database'
 
 // import EmojiPicker from 'emoji-picker-react'
 import EmojiJs from 'emoji-js'
@@ -61,15 +61,12 @@ const Chat = ({ localUser }) => {
 	const userMeta = localUser.user_metadata || {}
 
 	const [messages, setMessages] = useState([])
-	const [remoteDatabase, setRemoteDatabase] = useState()
 
 	useEffect(() => {
 		;(async () => {
 			try {
 				const messageHistory = await getAllMessages()
 				setMessages(messageHistory)
-
-				syncLocalDatabaseToRemote({ localUser, remoteDatabase, setRemoteDatabase })
 			} catch (error) {
 				console.error(error)
 			}
@@ -88,18 +85,20 @@ const Chat = ({ localUser }) => {
 		setMessages(newMessages)
 	}
 
-	return (
-		<>
-			<div id="chat-container" className="mx-2 mb-3 text-white">
-				<div id="message-list">
-					{messages.map((message, index) => (
-						<Message key={index} index={index} message={message} removeMessage={removeMessage} userMeta={userMeta} />
-					))}
+	getLocalDatabase(localUser).then(() => {
+		return (
+			<>
+				<div id="chat-container" className="mx-2 mb-3 text-white">
+					<div id="message-list">
+						{messages.map((message, index) => (
+							<Message key={index} index={index} message={message} removeMessage={removeMessage} userMeta={userMeta} />
+						))}
+					</div>
 				</div>
-			</div>
-			<MessageForm addMessage={addMessage} />
-		</>
-	)
+				<MessageForm addMessage={addMessage} />
+			</>
+		)
+	})
 }
 
 export { Chat }

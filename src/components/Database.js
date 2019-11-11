@@ -2,53 +2,31 @@ import Cloudant from '@cloudant/cloudant'
 import PouchDB from 'pouchdb'
 const localDatabase = new PouchDB('goldbug-club')
 
-const getLocalDatabase = () => {
-	localDatabase.changes({
-		since: 'now',
-		live: true,
-	})
-	return Promise.resolve(localDatabase)
-}
-
-const getRemoteDatabase = async (credentials, url, id) => {
-	console.log('Connecting to remote database ...')
-	const { username, password } = credentials
-	const cloudant = await Cloudant({
-		username,
-		password,
-		url,
-	})
-	const remoteDatabase = await cloudant.db.get(id)
-	return remoteDatabase
-}
-
-const syncLocalDatabaseToRemote = async ({ localUser, remoteDatabase, setRemoteDatabase }) => {
+const getLocalDatabase = ({ localUser }) => {
 	console.log({ localUser })
+	// const { username, password } = localUser
+	// const remoteUrl = `https://${username}:${password}@%CLOUDANT_USERNAME%.cloudantnosqldb.appdomain.cloud/`
+	// const remoteDatabase = new PouchDB(remoteUrl)
+	// localDatabase
+	// 	.changes({
+	// 		since: 'now',
+	// 		live: true,
+	// 	})
+	// 	.sync(remoteDatabase, { live: true, retry: true })
+	// 	.on('change', change => {
+	// 		console.log({ change }, 'yo, something changed!')
+	// 	})
+	// 	.on('paused', info => {
+	// 		console.log({ info }, 'replication was paused, probably because of a lost connection')
+	// 	})
+	// 	.on('active', info => {
+	// 		console.log({ info }, 'replication was resumed')
+	// 	})
+	// 	.on('error', error => {
+	// 		console.error(error)
+	// 	})
 
-	if (!remoteDatabase) {
-		const credentials = localUser.app_metadata.credentials
-		const { id } = localUser
-		const remoteDatabase = await getRemoteDatabase(credentials, url, id)
-		console.log({ remoteDatabase })
-		setRemoteDatabase(remoteDatabase)
-	}
-	const localDatabase = await getLocalDatabase()
-	// .sync(remoteDatabase, { live: true, retry: true })
-
-	localDatabase
-		.sync(remoteDatabase)
-		.on('change', change => {
-			console.log({ change }, 'yo, something changed!')
-		})
-		.on('paused', info => {
-			console.log({ info }, 'replication was paused, probably because of a lost connection')
-		})
-		.on('active', info => {
-			console.log({ info }, 'replication was resumed')
-		})
-		.on('error', error => {
-			console.error(error)
-		})
+	// return Promise.resolve(localDatabase)
 }
 
 const putMessage = async message => {
@@ -81,4 +59,4 @@ const getAllMessages = async () => {
 	}
 }
 
-export { getLocalDatabase, syncLocalDatabaseToRemote, getAllMessages, putMessage, deleteMessage }
+export { getLocalDatabase, getAllMessages, putMessage, deleteMessage }
