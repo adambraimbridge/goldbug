@@ -25,7 +25,10 @@ const getLocalDatabase = ({ localUser }) => {
 	// 	.on('error', error => {
 	// 		console.error(error)
 	// 	})
-
+	localDatabase.changes({
+		since: 'now',
+		live: true,
+	})
 	return Promise.resolve(localDatabase)
 }
 
