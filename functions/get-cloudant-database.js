@@ -18,21 +18,16 @@ const getDatabase = async id => {
 		remoteDatabase = await cloudant.db.create(id)
 	}
 
-	try {
-		console.log({ remoteDatabase })
-		// const database = cloudant.db.use(remoteDatabase)
-		// const security = await database.get_security()
-		// const newApiKey = await cloudant.generate_api_key()
-		// security[newApiKey.key] = ['_reader', '_writer', '_replicator']
-		// const result = await database.set_security(security)
+	console.log({ remoteDatabase })
+	// const database = cloudant.db.use(remoteDatabase)
+	// const security = await database.get_security()
+	// const newApiKey = await cloudant.generate_api_key()
+	// security[newApiKey.key] = ['_reader', '_writer', '_replicator']
+	// const result = await database.set_security(security)
 
-		// console.log(result)
+	// console.log(result)
 
-		// return database
-	} catch (error) {
-		console.error(error)
-		return { statusCode: 500, body: String(error) }
-	}
+	// return database
 }
 
 exports.handler = async (event, context) => {
