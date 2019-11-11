@@ -61,7 +61,7 @@ const Chat = ({ localUser }) => {
 	const userMeta = localUser.user_metadata || {}
 
 	const [messages, setMessages] = useState([])
-	const [remoteDatabase, setRemoteDatabase] = useState([])
+	const [remoteDatabase, setRemoteDatabase] = useState()
 
 	useEffect(() => {
 		;(async () => {
