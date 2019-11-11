@@ -18,8 +18,8 @@ const getRemoteDatabase = async (credentials, id) => {
 		password,
 		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
 	})
-	const remoteDatabase = await cloudant.db.get(id)
-	return remoteDatabase
+	// const remoteDatabase = await cloudant.db.get(id)
+	// return remoteDatabase
 }
 
 const syncLocalDatabaseToRemote = async ({ localUser, remoteDatabase, setRemoteDatabase }) => {
@@ -34,7 +34,7 @@ const syncLocalDatabaseToRemote = async ({ localUser, remoteDatabase, setRemoteD
 	}
 	const localDatabase = await getLocalDatabase()
 
-	console.log({ remoteDatabase, localDatabase })
+	console.log({ id, localUser, remoteDatabase, localDatabase })
 
 	localDatabase
 		.sync(remoteDatabase, { live: true, retry: true })
