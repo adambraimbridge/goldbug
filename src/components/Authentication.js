@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-// import { userInfo } from 'os'
 
 /**
  * Authentication is provided by Netlify via Google OAuth.

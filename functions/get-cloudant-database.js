@@ -5,10 +5,6 @@ const Cloudant = require('@cloudant/cloudant')
  * Identites are created in Netlify for newly authenticated users.
  */
 const GoTrue = require('gotrue-js')
-// const goTrueAuth = new GoTrue({
-// 	APIUrl: 'https://www.goldbug.club/.netlify/identity',
-// 	setCookie: true,
-// })
 
 const getDatabaseCredentials = async id => {
 	console.log('Getting database credentials. Connecting ...')
@@ -43,29 +39,33 @@ const getDatabaseCredentials = async id => {
 	return result
 }
 
-// const updateUser = async context => {
-// 	const { identity, user } = context.clientContext
-//   	const userID = user.sub
-//   	const userUrl = `${identity.url}/admin/users/${userID}`
-//   	const adminAuthHeader = "Bearer " + identity.token
+const updateUser = async context => {
+	const goTrueAuth = new GoTrue({
+		APIUrl: 'https://www.goldbug.club/.netlify/identity',
+		setCookie: false,
+	})
+	// 	const { identity, user } = context.clientContext
+	//   	const userID = user.sub
+	//   	const userUrl = `${identity.url}/admin/users/${userID}`
+	//   	const adminAuthHeader = "Bearer " + identity.token
 
-//   try {
-//     return fetch(userUrl, {
-//       method: "PUT",
-//       headers: { Authorization: adminAuthHeader },
-//       body: JSON.stringify({ app_metadata: { roles: ["superstar"] } })
-//     })
-//       .then(response => {
-//         return response.json();
-//       })
-//       .then(data => {
-//         console.log("Updated a user! 204!");
-//         console.log(JSON.stringify({ data }));
-//         return { statusCode: 204 };
-//       })
-//       .catch(e => return {...});
-//   } catch (e) { return e; }
-// };
+	//   try {
+	//     return fetch(userUrl, {
+	//       method: "PUT",
+	//       headers: { Authorization: adminAuthHeader },
+	//       body: JSON.stringify({ app_metadata: { roles: ["superstar"] } })
+	//     })
+	//       .then(response => {
+	//         return response.json();
+	//       })
+	//       .then(data => {
+	//         console.log("Updated a user! 204!");
+	//         console.log(JSON.stringify({ data }));
+	//         return { statusCode: 204 };
+	//       })
+	//       .catch(e => return {...});
+	//   } catch (e) { return e; }
+}
 
 // }
 
