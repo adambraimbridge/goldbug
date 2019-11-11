@@ -37,13 +37,13 @@ exports.handler = async (event, context) => {
 	}
 
 	const payload = JSON.parse(body)
-	const { id = null, app_metadata = null } = payload.user
+	const { id = false, app_metadata = false } = payload.user
 	if (!id) {
 		return { statusCode: 500, body: 'Could not get user ID.' }
 	}
 
 	// Check for credentials in the user's app_metadata. If they exist, return the credentials.
-	if (app_metadata && app_metatdata.databaseCredentials) {
+	if (!!app_metadata && !!app_metatdata.databaseCredentials) {
 		console.log({ app_metadata })
 		return { statuscode: 200 }
 	}
