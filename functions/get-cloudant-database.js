@@ -26,7 +26,7 @@ const getDatabaseCredentials = async id => {
 		// console.error(error)
 		console.log(`Database not found for ${id}. Provisioning ...`)
 		remoteDatabase = await cloudant.db.create(id)
-		console.log(`Database provisionined.`, {remoteDatabase})
+		console.log(`Database provisionined.`, remoteDatabase)
 	}
 
 	const database = await cloudant.db.use(remoteDatabase.db_name)
