@@ -4,7 +4,8 @@ const Cloudant = require('@cloudant/cloudant')
  * Authentication is provided by Netlify via Google OAuth.
  * Identites are created in Netlify for newly authenticated users.
  */
-import GoTrue from 'gotrue-js')
+const GoTrue = require('gotrue-js')
+console.log({ Gotrue })
 
 const getDatabaseCredentials = async id => {
 	console.log('Getting database credentials. Connecting ...')
