@@ -1,7 +1,17 @@
 const Cloudant = require('@cloudant/cloudant')
 
-const getDatabase = async id => {
-	console.log('Getting database. Connecting ...')
+/**
+ * Authentication is provided by Netlify via Google OAuth.
+ * Identites are created in Netlify for newly authenticated users.
+ */
+const GoTrue = require('gotrue-js')
+const goTrueAuth = new GoTrue({
+	APIUrl: 'https://www.goldbug.club/.netlify/identity',
+	setCookie: true,
+})
+
+const getDatabaseCredentials = async id => {
+	console.log('Getting database credentials. Connecting ...')
 
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
@@ -13,49 +23,67 @@ const getDatabase = async id => {
 	try {
 		remoteDatabase = await cloudant.db.get(id)
 	} catch (error) {
-		console.error(error)
-		console.log('Database not found. Provisioning ...')
+		// console.error(error)
+		console.log(`Database not found for ${id}. Provisioning ...`)
 		remoteDatabase = await cloudant.db.create(id)
+		console.log(`Database provisionined.`, {remoteDatabase})
 	}
 
-	const database = cloudant.db.use(remoteDatabase.db_name)
+	const database = await cloudant.db.use(remoteDatabase.db_name)
 	const security = await database.get_security()
-	const newApiKey = await cloudant.generate_api_key()
-	security.cloudant[newApiKey.key] = ['_reader', '_writer', '_replicator']
+	const credentials = await cloudant.generate_api_key()
+	security.cloudant[credentials.key] = ['_reader', '_writer', '_replicator']
 	const result = await database.set_security(security)
 
 	console.log(JSON.stringify({ security }))
-	console.log({ database, security, newApiKey, result })
+	console.log({ database, security, credentials, result })
 
 	return result
 }
 
+const updateUser = async context => {
+	const { identity, user } = context.clientContext;
+  	const userID = user.sub;
+  	const userUrl = `${identity.url}/admin/users/${userID}`;
+  	const adminAuthHeader = "Bearer " + identity.token;
+
+  try {
+    return fetch(userUrl, {
+      method: "PUT",
+      headers: { Authorization: adminAuthHeader },
+      body: JSON.stringify({ app_metadata: { roles: ["superstar"] } })
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        console.log("Updated a user! 204!");
+        console.log(JSON.stringify({ data }));
+        return { statusCode: 204 };
+      })
+      .catch(e => return {...});
+  } catch (e) { return e; }
+};
+}
+
+
+
 exports.handler = async (event, context) => {
 	const { httpMethod, body } = event
-	if (httpMethod !== 'POST') {
-		return { statusCode: 405, body: 'Method Not Allowed.' }
-	}
+	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
 	const payload = JSON.parse(body)
-	const { id, app_metadata } = payload.user
-
-	console.log({ id, app_metadata })
-
-	if (!id) {
-		return { statusCode: 500, body: 'Could not get user ID.' }
-	}
-
-	// Check for credentials in the user's app_metadata. If they exist, return the credentials.
-	// if (!!app_metadata && !!app_metatdata.databaseCredentials) {
-	// 	console.log({ app_metadata })
-	// 	return { statuscode: 200 }
-	// }
+	const { id } = payload.user
+	if (!id) return { statusCode: 500, body: 'Could not get user ID.' }
 
 	try {
-		const database = await getDatabase(id)
-		console.log({ database })
+		const credentials = await getDatabaseCredentials(id)
+		console.log({ credentials })
 
-		// TODO: Cache the credentials in the user's app_metadata (for subsequent logins).
+		// Save the credentials in the Netlify user's app_metadata.
+		const response = updateUser(context, credentials)
+
+		authenticatedUser.update(userData)
 
 		return { statusCode: 200 }
 	} catch (error) {

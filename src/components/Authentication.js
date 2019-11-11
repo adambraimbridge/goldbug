@@ -44,6 +44,13 @@ const getAuthenticatedUser = async () => {
 	let authenticatedUser = goTrueAuth.currentUser()
 	if (authenticatedUser) {
 		console.log({ authenticatedUser })
+
+		// Check for credentials in the user's app_metadata. If they exist, return the credentials.
+		// if (!!app_metadata && !!app_metatdata.databaseCredentials) {
+		// 	console.log({ app_metadata })
+		// 	return { statuscode: 200 }
+		// }
+
 		return authenticatedUser
 	} else {
 		const authenticationData = getAuthenticationDataFromHash()
