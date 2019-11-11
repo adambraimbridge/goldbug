@@ -12,7 +12,6 @@ const GoTrue = require('gotrue-js')
 
 const getDatabaseCredentials = async id => {
 	console.log('Getting database credentials. Connecting ...')
-
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
 		password: process.env.CLOUDANT_PASSWORD,
@@ -25,8 +24,9 @@ const getDatabaseCredentials = async id => {
 	} catch (error) {
 		// console.error(error)
 		console.log(`Database not found for ${id}. Provisioning ...`)
-		remoteDatabase = await cloudant.db.create(id)
-		console.log(`Database provisionined.`, { remoteDatabase })
+		response = await cloudant.db.create(id)
+		console.log(`Database provisioned.`, { response })
+		remoteDatabase = await cloudant.db.get(id)
 	}
 
 	const database = await cloudant.db.use(remoteDatabase.db_name)
@@ -36,18 +36,10 @@ const getDatabaseCredentials = async id => {
 	console.log({ database, security, credentials })
 
 	const newSecurity = Object.assign({}, security, {
-		cloudant: {
-			[credentials.key]: ['_reader', '_writer', '_replicator'],
-		},
+		[credentials.key]: ['_reader', '_writer', '_replicator'],
 	})
 
-	console.log({ newSecurity })
-
 	const result = await database.set_security(newSecurity)
-
-	console.log(JSON.stringify({ security }))
-	console.log({ database, security, credentials, result })
-
 	return result
 }
 
