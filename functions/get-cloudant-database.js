@@ -12,7 +12,6 @@ const getDatabaseCredentials = async id => {
 	try {
 		remoteDatabase = await cloudant.db.get(id)
 	} catch (error) {
-		// console.error(error)
 		console.log(`Database not found for ${id}. Provisioning ...`)
 		response = await cloudant.db.create(id)
 		console.log(`Database provisioned.`, { response })
@@ -23,14 +22,12 @@ const getDatabaseCredentials = async id => {
 	const security = await database.get_security()
 	const credentials = await cloudant.generate_api_key()
 
-	// console.log({ database, security, credentials })
-
 	const newSecurity = Object.assign({}, security, {
 		[credentials.key]: ['_reader', '_writer', '_replicator'],
 	})
 
-	const result = await database.set_security(newSecurity)
-	return result
+	await database.set_security(newSecurity)
+	return credentials
 }
 
 exports.handler = async (event, context) => {
@@ -43,7 +40,6 @@ exports.handler = async (event, context) => {
 
 	try {
 		const credentials = await getDatabaseCredentials(id)
-		console.log({ credentials })
 
 		// Save the credentials in the Netlify user's app_metadata.
 		// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
