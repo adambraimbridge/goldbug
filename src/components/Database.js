@@ -1,3 +1,4 @@
+import Cloudant from '@cloudant/cloudant'
 import PouchDB from 'pouchdb'
 const localDatabase = new PouchDB('goldbug-club')
 
@@ -6,8 +7,44 @@ const getLocalDatabase = () => {
 		since: 'now',
 		live: true,
 	})
-	// .on('change', showMessages)
 	return Promise.resolve(localDatabase)
+}
+
+const getRemoteDatabase = async credentials => {
+	console.log('Connecting to remote database ...')
+	const { username, password } = credentials
+	const cloudant = await Cloudant({
+		username,
+		password,
+		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
+	})
+	const remoteDatabase = await cloudant.db.get(id)
+	return remoteDatabase
+}
+
+const syncLocalDatabaseToRemote = ({ localUser, remoteDatabase, setRemoteDatabase }) => {
+	if (!remoteDatabase) {
+		try {
+			const credentials = localUser.app_metadata.credentials
+			setRemoteDatabase(getRemoteDatabase(credentials))
+		} catch (error) {
+			console.error(error)
+		}
+	}
+	getLocalDatabase()
+		.sync(remoteDatabase, { live: true, retry: true })
+		.on('change', change => {
+			console.log({ change }, 'yo, something changed!')
+		})
+		.on('paused', info => {
+			console.log({ info }, 'replication was paused, probably because of a lost connection')
+		})
+		.on('active', info => {
+			console.log({ info }, 'replication was resumed')
+		})
+		.on('error', error => {
+			console.error(error)
+		})
 }
 
 const putMessage = async message => {
@@ -40,4 +77,4 @@ const getAllMessages = async () => {
 	}
 }
 
-export { getLocalDatabase, getAllMessages, putMessage, deleteMessage }
+export { getLocalDatabase, syncLocalDatabaseToRemote, getAllMessages, putMessage, deleteMessage }
