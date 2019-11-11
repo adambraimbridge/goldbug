@@ -32,8 +32,18 @@ const getDatabaseCredentials = async id => {
 	const database = await cloudant.db.use(remoteDatabase.db_name)
 	const security = await database.get_security()
 	const credentials = await cloudant.generate_api_key()
-	security.cloudant[credentials.key] = ['_reader', '_writer', '_replicator']
-	const result = await database.set_security(security)
+
+	console.log({ database, security, credentials })
+
+	const newSecurity = Object.assign({}, security, {
+		cloudant: {
+			[credentials.key]: ['_reader', '_writer', '_replicator'],
+		},
+	})
+
+	console.log({ newSecurity })
+
+	const result = await database.set_security(newSecurity)
 
 	console.log(JSON.stringify({ security }))
 	console.log({ database, security, credentials, result })
