@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getLocalDatabase, getAllMessages, putMessage } from './Database'
+import { getAllMessages, putMessage } from './Database'
 
 // import EmojiPicker from 'emoji-picker-react'
 import EmojiJs from 'emoji-js'
@@ -65,7 +65,7 @@ const Chat = ({ localUser }) => {
 	useEffect(() => {
 		;(async () => {
 			try {
-				const messageHistory = await getAllMessages()
+				const messageHistory = await getAllMessages(localUser)
 				setMessages(messageHistory)
 			} catch (error) {
 				console.error(error)
@@ -85,20 +85,18 @@ const Chat = ({ localUser }) => {
 		setMessages(newMessages)
 	}
 
-	getLocalDatabase(localUser).then(() => {
-		return (
-			<>
-				<div id="chat-container" className="mx-2 mb-3 text-white">
-					<div id="message-list">
-						{messages.map((message, index) => (
-							<Message key={index} index={index} message={message} removeMessage={removeMessage} userMeta={userMeta} />
-						))}
-					</div>
+	return (
+		<>
+			<div id="chat-container" className="mx-2 mb-3 text-white">
+				<div id="message-list">
+					{messages.map((message, index) => (
+						<Message key={index} index={index} message={message} removeMessage={removeMessage} userMeta={userMeta} />
+					))}
 				</div>
-				<MessageForm addMessage={addMessage} />
-			</>
-		)
-	})
+			</div>
+			<MessageForm addMessage={addMessage} />
+		</>
+	)
 }
 
 export { Chat }
