@@ -1,4 +1,4 @@
-import Cloudant from '@cloudant/cloudant'
+import { useState } from 'react'
 import PouchDB from 'pouchdb'
 const localDatabase = new PouchDB('goldbug-club')
 
