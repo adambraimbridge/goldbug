@@ -66,8 +66,7 @@ const Chat = ({ localUser }) => {
 	useEffect(() => {
 		;(async () => {
 			if (!localDatabase) {
-				localDatabase = await LocalDatabase({ localUser })
-				setLocalDatabase(localDatabase)
+				setLocalDatabase(async () => await LocalDatabase({ localUser }))
 				console.log({ localDatabase })
 			}
 			try {
