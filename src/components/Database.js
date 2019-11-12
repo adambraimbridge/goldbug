@@ -1,36 +1,35 @@
 import PouchDB from 'pouchdb'
-const localDatabase = new PouchDB('goldbug-club')
 
-const LocalDatabase = ({ localUser, setLocalDatabase }) => {
-	console.log({ localUser })
-	// const { username, password } = localUser
-	// const remoteUrl = `https://${username}:${password}@%CLOUDANT_USERNAME%.cloudantnosqldb.appdomain.cloud/`
-	// const remoteDatabase = new PouchDB(remoteUrl)
-	// localDatabase
-	// 	.changes({
-	// 		since: 'now',
-	// 		live: true,
-	// 	})
-	// 	.sync(remoteDatabase, { live: true, retry: true })
-	// 	.on('change', change => {
-	// 		console.log({ change }, 'yo, something changed!')
-	// 	})
-	// 	.on('paused', info => {
-	// 		console.log({ info }, 'replication was paused, probably because of a lost connection')
-	// 	})
-	// 	.on('active', info => {
-	// 		console.log({ info }, 'replication was resumed')
-	// 	})
-	// 	.on('error', error => {
-	// 		console.error(error)
-	// 	})
-	localDatabase.changes({
-		since: 'now',
-		live: true,
-	})
-	setLocalDatabase(localDatabase)
-	console.log({ localDatabase })
-	return Promise.resolve()
+const LocalDatabase = ({ localUser }) => {
+	const cloudantUsername = '459013e0-ccee-4235-a047-55410e69aaea-bluemix'
+	const { username, password } = localUser
+	const remoteUrl = `https://${username}:${password}@${cloudantUsername}.cloudantnosqldb.appdomain.cloud/`
+	const remoteDatabase = new PouchDB(remoteUrl)
+
+	const localDatabase = new PouchDB('goldbug-club')
+	localDatabase
+		.changes({
+			live: true,
+			since: 'now',
+		})
+		.sync(remoteDatabase, {
+			live: true,
+			retry: true,
+		})
+		.on('change', change => {
+			console.log({ change }, 'something changed.')
+		})
+		.on('paused', info => {
+			console.log({ info }, 'replication was paused.')
+		})
+		.on('active', info => {
+			console.log({ info }, 'replication was resumed.')
+		})
+		.on('error', error => {
+			console.error(error)
+		})
+
+	return Promise.resolve(localDatabase)
 }
 
 const putMessage = async message => {
@@ -51,7 +50,9 @@ const deleteMessage = () => {
 
 const AllMessages = async (localUser, localDatabase, setLocalDatabase) => {
 	if (!localDatabase) {
-		await LocalDatabase({ localUser, setLocalDatabase })
+		localDatabase = await LocalDatabase({ localUser })
+		setLocalDatabase(localDatabase)
+		console.log({ localDatabase })
 	}
 	try {
 		const allDocs = await localDatabase.allDocs({
