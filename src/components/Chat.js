@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { LocalDatabase, AllMessages, putMessage } from './Database'
+import { getAllMessages, putMessage } from './Database'
 
 // import EmojiPicker from 'emoji-picker-react'
 import EmojiJs from 'emoji-js'
@@ -59,21 +59,13 @@ const MessageForm = ({ addMessage }) => {
 const Chat = ({ localUser }) => {
 	const emoji = emojiJs()
 	const userMeta = localUser.user_metadata || {}
-
 	const [messages, setMessages] = useState([])
-	const [localDatabase, setLocalDatabase] = useState(false)
 
 	useEffect(() => {
 		;(async () => {
-			if (!localDatabase) {
-				console.log('initiallising local db ')
-
-				setLocalDatabase(async () => await LocalDatabase({ localUser }))
-				console.log({ localDatabase })
-			}
 			try {
 				console.log({ localDatabase })
-				const messageHistory = await AllMessages(localUser, localDatabase)
+				const messageHistory = await getAllMessages()
 				setMessages(messageHistory)
 			} catch (error) {
 				console.error(error)

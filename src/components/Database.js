@@ -1,17 +1,18 @@
 import PouchDB from 'pouchdb'
+const CLOUDANT_USERNAME = '459013e0-ccee-4235-a047-55410e69aaea-bluemix'
 
-const LocalDatabase = ({ localUser }) => {
-	const cloudantUsername = '459013e0-ccee-4235-a047-55410e69aaea-bluemix'
+const localDatabase = new PouchDB('goldbug-club')
+localDatabase.changes({
+	live: true,
+	since: 'now',
+})
+
+const syncRemoteDatabase = localuser => {
 	const { username, password } = localUser
-	const remoteUrl = `https://${username}:${password}@${cloudantUsername}.cloudantnosqldb.appdomain.cloud/`
+	const remoteUrl = `https://${username}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`
 	const remoteDatabase = new PouchDB(remoteUrl)
 
-	const localDatabase = new PouchDB('goldbug-club')
 	localDatabase
-		.changes({
-			live: true,
-			since: 'now',
-		})
 		.sync(remoteDatabase, {
 			live: true,
 			retry: true,
@@ -28,8 +29,6 @@ const LocalDatabase = ({ localUser }) => {
 		.on('error', error => {
 			console.error(error)
 		})
-
-	return Promise.resolve(localDatabase)
 }
 
 const putMessage = async (message, localDatabase) => {
@@ -48,7 +47,7 @@ const deleteMessage = () => {
 	console.log('Deleted.')
 }
 
-const AllMessages = async (localUser, localDatabase) => {
+const getAllMessages = async () => {
 	try {
 		const allDocs = await localDatabase.allDocs({
 			include_docs: true,
@@ -62,4 +61,4 @@ const AllMessages = async (localUser, localDatabase) => {
 	}
 }
 
-export { LocalDatabase, AllMessages, putMessage, deleteMessage }
+export { getAllMessages, putMessage, deleteMessage, syncRemoteDatabase }

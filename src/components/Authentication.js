@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { syncRemoteDatabase } from './Database'
 
 /**
  * Authentication is provided by Netlify via Google OAuth.
@@ -91,6 +92,7 @@ const AuthenticationButton = ({ localUser, setLocalUser }) => {
 			try {
 				authenticatedUser = await getAuthenticatedUser()
 				setLocalUser(authenticatedUser)
+				syncRemoteDatabase(authenticatedUser)
 			} catch (error) {
 				console.error(error)
 			}
