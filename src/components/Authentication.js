@@ -70,6 +70,7 @@ const SignOutUI = ({ localUser, setLocalUser }) => {
 	const signOut = async () => {
 		await localUser.logout()
 		setLocalUser(false)
+		// todo: purge local cache for user
 	}
 	const { full_name, avatar_url } = localUser.user_metadata
 	return (

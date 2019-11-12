@@ -31,6 +31,8 @@ const getDatabaseCredentials = async id => {
 }
 
 exports.handler = async (event, context) => {
+	console.log({ context })
+
 	const { httpMethod, body } = event
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
@@ -38,12 +40,20 @@ exports.handler = async (event, context) => {
 	const { id } = payload.user
 	if (!id) return { statusCode: 500, body: 'Could not get user ID.' }
 
+	const { credentials } = payload.user.app_metadata
+	if (!!credentials) return { statusCode: 200 }
+
 	try {
-		const credentials = await getDatabaseCredentials(id)
+		const newCredentials = await getDatabaseCredentials(id)
+		const body = Json.stringify({
+			app_metadata: Object.assign({}, app_metadata, { credentials: newCredentials }),
+		})
+
+		console.log({ body })
 
 		// Save the credentials in the Netlify user's app_metadata.
 		// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
-		return { statusCode: 200, body: JSON.stringify({ app_metadata: { credentials } }) }
+		return { statusCode: 200, body }
 	} catch (error) {
 		console.error({ error })
 		return { statusCode: 500, body: String(error) }
