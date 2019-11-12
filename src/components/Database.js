@@ -2,7 +2,7 @@ import { useState } from 'react'
 import PouchDB from 'pouchdb'
 const localDatabase = new PouchDB('goldbug-club')
 
-const getLocalDatabase = ({ localUser, setLocalDatabase }) => {
+const LocalDatabase = ({ localUser, setLocalDatabase }) => {
 	console.log({ localUser })
 	// const { username, password } = localUser
 	// const remoteUrl = `https://${username}:${password}@%CLOUDANT_USERNAME%.cloudantnosqldb.appdomain.cloud/`
@@ -49,10 +49,10 @@ const deleteMessage = () => {
 	console.log('Deleted.')
 }
 
-const getAllMessages = async localUser => {
+const AllMessages = async localUser => {
 	cont[(localDatabase, setLocalDatabase)] = useState(false)
 	if (!localDatabase) {
-		await getLocalDatabase({ localUser, setLocalDatabase })
+		await LocalDatabase({ localUser, setLocalDatabase })
 	}
 	try {
 		const allDocs = await localDatabase.allDocs({
@@ -67,4 +67,4 @@ const getAllMessages = async localUser => {
 	}
 }
 
-export { getAllMessages, putMessage, deleteMessage }
+export { AllMessages, putMessage, deleteMessage }
