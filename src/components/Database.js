@@ -17,9 +17,9 @@ const syncRemoteDatabase = localUser => {
 
 	const remoteDatabase = new PouchDB(remoteUrl)
 
-	remoteDatabase.db.list((err, allDbs) => {
-		console.log('All my databases: %s', allDbs.join(', '))
-	})
+	// remoteDatabase.db.list((err, allDbs) => {
+	// 	console.log('All my databases: %s', allDbs.join(', '))
+	// })
 
 	localDatabase
 		.sync(remoteDatabase, {
@@ -40,7 +40,7 @@ const syncRemoteDatabase = localUser => {
 		})
 }
 
-const putMessage = async (message, localDatabase) => {
+const putMessage = async message => {
 	try {
 		const response = await localDatabase.put({
 			...message,
