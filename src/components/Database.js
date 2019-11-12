@@ -32,7 +32,7 @@ const LocalDatabase = ({ localUser }) => {
 	return Promise.resolve(localDatabase)
 }
 
-const putMessage = async message => {
+const putMessage = async (message, localDatabase) => {
 	try {
 		const response = await localDatabase.put({
 			...message,
@@ -48,12 +48,7 @@ const deleteMessage = () => {
 	console.log('Deleted.')
 }
 
-const AllMessages = async (localUser, localDatabase, setLocalDatabase) => {
-	if (!localDatabase) {
-		localDatabase = await LocalDatabase({ localUser })
-		setLocalDatabase(localDatabase)
-		console.log({ localDatabase })
-	}
+const AllMessages = async (localUser, localDatabase) => {
 	try {
 		const allDocs = await localDatabase.allDocs({
 			include_docs: true,

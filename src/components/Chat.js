@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { AllMessages, putMessage } from './Database'
+import { LocalDatabase, AllMessages, putMessage } from './Database'
 
 // import EmojiPicker from 'emoji-picker-react'
 import EmojiJs from 'emoji-js'
@@ -63,10 +63,16 @@ const Chat = ({ localUser }) => {
 	const [messages, setMessages] = useState([])
 	const [localDatabase, setLocalDatabase] = useState(false)
 
+	if (!localDatabase) {
+		localDatabase = await LocalDatabase({ localUser })
+		setLocalDatabase(localDatabase)
+		console.log({ localDatabase })
+	}
+
 	useEffect(() => {
 		;(async () => {
 			try {
-				const messageHistory = await AllMessages(localUser, localDatabase, setLocalDatabase)
+				const messageHistory = await AllMessages(localUser, localDatabase)
 				setMessages(messageHistory)
 			} catch (error) {
 				console.error(error)
@@ -74,10 +80,10 @@ const Chat = ({ localUser }) => {
 		})()
 	}, [])
 
-	const addMessage = text => {
+	const addMessage = (text, localDatabase) => {
 		const parsedText = emoji.replace_colons(text)
 		setMessages([...messages, { text: parsedText }])
-		putMessage({ text })
+		putMessage({ text, localDatabase })
 	}
 
 	const removeMessage = index => {
