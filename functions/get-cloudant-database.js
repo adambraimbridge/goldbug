@@ -30,15 +30,23 @@ exports.handler = async (event, context) => {
 	const { id } = payload.user
 	if (!id) return { statusCode: 500, body: 'Could not get user ID.' }
 
+	/**
+	 * If the remote database for the user exists, return a success status code.
+	 */
 	let remoteDatabase
 	try {
 		remoteDatabase = await cloudant.db.get(id)
+		return { statusCode: 200 }
 	} catch (error) {
 		console.log(`Database not found for ${id}. Provisioning ...`)
-		response = await cloudant.db.create(id)
-		console.log(`Database provisioned.`, { response })
-		remoteDatabase = await cloudant.db.get(id)
+	}
 
+	/**
+	 * Create a new database for the user and generate API key/password credentials.
+	 */
+	try {
+		await cloudant.db.create(id)
+		remoteDatabase = await cloudant.db.get(id)
 		const newCredentials = await getDatabaseCredentials(remoteDatabase)
 		const body = Json.stringify({
 			app_metadata: Object.assign({}, app_metadata, { credentials: newCredentials }),
