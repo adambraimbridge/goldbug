@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import PouchDB from 'pouchdb'
 const localDatabase = new PouchDB('goldbug-club')
 
@@ -29,7 +28,8 @@ const LocalDatabase = ({ localUser, setLocalDatabase }) => {
 		since: 'now',
 		live: true,
 	})
-	// setLocalDatabase(localDatabase)
+	setLocalDatabase(localDatabase)
+	console.log({ localDatabase })
 	return Promise.resolve()
 }
 
@@ -49,8 +49,7 @@ const deleteMessage = () => {
 	console.log('Deleted.')
 }
 
-const AllMessages = async localUser => {
-	const [localDatabase, setLocalDatabase] = useState(false)
+const AllMessages = async (localUser, localDatabase, setLocalDatabase) => {
 	if (!localDatabase) {
 		await LocalDatabase({ localUser, setLocalDatabase })
 	}

@@ -61,11 +61,12 @@ const Chat = ({ localUser }) => {
 	const userMeta = localUser.user_metadata || {}
 
 	const [messages, setMessages] = useState([])
+	const [localDatabase, setLocalDatabase] = useState(false)
 
 	useEffect(() => {
 		;(async () => {
 			try {
-				const messageHistory = await AllMessages(localUser)
+				const messageHistory = await AllMessages(localUser, localDatabase, setLocalDatabase)
 				setMessages(messageHistory)
 			} catch (error) {
 				console.error(error)
