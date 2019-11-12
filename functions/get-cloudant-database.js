@@ -27,16 +27,16 @@ exports.handler = async event => {
 		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
 	})
 
-	/**
-	 * If the remote database for the user exists, return a success status code.
-	 */
-	let remoteDatabase
-	try {
-		remoteDatabase = await cloudant.db.get(id)
-		return { statusCode: 200 }
-	} catch (error) {
-		console.log(`Database not found for ${id}. Provisioning ...`)
-	}
+	// /**
+	//  * If the remote database for the user exists, return a success status code.
+	//  */
+	// let remoteDatabase
+	// try {
+	// 	remoteDatabase = await cloudant.db.get(id)
+	// 	return { statusCode: 200 }
+	// } catch (error) {
+	// 	console.log(`Database not found for ${id}. Provisioning ...`)
+	// }
 
 	// /**
 	//  * Create a new database for the user and generate API key/password credentials.
