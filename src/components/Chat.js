@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getAllMessages, putMessage } from './Database'
+import { AllMessages, putMessage } from './Database'
 
 // import EmojiPicker from 'emoji-picker-react'
 import EmojiJs from 'emoji-js'
@@ -65,7 +65,7 @@ const Chat = ({ localUser }) => {
 	useEffect(() => {
 		;(async () => {
 			try {
-				const messageHistory = await getAllMessages(localUser)
+				const messageHistory = await AllMessages(localUser)
 				setMessages(messageHistory)
 			} catch (error) {
 				console.error(error)
