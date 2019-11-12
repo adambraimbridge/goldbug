@@ -17,6 +17,10 @@ const syncRemoteDatabase = localUser => {
 
 	const remoteDatabase = new PouchDB(remoteUrl)
 
+	remoteDatabase.db.list((err, allDbs) => {
+		console.log('All my databases: %s', allDbs.join(', '))
+	})
+
 	localDatabase
 		.sync(remoteDatabase, {
 			live: true,
