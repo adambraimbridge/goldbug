@@ -42,23 +42,18 @@ exports.handler = async event => {
 	/**
 	 * Create a new database for the user and generate API key/password credentials.
 	 */
-	try {
-		await cloudant.db.create(id)
-		remoteDatabase = await cloudant.db.get(id)
-		const newCredentials = await getDatabaseCredentials(cloudant, remoteDatabase)
-		const { app_metadata } = payload.user
-		const newAppMetadata = Object.assign({}, app_metadata, { credentials: newCredentials })
-		const body = JSON.stringify({
-			app_metadata: newAppMetadata,
-		})
+	await cloudant.db.create(id)
+	remoteDatabase = await cloudant.db.get(id)
+	const newCredentials = await getDatabaseCredentials(cloudant, remoteDatabase)
+	const { app_metadata } = payload.user
+	const newAppMetadata = Object.assign({}, app_metadata, { credentials: newCredentials })
+	const body = JSON.stringify({
+		app_metadata: newAppMetadata,
+	})
 
-		console.log({ body })
+	console.log({ body })
 
-		// Save the credentials in the Netlify user's app_metadata.
-		// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
-		return { statusCode: 200, body }
-	} catch (error) {
-		console.error(error)
-		return { statusCode: 500, body: String(error) }
-	}
+	// Save the credentials in the Netlify user's app_metadata.
+	// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
+	return { statusCode: 200, body }
 }

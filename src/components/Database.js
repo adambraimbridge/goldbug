@@ -8,6 +8,7 @@ localDatabase.changes({
 })
 
 const syncRemoteDatabase = async localUser => {
+	console.log({ localUser })
 	const { id } = localUser
 	const { key, password } = localUser.app_metadata.credentials
 	const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${id}`
