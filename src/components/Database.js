@@ -14,7 +14,7 @@ const syncRemoteDatabase = localUser => {
 	const remoteDatabase = new PouchDB(remoteUrl)
 
 	localDatabase.replicate
-		.from(remoteDB)
+		.from(remoteDatabase)
 		.sync(remoteDatabase, {
 			live: true,
 			retry: true,
