@@ -64,7 +64,6 @@ const Chat = ({ localUser }) => {
 	useEffect(() => {
 		;(async () => {
 			try {
-				console.log({ localDatabase })
 				const messageHistory = await getAllMessages()
 				setMessages(messageHistory)
 			} catch (error) {
