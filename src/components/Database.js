@@ -50,7 +50,7 @@ const deleteMessage = () => {
 }
 
 const AllMessages = async localUser => {
-	cont[(localDatabase, setLocalDatabase)] = useState(false)
+	const [localDatabase, setLocalDatabase] = useState(false)
 	if (!localDatabase) {
 		await LocalDatabase({ localUser, setLocalDatabase })
 	}
