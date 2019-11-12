@@ -63,14 +63,13 @@ const Chat = ({ localUser }) => {
 	const [messages, setMessages] = useState([])
 	const [localDatabase, setLocalDatabase] = useState(false)
 
-	if (!localDatabase) {
-		localDatabase = await LocalDatabase({ localUser })
-		setLocalDatabase(localDatabase)
-		console.log({ localDatabase })
-	}
-
 	useEffect(() => {
 		;(async () => {
+			if (!localDatabase) {
+				localDatabase = await LocalDatabase({ localUser })
+				setLocalDatabase(localDatabase)
+				console.log({ localDatabase })
+			}
 			try {
 				const messageHistory = await AllMessages(localUser, localDatabase)
 				setMessages(messageHistory)
