@@ -27,6 +27,8 @@ exports.handler = async event => {
 		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
 	})
 
+	return { statusCode: 200 }
+
 	// /**
 	//  * If the remote database for the user exists, return a success status code.
 	//  */
