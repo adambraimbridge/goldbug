@@ -13,8 +13,7 @@ const getDatabaseCredentials = async (cloudant, remoteDatabase) => {
 	return credentials
 }
 
-exports.handler = async (event, context) => {
-	console.log(context.clientContext)
+exports.handler = async event => {
 	const { httpMethod, body } = event
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
@@ -46,7 +45,7 @@ exports.handler = async (event, context) => {
 		await cloudant.db.create(id)
 		remoteDatabase = await cloudant.db.get(id)
 		const newCredentials = await getDatabaseCredentials(cloudant, remoteDatabase)
-		const body = Json.stringify({
+		const body = JSON.stringify({
 			app_metadata: Object.assign({}, app_metadata, { credentials: newCredentials }),
 		})
 
