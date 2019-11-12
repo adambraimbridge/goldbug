@@ -41,7 +41,10 @@ exports.handler = async (event, context) => {
 	if (!id) return { statusCode: 500, body: 'Could not get user ID.' }
 
 	const { credentials } = payload.user.app_metadata
-	if (!!credentials) return { statusCode: 200 }
+	if (!!credentials) {
+		console.log(`Found remote database credentials`, { credentials })
+		return { statusCode: 200 }
+	}
 
 	try {
 		const newCredentials = await getDatabaseCredentials(id)
