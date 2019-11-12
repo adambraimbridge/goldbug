@@ -95,7 +95,7 @@ const AuthenticationButton = ({ localUser, setLocalUser }) => {
 				console.error(error)
 			}
 		})()
-	}, [localUser, setLocalUser])
+	}, [])
 
 	const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
 	if (avatar_url && full_name) {
