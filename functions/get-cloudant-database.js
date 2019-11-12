@@ -1,22 +1,12 @@
 const Cloudant = require('@cloudant/cloudant')
 
-const getDatabaseCredentials = async id => {
+const getDatabaseCredentials = async remoteDatabase => {
 	console.log('Getting database credentials. Connecting ...')
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
 		password: process.env.CLOUDANT_PASSWORD,
 		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
 	})
-
-	let remoteDatabase
-	try {
-		remoteDatabase = await cloudant.db.get(id)
-	} catch (error) {
-		console.log(`Database not found for ${id}. Provisioning ...`)
-		response = await cloudant.db.create(id)
-		console.log(`Database provisioned.`, { response })
-		remoteDatabase = await cloudant.db.get(id)
-	}
 
 	const database = await cloudant.db.use(remoteDatabase.db_name)
 	const security = await database.get_security()
@@ -40,14 +30,16 @@ exports.handler = async (event, context) => {
 	const { id } = payload.user
 	if (!id) return { statusCode: 500, body: 'Could not get user ID.' }
 
-	const { credentials } = payload.user.app_metadata
-	if (!!credentials) {
-		console.log(`Found remote database credentials`, { credentials })
-		return { statusCode: 200 }
-	}
-
+	let remoteDatabase
 	try {
-		const newCredentials = await getDatabaseCredentials(id)
+		remoteDatabase = await cloudant.db.get(id)
+	} catch (error) {
+		console.log(`Database not found for ${id}. Provisioning ...`)
+		response = await cloudant.db.create(id)
+		console.log(`Database provisioned.`, { response })
+		remoteDatabase = await cloudant.db.get(id)
+
+		const newCredentials = await getDatabaseCredentials(remoteDatabase)
 		const body = Json.stringify({
 			app_metadata: Object.assign({}, app_metadata, { credentials: newCredentials }),
 		})
