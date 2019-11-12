@@ -1,13 +1,6 @@
 const Cloudant = require('@cloudant/cloudant')
 
-const getDatabaseCredentials = async remoteDatabase => {
-	console.log('Getting database credentials. Connecting ...')
-	const cloudant = await Cloudant({
-		username: process.env.CLOUDANT_USERNAME,
-		password: process.env.CLOUDANT_PASSWORD,
-		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
-	})
-
+const getDatabaseCredentials = async (cloudant, remoteDatabase) => {
 	const database = await cloudant.db.use(remoteDatabase.db_name)
 	const security = await database.get_security()
 	const credentials = await cloudant.generate_api_key()
@@ -21,14 +14,19 @@ const getDatabaseCredentials = async remoteDatabase => {
 }
 
 exports.handler = async (event, context) => {
-	console.log({ context })
-
+	console.log(context.clientContext)
 	const { httpMethod, body } = event
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
 	const payload = JSON.parse(body)
 	const { id } = payload.user
 	if (!id) return { statusCode: 500, body: 'Could not get user ID.' }
+
+	const cloudant = await Cloudant({
+		username: process.env.CLOUDANT_USERNAME,
+		password: process.env.CLOUDANT_PASSWORD,
+		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
+	})
 
 	/**
 	 * If the remote database for the user exists, return a success status code.
@@ -47,7 +45,7 @@ exports.handler = async (event, context) => {
 	try {
 		await cloudant.db.create(id)
 		remoteDatabase = await cloudant.db.get(id)
-		const newCredentials = await getDatabaseCredentials(remoteDatabase)
+		const newCredentials = await getDatabaseCredentials(cloudant, remoteDatabase)
 		const body = Json.stringify({
 			app_metadata: Object.assign({}, app_metadata, { credentials: newCredentials }),
 		})
