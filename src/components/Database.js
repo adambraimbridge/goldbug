@@ -29,7 +29,7 @@ const LocalDatabase = ({ localUser, setLocalDatabase }) => {
 		since: 'now',
 		live: true,
 	})
-	setLocalDatabase(localDatabase)
+	// setLocalDatabase(localDatabase)
 	return Promise.resolve()
 }
 
