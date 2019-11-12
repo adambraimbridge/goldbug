@@ -87,13 +87,16 @@ const SignOutUI = ({ localUser, setLocalUser }) => {
  * User authentication (sign in/out) button
  */
 const AuthenticationButton = ({ localUser, setLocalUser }) => {
+	// Todo: Should this be useState()?
 	useEffect(() => {
 		;(async () => {
 			let authenticatedUser
 			try {
 				authenticatedUser = await getAuthenticatedUser()
-				setLocalUser(authenticatedUser)
-				syncRemoteDatabase(authenticatedUser)
+				if (authenticatedUser) {
+					setLocalUser(authenticatedUser)
+					syncRemoteDatabase(authenticatedUser)
+				}
 			} catch (error) {
 				console.error(error)
 			}
