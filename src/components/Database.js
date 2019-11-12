@@ -7,7 +7,7 @@ localDatabase.changes({
 	since: 'now',
 })
 
-const syncRemoteDatabase = localuser => {
+const syncRemoteDatabase = localUser => {
 	const { username, password } = localUser
 	const remoteUrl = `https://${username}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`
 	const remoteDatabase = new PouchDB(remoteUrl)
