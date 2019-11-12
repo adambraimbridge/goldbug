@@ -30,9 +30,8 @@ exports.handler = async event => {
 	/**
 	 * If the remote database for the user exists, return a success status code.
 	 */
-	let remoteDatabase
 	try {
-		remoteDatabase = await cloudant.db.get(id)
+		await cloudant.db.get(id)
 		console.log(`Database found for ${id}.`)
 		return { statusCode: 200 }
 	} catch (error) {
@@ -42,8 +41,9 @@ exports.handler = async event => {
 	/**
 	 * Create a new database for the user and generate API key/password credentials.
 	 */
-	await cloudant.db.create(id)
-	remoteDatabase = await cloudant.db.get(id)
+	const response = await cloudant.db.create(id)
+	console.log({ response })
+	const remoteDatabase = await cloudant.db.get(id)
 	const newCredentials = await getDatabaseCredentials(cloudant, remoteDatabase)
 	const { app_metadata } = payload.user
 	const newAppMetadata = Object.assign({}, app_metadata, { credentials: newCredentials })
