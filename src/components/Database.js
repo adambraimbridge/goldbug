@@ -33,7 +33,7 @@ const syncRemoteDatabase = async ({ localUser, messages, setMessages }) => {
 		})
 		.on('change', change => {
 			console.log({ change }, 'Sync: Refreshing.')
-			newMessages = [...messages, change.docs]
+			const newMessages = [...messages, change.docs]
 			console.log({ newMessages })
 			setMessages(newMessages)
 		})
