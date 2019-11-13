@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getAllMessages, putMessage } from './Database'
+import { syncRemoteDatabase } from './Database'
 
 // import EmojiPicker from 'emoji-picker-react'
 import EmojiJs from 'emoji-js'
@@ -64,8 +64,7 @@ const Chat = ({ localUser }) => {
 	useEffect(() => {
 		;(async () => {
 			try {
-				const messageHistory = await getAllMessages()
-				setMessages(messageHistory)
+				await syncRemoteDatabase({ localUser, messages, setMessages })
 			} catch (error) {
 				console.error(error)
 			}
@@ -75,7 +74,6 @@ const Chat = ({ localUser }) => {
 	const addMessage = (text, localDatabase) => {
 		const parsedText = emoji.replace_colons(text)
 		setMessages([...messages, { text: parsedText }])
-		putMessage({ text, localDatabase })
 	}
 
 	const removeMessage = index => {

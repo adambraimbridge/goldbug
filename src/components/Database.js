@@ -1,13 +1,22 @@
 import PouchDB from 'pouchdb'
 const CLOUDANT_USERNAME = '459013e0-ccee-4235-a047-55410e69aaea-bluemix'
-
 const localDatabase = new PouchDB('goldbug-club')
-localDatabase.changes({
-	live: true,
-	since: 'now',
-})
 
-const syncRemoteDatabase = async localUser => {
+//const foo = () => {
+// try {
+// 	const allDocs = await localDatabase.allDocs({
+// 		include_docs: true,
+// 		attachments: true,
+// 	})
+// 	return allDocs.rows.map(row => ({
+// 		text: row.doc.text,
+// 	}))
+// } catch (err) {
+// 	console.log(err)
+// }
+// }
+
+const syncRemoteDatabase = async ({ localUser, messages, setMessages }) => {
 	if (!localUser) return
 
 	const { id } = localUser
@@ -15,21 +24,24 @@ const syncRemoteDatabase = async localUser => {
 	const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${id}`
 	const remoteDatabase = new PouchDB(remoteUrl)
 
-	await localDatabase.replicate.from(remoteDatabase)
+	// await localDatabase.replicate.from(remoteDatabase)
 
-	localDatabase
+	await localDatabase
 		.sync(remoteDatabase, {
 			live: true,
 			retry: true,
 		})
 		.on('change', change => {
-			console.log({ change }, 'something changed.')
+			console.log({ change }, 'Sync: Refreshing.')
+			newMessages = [...messages, change.docs]
+			console.log({ newMessages })
+			setMessages(newMessages)
 		})
 		.on('paused', info => {
-			console.log({ info }, 'replication was paused.')
+			console.log({ info }, 'Sync: Paused.')
 		})
 		.on('active', info => {
-			console.log({ info }, 'replication was resumed.')
+			console.log({ info }, 'Sync: Resumed.')
 		})
 		.on('error', error => {
 			console.error(error)
@@ -52,18 +64,4 @@ const deleteMessage = () => {
 	console.log('Deleted.')
 }
 
-const getAllMessages = async () => {
-	try {
-		const allDocs = await localDatabase.allDocs({
-			include_docs: true,
-			attachments: true,
-		})
-		return allDocs.rows.map(row => ({
-			text: row.doc.text,
-		}))
-	} catch (err) {
-		console.log(err)
-	}
-}
-
-export { getAllMessages, putMessage, deleteMessage, syncRemoteDatabase }
+export { syncRemoteDatabase }
