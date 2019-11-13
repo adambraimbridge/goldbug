@@ -58,7 +58,9 @@ const MessageForm = ({ addMessage }) => {
 
 const Chat = ({ authenticatedUser }) => {
 	const emoji = emojiJs()
+	const userMeta = authenticatedUser.user_metadata || {}
 	const [messages, setMessages] = useState([])
+
 	useEffect(() => {
 		;(async () => {
 			try {
