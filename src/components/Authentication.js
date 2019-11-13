@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import { syncRemoteDatabase } from './Database'
 
 /**
@@ -38,16 +38,19 @@ const getAuthenticationDataFromHash = () => {
 
 /**
  * Retreive the authenticated user from local storage
- * or generate it from a hashed token in the url and save it locally
+ * or generate it from a hashed token in the url
  */
-const getAuthenticatedUser = async () => {
+const getAutheticatedUser = async () => {
 	let authenticatedUser = goTrueAuth.currentUser()
 	if (authenticatedUser) {
-		return authenticatedUser
+		return Promise.resolve(authenticatedUser)
 	} else {
 		const authenticationData = getAuthenticationDataFromHash()
 		if (authenticationData) {
-			return await goTrueAuth.createUser(authenticationData, true)
+			authenticatedUser = await goTrueAuth.createUser(authenticationData, true)
+			return Promise.resolve(authenticatedUser)
+		} else {
+			return Promise.resolve(false)
 		}
 	}
 }
@@ -66,13 +69,12 @@ const SignInUI = ({ size }) => {
 	)
 }
 
-const SignOutUI = ({ localUser, setLocalUser }) => {
+const SignOutUI = ({ authenticatedUser }) => {
 	const signOut = async () => {
-		await localUser.logout()
-		setLocalUser(false)
-		// todo: purge local cache for user
+		await authenticatedUser.logout()
+		// TODO: purge local cache for user
 	}
-	const { full_name, avatar_url } = localUser.user_metadata
+	const { full_name, avatar_url } = authenticatedUser.user_metadata
 	return (
 		<div className="btn btn-sm centered" onClick={signOut}>
 			<div>Sign Out</div>
@@ -86,38 +88,27 @@ const SignOutUI = ({ localUser, setLocalUser }) => {
 /**
  * User authentication (sign in/out) button
  */
-const AuthenticationButton = ({ localUser, setLocalUser }) => {
-	// Todo: Should this be useState()?
-	useEffect(() => {
+const AuthenticationUI = () => {
+	const [authenticationUI, setAuthenticationUI] = useState(<SignInUI />)
+	useLayoutEffect(() => {
 		;(async () => {
-			let authenticatedUser
-			try {
-				authenticatedUser = await getAuthenticatedUser()
-				if (authenticatedUser) {
-					setLocalUser(authenticatedUser)
-					syncRemoteDatabase(authenticatedUser)
-				}
-			} catch (error) {
-				console.error(error)
+			const authenticatedUser = await getAutheticatedUser()
+			const { avatar_url, full_name } = authenticatedUser.user_metadata
+			if (avatar_url && full_name) {
+				setAuthenticationUI(<SignOutUI authenticatedUser={authenticatedUser} />)
 			}
 		})()
 	}, [])
-
-	const { avatar_url, full_name } = (localUser && localUser.user_metadata) || {}
-	if (avatar_url && full_name) {
-		return <SignOutUI localUser={localUser} setLocalUser={setLocalUser} />
-	} else {
-		return <SignInUI />
-	}
+	return authenticationUI
 }
 
 /**
  * Authentication panel
  */
 const AuthenticationPanel = () => (
-	<div>
-		<div className="my-1 alert alert-light text-secondary text-center">
-			<div className="">
+	<div className="gridContainer">
+		<div className="my-3 alert alert-light text-secondary text-center">
+			<div className="p-1 rounded border border-secondary">
 				<span role="img" aria-label="Padlock">
 					🔏
 				</span>
@@ -131,4 +122,4 @@ const AuthenticationPanel = () => (
 	</div>
 )
 
-export { AuthenticationPanel, AuthenticationButton }
+export { getAutheticatedUser, AuthenticationPanel, AuthenticationUI }

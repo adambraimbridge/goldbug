@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Home } from '../routes/home'
-import { AuthenticationButton } from './Authentication'
+import { AuthenticationUI } from './Authentication'
 
 const App = () => {
-	const [localUser, setLocalUser] = useState(false)
 	return (
 		<div id="layout" className="full-height py-0 px-3 m-0 mx-auto">
 			<nav className="px-0 py-2 justify-content-between navbar navbar-expand navbar-dark">
@@ -12,9 +11,9 @@ const App = () => {
 					<img alt="💀" src="/favicon.png" className="align-baseline mr-2 icon" />
 					Goldbug Club
 				</div>
-				<AuthenticationButton localUser={localUser} setLocalUser={setLocalUser} />
+				<AuthenticationUI />
 			</nav>
-			<Home path="/" localUser={localUser} />
+			<Home path="/" />
 		</div>
 	)
 }
@@ -25,3 +24,11 @@ export { App }
 // const handleRoute = e => {
 // 	const currentUrl = e.url
 // }
+
+// useLayoutEffect(() => {
+// 	;(async () => {
+// 		const localUser = await getAuthenticatedUser()
+// 		setLocalUser(localUser)
+// 		console.log({ localUser })
+// 	})()
+// }, [])

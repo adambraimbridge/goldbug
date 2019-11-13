@@ -19,6 +19,9 @@ body,
 	margin: 0;
 	padding: 0;
 }
+.gridContainer {
+	display: grid;
+}
 #layout {
 	margin: 0 auto;
 	max-width: 500px;
@@ -42,9 +45,9 @@ body,
 
 .message-container {
 	position: relative;
-    text-align: right;
+	text-align: right;
 	margin-right: 2.5rem;
-	.message{
+	.message {
 		position: relative;
 		display: inline-block;
 		text-align: left;
@@ -60,7 +63,7 @@ body,
 		position: absolute;
 		right: -0.5rem;
 	}
-	.avatar-thumbnail{
+	.avatar-thumbnail {
 		position: absolute;
 		right: -2.5rem;
 		top: 0;

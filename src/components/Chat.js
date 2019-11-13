@@ -56,22 +56,20 @@ const MessageForm = ({ addMessage }) => {
 	)
 }
 
-const Chat = ({ localUser }) => {
+const Chat = ({ authenticatedUser }) => {
 	const emoji = emojiJs()
-	const userMeta = localUser.user_metadata || {}
 	const [messages, setMessages] = useState([])
-
 	useEffect(() => {
 		;(async () => {
 			try {
-				await syncRemoteDatabase({ localUser, messages, setMessages })
+				await syncRemoteDatabase({ authenticatedUser, messages, setMessages })
 			} catch (error) {
 				console.error(error)
 			}
 		})()
 	}, [])
 
-	const addMessage = (text, localDatabase) => {
+	const addMessage = text => {
 		const parsedText = emoji.replace_colons(text)
 		setMessages([...messages, { text: parsedText }])
 	}
