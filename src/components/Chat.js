@@ -45,8 +45,8 @@ const Chat = ({ authenticatedUser }) => {
 		})()
 	}, [authenticatedUser])
 
-	const containerElement = document.querySelector('#message-list')
 	useEffect(() => {
+		const containerElement = document.querySelector('#message-list')
 		containerElement.scrollTop = containerElement.scrollHeight + 1000
 	})
 
