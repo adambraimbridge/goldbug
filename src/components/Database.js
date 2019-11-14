@@ -15,8 +15,10 @@ const refreshChat = async setMessages => {
 
 const syncRemoteDatabase = ({ authenticatedUser, setMessages }) => {
 	console.log('`syncRemoteDatabase` called.')
-	if (!authenticatedUser || !authenticatedUser.app_metadata) return
-
+	if (!authenticatedUser || !authenticatedUser.app_metadata) {
+		console.log('Authenticated user not found.')
+		return false
+	}
 	const { id } = authenticatedUser
 	const { key, password } = authenticatedUser.app_metadata.credentials
 	const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${id}`
