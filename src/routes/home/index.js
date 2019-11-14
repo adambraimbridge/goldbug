@@ -7,10 +7,7 @@ const Home = () => {
 	useLayoutEffect(() => {
 		;(async () => {
 			const authenticatedUser = await getAutheticatedUser()
-			const { avatar_url, full_name } = authenticatedUser.user_metadata
-			if (avatar_url && full_name) {
-				setHomepageElement(<Chat authenticatedUser={authenticatedUser} />)
-			}
+			if (!!authenticatedUser) setHomepageElement(<Chat authenticatedUser={authenticatedUser} />)
 		})()
 	}, [])
 	return homepageElement

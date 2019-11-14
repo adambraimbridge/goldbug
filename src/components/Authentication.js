@@ -1,5 +1,4 @@
 import React, { useState, useLayoutEffect } from 'react'
-import { syncRemoteDatabase } from './Database'
 
 /**
  * Authentication is provided by Netlify via Google OAuth.
@@ -85,18 +84,12 @@ const SignOutUI = ({ authenticatedUser }) => {
 	)
 }
 
-/**
- * User authentication (sign in/out) button
- */
 const AuthenticationUI = () => {
 	const [authenticationUI, setAuthenticationUI] = useState(<SignInUI />)
 	useLayoutEffect(() => {
 		;(async () => {
 			const authenticatedUser = await getAutheticatedUser()
-			const { avatar_url, full_name } = authenticatedUser.user_metadata
-			if (avatar_url && full_name) {
-				setAuthenticationUI(<SignOutUI authenticatedUser={authenticatedUser} />)
-			}
+			if (!!authenticatedUser) setAuthenticationUI(<SignOutUI authenticatedUser={authenticatedUser} />)
 		})()
 	}, [])
 	return authenticationUI
@@ -107,16 +100,16 @@ const AuthenticationUI = () => {
  */
 const AuthenticationPanel = () => (
 	<div className="gridContainer">
-		<div className="my-3 alert alert-light text-secondary text-center">
-			<div className="p-1 rounded border border-secondary">
+		<div className="my-3 py-4 text-secondary text-center">
+			<div className="py-5 text-dark alert alert-light">
+				<SignInUI size="large" />
+				<div className="pt-3">Authenticate with your Google account.</div>
+			</div>
+			<div className="p-1">
 				<span role="img" aria-label="Padlock">
 					🔏
 				</span>
 				Private channel
-			</div>
-			<div className="py-5">
-				<SignInUI size="large" />
-				<div className="pt-3">Authenticate with your Google account.</div>
 			</div>
 		</div>
 	</div>
