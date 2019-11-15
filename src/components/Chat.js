@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { initLocalDatabase, addMessage, removeMessage } from '../lib/database'
 
 const Message = ({ text, userMeta }) => {
@@ -36,7 +36,7 @@ const MessageForm = ({ addMessage }) => {
 	)
 }
 
-const Chat = () => {
+export const Chat = () => {
 	const [messages, setMessages] = useState([])
 	// useLayoutEffect(() => {
 	// 	;(async () => {
@@ -63,8 +63,6 @@ const Chat = () => {
 		</>
 	)
 }
-
-export { Chat }
 
 // <div id="chat-toast">{chatToast}</div>
 // setChatToast('Initialising Secure Channel ...')

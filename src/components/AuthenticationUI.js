@@ -35,9 +35,6 @@ const SignOutUI = ({ authenticatedUser }) => {
 	)
 }
 
-/**
- * Authentication panel
- */
 export const AuthenticationPanel = () => (
 	<div className="gridContainer">
 		<div className="my-3 py-4 text-secondary text-center">
