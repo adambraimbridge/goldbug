@@ -1,5 +1,6 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react'
-import { syncRemoteDatabase, addMessage, removeMessage } from './Database'
+import { AuthenticatedUser } from './Authentication'
+import { initLocalDatabase, addMessage, removeMessage } from '../lib/database'
 
 const Message = ({ text, userMeta }) => {
 	const { full_name, avatar_url } = userMeta
@@ -36,14 +37,13 @@ const MessageForm = ({ addMessage }) => {
 	)
 }
 
-const Chat = ({ authenticatedUser }) => {
-	const userMeta = authenticatedUser.user_metadata || {}
+const Chat = () => {
 	const [messages, setMessages] = useState([])
 	useLayoutEffect(() => {
 		;(async () => {
-			await syncRemoteDatabase({ authenticatedUser, setMessages })
+			await initLocalDatabase({ setMessages })
 		})()
-	}, [authenticatedUser])
+	}, [])
 
 	useEffect(() => {
 		const containerElement = document.querySelector('#message-list')
@@ -56,7 +56,7 @@ const Chat = ({ authenticatedUser }) => {
 				<div id="message-list">
 					{messages.map(message => {
 						const { _id, text } = message.doc
-						return <Message key={_id} index={_id} text={text} removeMessage={removeMessage} userMeta={userMeta} />
+						return <Message key={_id} index={_id} text={text} removeMessage={removeMessage} authenticatedUser={<AuthenticatedUser />} />
 					})}
 				</div>
 			</div>
