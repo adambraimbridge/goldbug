@@ -58,7 +58,6 @@ export const AuthenticationUI = () => {
 		;(async () => {
 			const authenticatedUser = await getAuthenticatedUser()
 			if (authenticatedUser) {
-				console.log(authenticatedUser)
 				setAuthenticationUI(<SignOutUI authenticatedUser={authenticatedUser} />)
 			}
 		})()
