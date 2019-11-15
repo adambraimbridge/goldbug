@@ -1,15 +1,18 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { AuthenticationPanel } from '../../components/AuthenticationUI'
+import { getAuthenticatedUser } from '../../lib/authentication'
 import { Chat } from '../../components/Chat'
-import { LocalUser, AuthenticationPanel } from '../../components/LocalUser'
 
-const Home = () => {
+export const Home = () => {
 	const [homepageElement, setHomepageElement] = useState(<AuthenticationPanel />)
-	useLayoutEffect(() => {
+	useEffect(() => {
 		;(async () => {
-			// const authenticatedUser = await getLocalUser()
-			// if (!!authenticatedUser) setHomepageElement(<Chat authenticatedUser={authenticatedUser} />)
+			const authenticatedUser = await getAuthenticatedUser()
+			if (authenticatedUser) {
+				console.log(authenticatedUser)
+				setHomepageElement(<Chat authenticatedUser={authenticatedUser} />)
+			}
 		})()
 	}, [])
 	return homepageElement
 }
-export { Home }

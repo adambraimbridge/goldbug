@@ -1,6 +1,6 @@
 import React from 'react'
 import { AuthenticationUI } from './AuthenticationUI'
-// import { Home } from '../routes/home'
+import { Home } from '../routes/home'
 
 export const App = () => (
 	<div id="layout" className="full-height py-0 px-3 m-0 mx-auto">
@@ -11,6 +11,6 @@ export const App = () => (
 			</div>
 			<AuthenticationUI />
 		</nav>
-		{/* <Home path="/" /> */}
+		<Home path="/" />
 	</div>
 )

@@ -20,7 +20,7 @@ const syncRemoteDatabase = ({ authenticatedUser }) => {
 	const remoteDatabase = new PouchDB(remoteUrl)
 
 	// @see: https://pouchdb.com/api.html#sync
-	localDatabase.replicate.from(remoteDatabase).on('complete', () => {
+	localDatabase.replicate.from(remoteDatabase).on('complete', payload => {
 		console.log('Remote data loaded.', { payload })
 		localDatabase.sync(remoteDatabase, {
 			live: true,

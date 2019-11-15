@@ -35,6 +35,26 @@ const SignOutUI = ({ authenticatedUser }) => {
 	)
 }
 
+/**
+ * Authentication panel
+ */
+export const AuthenticationPanel = () => (
+	<div className="gridContainer">
+		<div className="my-3 py-4 text-secondary text-center">
+			<div className="py-5 text-dark alert alert-light">
+				<SignInUI size="large" />
+				<div className="pt-3">Authenticate with your Google account.</div>
+			</div>
+			<div className="p-1">
+				<span role="img" aria-label="Padlock">
+					🔏
+				</span>
+				Private channel
+			</div>
+		</div>
+	</div>
+)
+
 export const AuthenticationUI = () => {
 	const [authenticationUI, setAuthenticationUI] = useState(<SignInUI />)
 	useEffect(() => {
@@ -48,35 +68,3 @@ export const AuthenticationUI = () => {
 	}, [])
 	return authenticationUI
 }
-
-// const SearchResults = () => {
-// 	const [data, setData] = useState({ hits: [] })
-// 	const [query, setQuery] = useState('react')
-
-// 	useEffect(() => {
-// 		let ignore = false
-
-// 		async function fetchData() {
-// 			const result = await axios('https://hn.algolia.com/api/v1/search?query=' + query)
-// 			if (!ignore) setData(result.data)
-// 		}
-
-// 		fetchData()
-// 		return () => {
-// 			ignore = true
-// 		}
-// 	}, [query])
-
-// 	return (
-// 		<>
-// 			<input value={query} onChange={e => setQuery(e.target.value)} />
-// 			<ul>
-// 				{data.hits.map(item => (
-// 					<li key={item.objectID}>
-// 						<a href={item.url}>{item.title}</a>
-// 					</li>
-// 				))}
-// 			</ul>
-// 		</>
-// 	)
-// }
