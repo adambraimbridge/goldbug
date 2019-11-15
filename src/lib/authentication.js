@@ -32,10 +32,12 @@ export const getAuthenticatedUser = async () => {
 	})
 
 	let authenticatedUser = goTrueAuth.currentUser()
-	if (!!authenticatedUser) {
+	if (!authenticatedUser) {
 		const authenticationData = getAuthenticationDataFromHash()
 		if (authenticationData) {
 			authenticatedUser = await goTrueAuth.createUser(authenticationData, true)
+		} else {
+			authenticatedUser = false
 		}
 	}
 	return authenticatedUser
