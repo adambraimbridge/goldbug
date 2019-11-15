@@ -4,12 +4,14 @@ const CLOUDANT_USERNAME = '459013e0-ccee-4235-a047-55410e69aaea-bluemix'
 const localDatabase = new PouchDB('goldbug-club')
 
 const refreshChat = async setMessages => {
-	// console.log('`refreshChat`')
+	console.log('`refreshChat`')
 	const allDocs = await localDatabase.allDocs({
 		include_docs: true,
 		attachments: true,
 	})
-	setMessages(allDocs.rows)
+	const messages = allDocs.rows
+	console.log({ messages })
+	setMessages(messages)
 }
 
 const syncRemoteDatabase = ({ authenticatedUser }) => {
@@ -30,15 +32,15 @@ const syncRemoteDatabase = ({ authenticatedUser }) => {
 }
 
 const initLocalDatabase = ({ setMessages }) => {
-	console.log('`initLocalDatabase`')
+	console.log('`initLocalDatabase`', localDatabase)
 	localDatabase.on('change', () => refreshChat(setMessages))
 	refreshChat(setMessages)
 }
 
-const addMessage = async text => {
-	// const parsedText = emoji.replace_colons(message.text)
+const addMessage = async message => {
+	// const parsedText = emoji.replace_colons(message.value)
 	localDatabase.put({
-		text,
+		...message,
 		_id: new Date().toISOString(),
 	})
 }

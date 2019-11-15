@@ -12,6 +12,6 @@ export const Home = ({ path }) => {
 				setHomepageElement(<Chat authenticatedUser={authenticatedUser} />)
 			}
 		})()
-	})
+	}, [])
 	return homepageElement
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { getAuthenticatedUser } from '../lib/authentication'
 import { initLocalDatabase, addMessage, removeMessage } from '../lib/database'
 
 const Message = ({ text, userMeta }) => {
@@ -17,20 +18,27 @@ const Message = ({ text, userMeta }) => {
 }
 
 const MessageForm = ({ addMessage }) => {
-	const [inputValue, setInputValue] = useState('')
+	const [value, setValue] = useState('')
+	const [user, setUser] = useState(false)
+	useEffect(() => {
+		;(async () => {
+			const authenticatedUser = await getAuthenticatedUser()
+			setUser(authenticatedUser.user_metadata)
+		})()
+	}, [])
 
 	const handleSubmit = async event => {
+		console.log(event)
 		event.preventDefault()
-		if (!inputValue) return false
-
-		await addMessage(inputValue)
-		setInputValue('')
+		if (!value || !user) return false
+		await addMessage({ value, user })
+		setValue('')
 	}
 
 	return (
 		<form onSubmit={handleSubmit} id="chat-form">
 			<div className="form-group mx-2">
-				<input type="text" className="form-control" value={inputValue} onChange={event => setInputValue(event.target.value)} placeholder="Enter message" />
+				<input type="text" className="form-control" value={value} onChange={event => setValue(event.target.value)} placeholder="Enter message" />
 			</div>
 		</form>
 	)
@@ -38,11 +46,11 @@ const MessageForm = ({ addMessage }) => {
 
 export const Chat = () => {
 	const [messages, setMessages] = useState([])
-	// useLayoutEffect(() => {
-	// 	;(async () => {
-	// 		await initLocalDatabase({ setMessages })
-	// 	})()
-	// }, [])
+	useEffect(() => {
+		;(async () => {
+			await initLocalDatabase({ setMessages })
+		})()
+	}, [])
 
 	// useEffect(() => {
 	// 	const containerElement = document.querySelector('#message-list')
