@@ -7,6 +7,8 @@ const getAuthenticationDataFromHash = () => {
 	if (!document.location.hash.length) return false
 	const locationHash = document.location.hash
 
+	console.log(`http://localhost:8888/${locationHash}`)
+
 	// Remove hash from url so that token does not remain in browser history.
 	// Todo: Confirm this works as expected
 	window.history.replaceState(null, null, '/')

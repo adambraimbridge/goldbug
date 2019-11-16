@@ -42,7 +42,9 @@ body,
 .icon {
 	width: 1.5rem;
 }
-
+.btn {
+	cursor: pointer;
+}
 .message-container {
 	position: relative;
 	text-align: right;
