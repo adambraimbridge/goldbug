@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { getAuthenticatedUser } from '../lib/authentication'
 import { initLocalDatabase, addMessage, removeMessage } from '../lib/database'
 
-const Message = ({ text, userMeta }) => {
-	const { full_name, avatar_url } = userMeta
+const Message = ({ text, user }) => {
+	const { full_name, avatar_url } = user
 	return (
 		<div className="message-container mb-2">
 			<div className="message bg-light rounded p-2 px-3">
