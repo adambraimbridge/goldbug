@@ -21,7 +21,7 @@ exports.handler = async event => {
 	const payload = JSON.parse(body)
 
 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
-	const id = getUuid(payload.user.email)
+	const id = `goldbug-${getUuid(payload.user.email)}`
 	if (!id) return { statusCode: 500, body: 'Could not get user ID.' }
 
 	const cloudant = await Cloudant({
