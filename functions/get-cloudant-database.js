@@ -1,4 +1,5 @@
 const Cloudant = require('@cloudant/cloudant')
+const getUuid = require('uuid-by-string')
 
 const getDatabaseCredentials = async (cloudant, remoteDatabase) => {
 	const database = await cloudant.db.use(remoteDatabase.db_name)
@@ -18,7 +19,9 @@ exports.handler = async event => {
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
 	const payload = JSON.parse(body)
-	const { id } = payload.user
+
+	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
+	const id = getUuid(payload.user.email)
 	if (!id) return { statusCode: 500, body: 'Could not get user ID.' }
 
 	const cloudant = await Cloudant({

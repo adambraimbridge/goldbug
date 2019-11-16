@@ -14,7 +14,8 @@
 		"pouchdb": "^7.1.1",
 		"react": "^16.10.2",
 		"react-dom": "^16.10.2",
-		"react-scripts": "3.2.0"
+		"react-scripts": "3.2.0",
+		"uuid-by-string": "^3.0.2"
 	},
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
