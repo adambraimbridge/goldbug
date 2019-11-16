@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { getAuthenticatedUser } from '../lib/authentication'
 import { initLocalDatabase, addMessage, removeMessage } from '../lib/database'
 
-const Message = ({ text, user }) => {
+const Message = ({ value, user }) => {
+	if (!value || !user) return false
 	const { full_name, avatar_url } = user
 	return (
 		<div className="message-container mb-2">
 			<div className="message bg-light rounded p-2 px-3">
 				<span className="arrow"></span>
-				{text}
+				{value}
 				<div className="avatar-thumbnail">
 					<img src={avatar_url} alt={full_name} className="icon rounded-circle border-0"></img>
 				</div>
@@ -28,8 +29,9 @@ const MessageForm = ({ addMessage }) => {
 	}, [])
 
 	const handleSubmit = async event => {
-		console.log(event)
 		event.preventDefault()
+
+		console.log({ value, user })
 		if (!value || !user) return false
 		await addMessage({ value, user })
 		setValue('')

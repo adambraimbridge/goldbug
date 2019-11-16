@@ -32,8 +32,10 @@ const syncRemoteDatabase = ({ authenticatedUser }) => {
 }
 
 const initLocalDatabase = ({ setMessages }) => {
-	console.log('`initLocalDatabase`', localDatabase)
-	localDatabase.on('change', () => refreshChat(setMessages))
+	localDatabase.on('change', () => {
+		console.log('change')
+		refreshChat(setMessages)
+	})
 	refreshChat(setMessages)
 }
 
