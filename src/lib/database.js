@@ -15,10 +15,9 @@ const refreshChat = async setMessages => {
 }
 
 const syncRemoteDatabase = ({ authenticatedUser }) => {
-	console.log('`syncRemoteDatabase`')
-	const { id } = authenticatedUser
-	const { key, password } = authenticatedUser.app_metadata.credentials
-	const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${id}`
+	console.log('`syncRemoteDatabase`', authenticatedUser)
+	const { databaseName, key, password } = authenticatedUser.app_metadata.credentials
+	const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${databaseName}`
 	const remoteDatabase = new PouchDB(remoteUrl)
 
 	// @see: https://pouchdb.com/api.html#sync
@@ -32,6 +31,7 @@ const syncRemoteDatabase = ({ authenticatedUser }) => {
 }
 
 const initLocalDatabase = ({ setMessages }) => {
+	console.log('`initLocalDatabase`', setMessages)
 	localDatabase.on('change', () => {
 		console.log('change')
 		refreshChat(setMessages)

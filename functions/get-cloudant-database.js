@@ -18,27 +18,26 @@ exports.handler = async event => {
 	const { httpMethod, body } = event
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
-	const payload = JSON.parse(body)
-
-	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
-	const id = `goldbug-${getUuid(payload.user.email)}`
-	if (!id) return { statusCode: 500, body: 'Could not get user ID.' }
-
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
 		password: process.env.CLOUDANT_PASSWORD,
 		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
 	})
 
+	const payload = JSON.parse(body)
+
+	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
+	const databaseName = `goldbug-${getUuid(payload.user.email)}`
+
 	/**
 	 * If the remote database for the user exists, return a success status code.
 	 */
 	try {
-		await cloudant.db.get(id)
-		console.log(`Database found for ${id}.`)
+		await cloudant.db.get(databaseName)
+		console.log(`Database found: ${databaseName}`)
 		return { statusCode: 200 }
 	} catch (error) {
-		console.log(`Database not found for ${id}.`)
+		console.log(`Database not found: ${databaseName}`)
 	}
 
 	/**
@@ -46,17 +45,17 @@ exports.handler = async event => {
 	 */
 	console.log('Provisioning ...')
 	try {
-		const response = await cloudant.db.create(id)
+		const response = await cloudant.db.create(databaseName)
 		console.log({ response })
 	} catch (error) {
 		console.error(error)
 	}
-	const remoteDatabase = await cloudant.db.get(id)
+	const remoteDatabase = await cloudant.db.get(databaseName)
 	const newCredentials = await getDatabaseCredentials(cloudant, remoteDatabase)
+	newCredentials.databaseName = databaseName
 	const { app_metadata } = payload.user
 	const newAppMetadata = Object.assign({}, app_metadata, {
 		credentials: newCredentials,
-		id,
 	})
 	const bodyString = JSON.stringify({
 		app_metadata: newAppMetadata,
