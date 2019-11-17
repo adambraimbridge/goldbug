@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { getAuthenticatedUser } from '../lib/authentication'
-import { syncRemoteDatabase } from '../lib/database'
 
 /**
  * Render a UI to let the user sign in.
@@ -60,7 +59,6 @@ export const AuthenticationUI = () => {
 			const authenticatedUser = await getAuthenticatedUser()
 			if (authenticatedUser) {
 				setAuthenticationUI(<SignOutUI authenticatedUser={authenticatedUser} />)
-				syncRemoteDatabase({ authenticatedUser })
 			}
 		})()
 	}, [])

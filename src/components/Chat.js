@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { getAuthenticatedUser } from '../lib/authentication'
-import { initLocalDatabase, addMessage, removeMessage } from '../lib/database'
+import { syncRemoteDatabase, getLocalMessages, addMessage, removeMessage } from '../lib/database'
 
 const Message = ({ value, user }) => {
 	if (!value || !user) return false
@@ -18,20 +18,19 @@ const Message = ({ value, user }) => {
 	)
 }
 
-const MessageForm = ({ addMessage }) => {
+const MessageForm = ({ addMessage, setMessages }) => {
 	const [value, setValue] = useState('')
 	const [user, setUser] = useState(false)
-	useEffect(() => {
+	useLayoutEffect(() => {
 		;(async () => {
 			const authenticatedUser = await getAuthenticatedUser()
 			setUser(authenticatedUser.user_metadata)
+			syncRemoteDatabase({ authenticatedUser, setMessages })
 		})()
-	}, [])
+	}, [setMessages])
 
 	const handleSubmit = async event => {
 		event.preventDefault()
-
-		console.log({ value, user })
 		if (!value || !user) return false
 		await addMessage({ value, user })
 		setValue('')
@@ -48,9 +47,10 @@ const MessageForm = ({ addMessage }) => {
 
 export const Chat = () => {
 	const [messages, setMessages] = useState([])
-	useEffect(() => {
+	useLayoutEffect(() => {
 		;(async () => {
-			await initLocalDatabase({ setMessages })
+			const messages = await getLocalMessages()
+			setMessages(messages)
 		})()
 	}, [])
 
@@ -69,7 +69,7 @@ export const Chat = () => {
 					})}
 				</div>
 			</div>
-			<MessageForm addMessage={addMessage} />
+			<MessageForm addMessage={addMessage} setMessages={setMessages} />
 		</>
 	)
 }
