@@ -54,18 +54,18 @@ export const Chat = () => {
 		})()
 	}, [])
 
-	// useEffect(() => {
-	// 	const containerElement = document.querySelector('#message-list')
-	// 	containerElement.scrollTop = containerElement.scrollHeight + 1000
-	// })
+	useEffect(() => {
+		const containerElement = document.querySelector('#message-list')
+		containerElement.scrollTop = containerElement.scrollHeight + 1000
+	})
 
 	return (
 		<>
 			<div id="chat-container" className="mx-2 mb-3 text-white">
 				<div id="message-list">
 					{messages.map(message => {
-						const { _id, text } = message.doc
-						return <Message key={_id} index={_id} text={text} removeMessage={removeMessage} />
+						const { _id, value, user } = message.doc
+						return <Message key={_id} index={_id} value={value} user={user} removeMessage={removeMessage} />
 					})}
 				</div>
 			</div>
