@@ -18,6 +18,8 @@ exports.handler = async event => {
 	const { httpMethod, body } = event
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
+	console.log(body)
+
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
 		password: process.env.CLOUDANT_PASSWORD,
@@ -25,7 +27,7 @@ exports.handler = async event => {
 	})
 
 	const payload = JSON.parse(body)
-	console.log({ payload })
+
 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
 	const databaseName = `goldbug-${getUuid(payload.user.email)}`
 
@@ -51,19 +53,21 @@ exports.handler = async event => {
 		console.error(error)
 	}
 	const remoteDatabase = await cloudant.db.get(databaseName)
+
 	const newCredentials = await getDatabaseCredentials(cloudant, remoteDatabase)
 	newCredentials.databaseName = databaseName
-	const { app_metadata } = payload.user
-	const newAppMetadata = Object.assign({}, app_metadata, {
+	const { user_metadata } = payload.user.user_metadata
+	const newUserMetadata = Object.assign({}, user_metadata, {
 		credentials: newCredentials,
 	})
+
 	const bodyString = JSON.stringify({
-		app_metadata: newAppMetadata,
+		user_metadata: newUserMetadata,
 	})
 
 	console.log({ bodyString })
 
-	// Save the credentials in the Netlify user's app_metadata.
+	// Save the credentials in the Netlify user's user_metadata.
 	// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
 	return { statusCode: 200, body: bodyString }
 }
