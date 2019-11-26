@@ -52,6 +52,9 @@ exports.handler = async event => {
 
 	const remoteDatabase = await cloudant.db.get(databaseName)
 	const credentials = await getDatabaseCredentials(cloudant, remoteDatabase)
+
+	console.log({ credentials })
+
 	credentials.databaseName = databaseName
 
 	const newAppMetadata = Object.assign({}, payload.user.app_metadata, credentials)
