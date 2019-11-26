@@ -19,12 +19,14 @@ body,
 	margin: 0;
 	padding: 0;
 }
+.max-with {
+	max-width: 500px;
+}
 .gridContainer {
 	display: grid;
 }
 #layout {
 	margin: 0 auto;
-	max-width: 500px;
 	display: grid;
 	grid-gap: 0;
 	grid-template-rows: min-content auto min-content;

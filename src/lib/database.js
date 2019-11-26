@@ -18,7 +18,7 @@ const syncRemoteDatabase = ({ authenticatedUser, setMessages }) => {
 	const remoteDatabase = new PouchDB(remoteUrl)
 
 	// @see: https://pouchdb.com/api.html#sync
-	localDatabase.replicate.from(remoteDatabase).on('complete', payload => {
+	localDatabase.replicate.from(remoteDatabase).on('complete', () => {
 		localDatabase
 			.sync(remoteDatabase, {
 				live: true,

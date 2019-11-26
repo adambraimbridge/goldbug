@@ -20,13 +20,14 @@ const SignInUI = ({ size }) => {
 }
 
 // TODO: purge local cache for user
-const SignOutUI = ({ authenticatedUser }) => {
+const SignOutUI = ({ authenticatedUser, setAuthenticatedUser }) => {
 	const signOut = async () => {
-		await authenticatedUser.logout()
+		await authenticatedUser.logout().catch(console.log)
+		setAuthenticatedUser(false)
 	}
 	const { full_name, avatar_url } = authenticatedUser.user_metadata
 	return (
-		<div className="btn btn-sm centered" onClick={signOut}>
+		<div className="p-0 btn btn-sm centered" onClick={signOut}>
 			<div>Sign Out</div>
 			<div className="avatar-thumbnail">
 				<img src={avatar_url} alt={full_name} className="icon rounded-circle border border-primary"></img>
@@ -53,14 +54,15 @@ export const AuthenticationPanel = () => (
 )
 
 export const AuthenticationUI = () => {
+	const [authenticatedUser, setAuthenticatedUser] = useState(false)
 	const [authenticationUI, setAuthenticationUI] = useState(<SignInUI />)
 	useEffect(() => {
 		;(async () => {
-			const authenticatedUser = await getAuthenticatedUser()
+			setAuthenticatedUser(await getAuthenticatedUser())
 			if (authenticatedUser) {
-				setAuthenticationUI(<SignOutUI authenticatedUser={authenticatedUser} />)
+				setAuthenticationUI(<SignOutUI authenticatedUser={authenticatedUser} setAuthenticatedUser={setAuthenticatedUser} />)
 			}
 		})()
-	}, [])
+	}, [authenticatedUser])
 	return authenticationUI
 }

@@ -7,11 +7,8 @@ const getAuthenticationDataFromHash = () => {
 	if (!document.location.hash.length) return false
 	const locationHash = document.location.hash
 
+	// This is for local authentication debugging
 	console.log(`http://localhost:8888/${locationHash}`)
-
-	// Remove hash from url so that token does not remain in browser history.
-	// Todo: Confirm this works as expected
-	window.history.replaceState(null, null, '/')
 
 	return locationHash
 		.replace(/^#/, '')
@@ -34,6 +31,7 @@ export const getAuthenticatedUser = async () => {
 	})
 
 	let authenticatedUser = goTrueAuth.currentUser()
+
 	if (!authenticatedUser) {
 		const authenticationData = getAuthenticationDataFromHash()
 		if (authenticationData) {
@@ -42,5 +40,8 @@ export const getAuthenticatedUser = async () => {
 			authenticatedUser = false
 		}
 	}
+
+	// Remove hash from url so that token does not remain in browser history.
+	window.history.replaceState(null, null, '/')
 	return authenticatedUser
 }
