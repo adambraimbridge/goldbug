@@ -25,38 +25,38 @@ exports.handler = async event => {
 	})
 
 	const payload = JSON.parse(body)
-
-	/**
-	 * If the remote database for the user exists, and return a success status code.
-	 */
-
+	console.log({ payload })
 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
 	const databaseName = `goldbug-${getUuid(payload.user.email)}`
 
+	/**
+	 * If the remote database for the user exists, return a success status code.
+	 */
 	try {
 		await cloudant.db.get(databaseName)
 		console.log(`Database found: ${databaseName}`)
+		return { statusCode: 200 }
 	} catch (error) {
 		console.log(`Database not found: ${databaseName}`)
-
-		/**
-		 * Create a new database for the user and generate API key/password credentials.
-		 */
-		console.log('Provisioning ...')
-		try {
-			const response = await cloudant.db.create(databaseName)
-			console.log({ response })
-		} catch (error) {
-			console.error(error)
-		}
 	}
 
+	/**
+	 * Create a new database for the user and generate API key/password credentials.
+	 */
+	console.log('Provisioning ...')
+	try {
+		const response = await cloudant.db.create(databaseName)
+		console.log({ response })
+	} catch (error) {
+		console.error(error)
+	}
 	const remoteDatabase = await cloudant.db.get(databaseName)
-	const credentials = await getDatabaseCredentials(cloudant, remoteDatabase)
-
-	credentials.databaseName = databaseName
-
-	const newAppMetadata = Object.assign({}, payload.user.app_metadata, credentials)
+	const newCredentials = await getDatabaseCredentials(cloudant, remoteDatabase)
+	newCredentials.databaseName = databaseName
+	const { app_metadata } = payload.user
+	const newAppMetadata = Object.assign({}, app_metadata, {
+		credentials: newCredentials,
+	})
 	const bodyString = JSON.stringify({
 		app_metadata: newAppMetadata,
 	})
