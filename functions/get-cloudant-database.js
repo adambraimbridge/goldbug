@@ -51,12 +51,10 @@ exports.handler = async event => {
 	}
 
 	const remoteDatabase = await cloudant.db.get(databaseName)
-	const newCredentials = await getDatabaseCredentials(cloudant, remoteDatabase)
-	newCredentials.databaseName = databaseName
-	const { app_metadata } = payload.user
-	const newAppMetadata = Object.assign({}, app_metadata, {
-		credentials: newCredentials,
-	})
+	const credentials = await getDatabaseCredentials(cloudant, remoteDatabase)
+	credentials.databaseName = databaseName
+
+	const newAppMetadata = Object.assign({}, payload.user.app_metadata, credentials)
 	const bodyString = JSON.stringify({
 		app_metadata: newAppMetadata,
 	})
