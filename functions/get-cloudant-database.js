@@ -4,8 +4,6 @@ const getUuid = require('uuid-by-string')
 const getDatabaseCredentials = async (cloudant, remoteDatabase) => {
 	const database = await cloudant.db.use(remoteDatabase.db_name)
 	const security = await database.get_security()
-	console.log('security', security)
-
 	const credentials = await cloudant.generate_api_key()
 
 	const newSecurity = Object.assign({}, security, {
@@ -28,12 +26,13 @@ exports.handler = async event => {
 
 	const payload = JSON.parse(body)
 
+	/**
+	 * If the remote database for the user exists, and return a success status code.
+	 */
+
 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
 	const databaseName = `goldbug-${getUuid(payload.user.email)}`
 
-	/**
-	 * If the remote database for the user exists, return a success status code.
-	 */
 	try {
 		await cloudant.db.get(databaseName)
 		console.log(`Database found: ${databaseName}`)
@@ -54,8 +53,6 @@ exports.handler = async event => {
 
 	const remoteDatabase = await cloudant.db.get(databaseName)
 	const credentials = await getDatabaseCredentials(cloudant, remoteDatabase)
-
-	console.log({ credentials })
 
 	credentials.databaseName = databaseName
 
