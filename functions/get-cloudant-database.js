@@ -4,6 +4,8 @@ const getUuid = require('uuid-by-string')
 const getDatabaseCredentials = async (cloudant, remoteDatabase) => {
 	const database = await cloudant.db.use(remoteDatabase.db_name)
 	const security = await database.get_security()
+	console.log('security', security)
+
 	const credentials = await cloudant.generate_api_key()
 
 	const newSecurity = Object.assign({}, security, {
