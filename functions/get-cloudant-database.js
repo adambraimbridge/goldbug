@@ -18,12 +18,12 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	return { key, password, db_name }
 }
 
-exports.handler = async payload => {
+exports.handler = async (payload, context) => {
 	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
 	const { event, user } = JSON.parse(body)
-	console.log({ event, user })
+	console.log({ event, user, context })
 	if (event !== 'signup') return { statusCode: 405, body: 'Event Type Not Allowed.' }
 
 	const cloudant = await Cloudant({
