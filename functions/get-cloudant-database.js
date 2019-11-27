@@ -56,11 +56,16 @@ exports.handler = async (payload, context) => {
 	const credentials = await getDatabaseCredentials(cloudant, db_name)
 	const { app_metadata } = user
 	app_metadata.credentials = credentials
+	app_metadata.testing = true
+
 	const bodyString = JSON.stringify({ app_metadata })
 
-	console.log({ bodyString })
+	console.log(bodyString)
 
 	// Save the credentials in the Netlify user's app_metadata.
 	// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
-	return { statusCode: 200, body: { app_metadata } }
+	return {
+		statusCode: 200,
+		body: bodyString,
+	}
 }
