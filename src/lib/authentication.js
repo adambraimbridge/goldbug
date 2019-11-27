@@ -35,18 +35,17 @@ export const getAuthenticatedUser = async () => {
 
 	// Try local storage first
 	let authenticatedUser = goTrueAuth.currentUser()
-
-	console.log({ authenticatedUser })
 	if (!authenticatedUser) {
 		// Check the location hash to see if the user just authenticated
 		const authenticationData = getAuthenticationDataFromHash()
 		if (!authenticationData) return false
 
 		// Save the authenticated user to local storage
-		// authenticatedUser = await goTrueAuth.createUser(authenticationData, true)
 		console.log({ authenticationData })
-		authenticatedUser = await goTrueAuth.getUser(authenticationData)
+		authenticatedUser = await goTrueAuth.createUser(authenticationData, true) // <-- This tries to create the user again
 	}
+
+	console.log({ authenticatedUser })
 
 	// Remove hash from url so that token does not remain in browser history.
 	// window.history.replaceState(null, null, '/')
