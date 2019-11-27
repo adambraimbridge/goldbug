@@ -1,7 +1,7 @@
 const Cloudant = require('@cloudant/cloudant')
 const getUuid = require('uuid-by-string')
 
-const getDatabase = () => {
+const getDatabase = async () => {
 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
 	const databaseName = `goldbug-${getUuid(payload.user.email)}`
 
