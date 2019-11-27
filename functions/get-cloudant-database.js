@@ -24,8 +24,8 @@ exports.handler = async event => {
 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
 	const databaseName = `goldbug-${getUuid(payload.user.email)}`
 
-	const { app_metadata } = payload.user
-	console.log({ app_metadata })
+	const { app_metadata, user_metadata } = payload.user
+	console.log({ app_metadata, user_metadata })
 
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
@@ -60,6 +60,7 @@ exports.handler = async event => {
 	const newAppMetadata = Object.assign({}, app_metadata, credentials)
 	const bodyString = JSON.stringify({
 		app_metadata: newAppMetadata,
+		user_metadata: newAppMetadata,
 	})
 
 	console.log({ bodyString })
