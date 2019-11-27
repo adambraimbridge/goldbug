@@ -47,7 +47,7 @@ exports.handler = async event => {
 	/**
 	 * Create a new database for the user and generate API key/password credentials.
 	 */
-	console.log('Provisioning ...')
+	console.log('Provisioning new database ...')
 	try {
 		const response = await cloudant.db.create(databaseName)
 		console.log({ response })
@@ -55,11 +55,9 @@ exports.handler = async event => {
 		console.error(error)
 	}
 	const remoteDatabase = await cloudant.db.get(databaseName)
-	const newCredentials = await getDatabaseCredentials(cloudant, remoteDatabase)
-	newCredentials.databaseName = databaseName
-	const newAppMetadata = Object.assign({}, app_metadata, {
-		credentials: newCredentials,
-	})
+	const credentials = await getDatabaseCredentials(cloudant, remoteDatabase)
+	credentials.databaseName = databaseName
+	const newAppMetadata = Object.assign({}, app_metadata, credentials)
 	const bodyString = JSON.stringify({
 		app_metadata: newAppMetadata,
 	})
