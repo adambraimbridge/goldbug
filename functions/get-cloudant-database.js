@@ -1,6 +1,6 @@
 const Cloudant = require('@cloudant/cloudant')
 const getUuid = require('uuid-by-string')
-const GoTrue = require('gotrue-js').GoTrue
+const GoTrue = require('gotrue-js').default()
 
 /**
  * If the remote database for the user doesn't exist, provision one.
