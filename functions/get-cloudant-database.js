@@ -39,7 +39,21 @@ exports.handler = async event => {
 	try {
 		await cloudant.db.get(databaseName)
 		console.log(`Database found: ${databaseName}`)
-		return { statusCode: 200 }
+
+		console.log(
+			JSON.stringify({
+				app_metadata,
+				user_metadata,
+			})
+		)
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				app_metadata,
+				user_metadata,
+			}),
+		}
 	} catch (error) {
 		console.log(`Database not found: ${databaseName}`)
 	}
