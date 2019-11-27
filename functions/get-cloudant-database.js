@@ -55,9 +55,11 @@ exports.handler = async (payload, context) => {
 
 	const credentials = await getDatabaseCredentials(cloudant, db_name)
 	const { app_metadata } = user
-	app_metadata.credentials = credentials
-	const bodyString = JSON.stringify({ app_metadata })
 
+	const newAppMetadata = Object.assign({}, app_metadata, { credentials })
+	const bodyString = JSON.stringify({
+		app_metadata: newAppMetadata,
+	})
 	console.log({ bodyString })
 
 	// Save the credentials in the Netlify user's app_metadata.
