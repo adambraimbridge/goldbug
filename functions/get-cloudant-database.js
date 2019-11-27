@@ -1,17 +1,18 @@
 const Cloudant = require('@cloudant/cloudant')
 const getUuid = require('uuid-by-string')
 
-const getDatabaseCredentials = async (cloudant, remoteDatabase) => {
-	const database = await cloudant.db.use(remoteDatabase.db_name)
+const getDatabaseCredentials = async (cloudant, db_name) => {
+	const database = await cloudant.db.use(db_name)
 	const security = await database.get_security()
 	const credentials = await cloudant.generate_api_key()
+	const { key, password } = credentials
 
 	const newSecurity = Object.assign({}, security, {
-		[credentials.key]: ['_reader', '_writer', '_replicator'],
+		[key]: ['_reader', '_writer', '_replicator'],
 	})
 
 	await database.set_security(newSecurity)
-	return credentials
+	return { key, password, db_name }
 }
 
 exports.handler = async event => {
@@ -56,10 +57,8 @@ exports.handler = async event => {
 	 */
 
 	// Todo: Check if app_metadata already contains credentials
-
-	const credentials = await getDatabaseCredentials(cloudant, remoteDatabase)
-	const { key, password } = credentials
-	const newAppMetadata = Object.assign({}, app_metadata, key, password, databaseName)
+	const credentials = await getDatabaseCredentials(cloudant, remoteDatabase.db_name)
+	const newAppMetadata = Object.assign({}, app_metadata, credentials)
 	const bodyString = JSON.stringify({
 		app_metadata: newAppMetadata,
 	})
