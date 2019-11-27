@@ -24,7 +24,7 @@ exports.handler = async (payload, context) => {
 
 	const { event, user } = JSON.parse(body)
 	const { identity } = context.clientContext
-	console.log({ user, event, identity })
+	// console.log({ user, event, identity })
 	if (event !== 'signup' && event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
 
 	const cloudant = await Cloudant({
@@ -41,10 +41,10 @@ exports.handler = async (payload, context) => {
 	 */
 	try {
 		await cloudant.db.get(db_name)
-		console.log(`Database found: ${db_name}`)
+		// console.log(`Database found: ${db_name}`)
 		return { statusCode: 200 }
 	} catch (error) {
-		console.log(`Database not found: ${db_name}. Provisioning new database ...`)
+		// console.log(`Database not found: ${db_name}. Provisioning new database ...`)
 		try {
 			await cloudant.db.create(db_name)
 		} catch (error) {
@@ -55,12 +55,10 @@ exports.handler = async (payload, context) => {
 
 	const credentials = await getDatabaseCredentials(cloudant, db_name)
 	const { app_metadata } = user
+	app_metadata.credentials = credentials
+	const bodyString = JSON.stringify({ app_metadata })
 
-	const newAppMetadata = Object.assign({}, app_metadata, { credentials })
-	const bodyString = JSON.stringify({
-		app_metadata: newAppMetadata,
-	})
-	console.log({ bodyString })
+	// console.log({ bodyString })
 
 	// Save the credentials in the Netlify user's app_metadata.
 	// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
