@@ -33,12 +33,13 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	return { key, password, db_name }
 }
 
-exports.handler = async event => {
-	const { httpMethod, body } = event
+exports.handler = async payload => {
+	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
-	const payload = JSON.parse(body)
-	if (payload.event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
+	const { event, user } = JSON.parse(body)
+	console.log({ event, user })
+	if (event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
 
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
@@ -47,7 +48,7 @@ exports.handler = async event => {
 	})
 
 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
-	const db_name = `goldbug-${getUuid(payload.user.email)}`
+	const db_name = `goldbug-${getUuid(user.email)}`
 	await provisionDatabase(cloudant, db_name)
 
 	const credentials = await getDatabaseCredentials(cloudant, db_name)
