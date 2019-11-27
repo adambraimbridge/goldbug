@@ -22,8 +22,9 @@ exports.handler = async (payload, context) => {
 	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
-	const { event, user } = JSON.parse(body)
-	console.log({ event, user, context })
+	const { event } = JSON.parse(body)
+	const { identity, user } = context.clientContext
+	console.log({ identity, user })
 	if (event !== 'signup') return { statusCode: 405, body: 'Event Type Not Allowed.' }
 
 	const cloudant = await Cloudant({
