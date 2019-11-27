@@ -2,24 +2,6 @@ const Cloudant = require('@cloudant/cloudant')
 const getUuid = require('uuid-by-string')
 
 /**
- * Provision a remote database for the new Netlify user.
- */
-const provisionDatabase = async (cloudant, db_name) => {
-	try {
-		await cloudant.db.get(db_name)
-		console.log(`Database found: ${db_name}`)
-	} catch (error) {
-		console.log(`Database not found: ${db_name}. Provisioning new database ...`)
-		try {
-			await cloudant.db.create(db_name)
-		} catch (error) {
-			console.error(error)
-			return { statusCode: 500, body: `Could not provision remote database. ${error}` }
-		}
-	}
-}
-
-/**
  * Generate API key/password credentials.
  */
 const getDatabaseCredentials = async (cloudant, db_name) => {
@@ -52,7 +34,23 @@ exports.handler = async payload => {
 
 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
 	const db_name = `goldbug-${getUuid(user.email)}`
-	await provisionDatabase(cloudant, db_name)
+
+	/**
+	 * Provision a remote database for the new Netlify user.
+	 */
+	try {
+		await cloudant.db.get(db_name)
+		console.log(`Database found: ${db_name}`)
+		return { statusCode: 200 }
+	} catch (error) {
+		console.log(`Database not found: ${db_name}. Provisioning new database ...`)
+		try {
+			await cloudant.db.create(db_name)
+		} catch (error) {
+			console.error(error)
+			return { statusCode: 500, body: `Could not provision remote database. ${error}` }
+		}
+	}
 
 	const credentials = await getDatabaseCredentials(cloudant, db_name)
 	const { app_metadata } = user
