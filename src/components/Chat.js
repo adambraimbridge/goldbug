@@ -24,10 +24,8 @@ const MessageForm = ({ addMessage, setMessages }) => {
 	useLayoutEffect(() => {
 		;(async () => {
 			const authenticatedUser = await getAuthenticatedUser()
-			console.log('authenticatedUser', authenticatedUser)
 			setUser(authenticatedUser.user_metadata)
-			if (authenticatedUser.app_metadata && authenticatedUser.app_metadata.credentials) {
-				console.log(authenticatedUser)
+			if (authenticatedUser.app_metadata && authenticatedUser.app_metadata.key && authenticatedUser.app_metadata.password) {
 				syncRemoteDatabase({ authenticatedUser, setMessages })
 			}
 		})()
