@@ -35,14 +35,14 @@ export const getAuthenticatedUser = async () => {
 
 	let authenticatedUser = goTrueAuth.currentUser()
 
-	if (!authenticatedUser) {
-		const authenticationData = getAuthenticationDataFromHash()
-		if (authenticationData) {
-			authenticatedUser = await goTrueAuth.createUser(authenticationData, true)
-		} else {
-			authenticatedUser = false
-		}
-	}
+	// if (!authenticatedUser) {
+	// 	const authenticationData = getAuthenticationDataFromHash()
+	// 	if (authenticationData) {
+	// 		authenticatedUser = await goTrueAuth.createUser(authenticationData, true)
+	// 	} else {
+	// 		authenticatedUser = false
+	// 	}
+	// }
 
 	// Remove hash from url so that token does not remain in browser history.
 	window.history.replaceState(null, null, '/')

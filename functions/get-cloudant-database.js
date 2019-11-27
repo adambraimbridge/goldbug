@@ -1,9 +1,8 @@
 const Cloudant = require('@cloudant/cloudant')
 const getUuid = require('uuid-by-string')
-const GoTrue = require('gotrue-js').default()
 
 /**
- * If the remote database for the user doesn't exist, provision one.
+ * Provision a remote database for the new Netlify user.
  */
 const provisionDatabase = async (cloudant, db_name) => {
 	try {
@@ -20,6 +19,9 @@ const provisionDatabase = async (cloudant, db_name) => {
 	}
 }
 
+/**
+ * Generate API key/password credentials.
+ */
 const getDatabaseCredentials = async (cloudant, db_name) => {
 	const database = await cloudant.db.use(db_name)
 	const security = await database.get_security()
@@ -34,28 +36,13 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	return { key, password, db_name }
 }
 
-/**
- * Authentication is provided by Netlify via Google OAuth.
- */
-const getAuthenticatedUser = async user => {
-	const goTrueAuth = new GoTrue({
-		APIUrl: 'https://www.goldbug.club/.netlify/identity',
-	})
-	const authenticatedUser = goTrueAuth.currentUser()
-	// authenticatedUser = await goTrueAuth.getUser(authenticationData)
-	return authenticatedUser
-}
-
 exports.handler = async payload => {
 	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
 	const { event, user } = JSON.parse(body)
 	console.log({ event, user })
-	if (event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
-
-	const authenticatedUser = await getAuthenticatedUser()
-	console.log({ authenticatedUser })
+	if (event !== 'signup') return { statusCode: 405, body: 'Event Type Not Allowed.' }
 
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
@@ -68,12 +55,6 @@ exports.handler = async payload => {
 	await provisionDatabase(cloudant, db_name)
 
 	const credentials = await getDatabaseCredentials(cloudant, db_name)
-
-	/**
-	 * Generate API key/password credentials.
-	 */
-
-	// Todo: Check if app_metadata already contains credentials
 	const { app_metadata } = user
 	app_metadata.credentials = credentials
 	const bodyString = JSON.stringify({ app_metadata })
