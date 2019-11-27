@@ -10,9 +10,8 @@ const getAuthenticationDataFromHash = () => {
 	// This is for local authentication debugging
 	console.log(`http://localhost:8888/${locationHash}`)
 
-	// Capture error in location hash; e.g:
-	// #error=server_error&error_description=Failed+to+perform+webhook+in+time+frame+%285+seconds%29
-	if (locationHash.indexOf('error')) return false
+	// Only proceed if there's an access token
+	if (locationHash.indexOf('access_token') === -1) return false
 
 	return locationHash
 		.replace(/^#/, '')
@@ -50,6 +49,6 @@ export const getAuthenticatedUser = async () => {
 	}
 
 	// Remove hash from url so that token does not remain in browser history.
-	window.history.replaceState(null, null, '/')
+	// window.history.replaceState(null, null, '/')
 	return authenticatedUser
 }
