@@ -19,7 +19,7 @@ exports.handler = async event => {
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
 	const payload = JSON.parse(body)
-	if (payload.event !== 'login') return { statusCode: 200 }
+	if (payload.event !== 'login') return
 
 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
 	const databaseName = `goldbug-${getUuid(payload.user.email)}`
@@ -34,47 +34,34 @@ exports.handler = async event => {
 	})
 
 	/**
-	 * If the remote database for the user exists, return a success status code.
+	 * If the remote database for the user doesn't exist, provision one.
 	 */
+	let remoteDatabase
 	try {
-		await cloudant.db.get(databaseName)
+		remoteDatabase = await cloudant.db.get(databaseName)
 		console.log(`Database found: ${databaseName}`)
-
-		console.log(
-			JSON.stringify({
-				app_metadata,
-				user_metadata,
-			})
-		)
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				app_metadata,
-				user_metadata,
-			}),
-		}
 	} catch (error) {
-		console.log(`Database not found: ${databaseName}`)
+		console.log(`Database not found: ${databaseName}. Provisioning new database ...`)
+		try {
+			await cloudant.db.create(databaseName)
+			remoteDatabase = await cloudant.db.get(databaseName)
+		} catch (error) {
+			console.error(error)
+			return { statusCode: 500, body: `Could not provision remote database. ${error}` }
+		}
 	}
 
 	/**
-	 * Create a new database for the user and generate API key/password credentials.
+	 * Generate API key/password credentials.
 	 */
-	console.log('Provisioning new database ...')
-	try {
-		const response = await cloudant.db.create(databaseName)
-		console.log({ response })
-	} catch (error) {
-		console.error(error)
-	}
-	const remoteDatabase = await cloudant.db.get(databaseName)
+
+	// Todo: Check if app_metadata already contains credentials
+
 	const credentials = await getDatabaseCredentials(cloudant, remoteDatabase)
-	credentials.databaseName = databaseName
-	const newAppMetadata = Object.assign({}, app_metadata, credentials)
+	const { key, password } = credentials
+	const newAppMetadata = Object.assign({}, app_metadata, key, password, databaseName)
 	const bodyString = JSON.stringify({
 		app_metadata: newAppMetadata,
-		user_metadata: newAppMetadata,
 	})
 
 	console.log({ bodyString })
