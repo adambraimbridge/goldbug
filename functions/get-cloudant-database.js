@@ -1,22 +1,17 @@
 const Cloudant = require('@cloudant/cloudant')
 const getUuid = require('uuid-by-string')
 
-const getDatabase = async () => {
-	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
-	const databaseName = `goldbug-${getUuid(payload.user.email)}`
-
-	/**
-	 * If the remote database for the user doesn't exist, provision one.
-	 */
-	let remoteDatabase
+/**
+ * If the remote database for the user doesn't exist, provision one.
+ */
+const provisionDatabase = async (cloudant, db_name) => {
 	try {
-		remoteDatabase = await cloudant.db.get(databaseName)
-		console.log(`Database found: ${databaseName}`)
+		await cloudant.db.get(db_name)
+		console.log(`Database found: ${db_name}`)
 	} catch (error) {
-		console.log(`Database not found: ${databaseName}. Provisioning new database ...`)
+		console.log(`Database not found: ${db_name}. Provisioning new database ...`)
 		try {
-			await cloudant.db.create(databaseName)
-			remoteDatabase = await cloudant.db.get(databaseName)
+			await cloudant.db.create(db_name)
 		} catch (error) {
 			console.error(error)
 			return { statusCode: 500, body: `Could not provision remote database. ${error}` }
@@ -33,8 +28,8 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	const newSecurity = Object.assign({}, security, {
 		[key]: ['_reader', '_writer', '_replicator'],
 	})
-
 	await database.set_security(newSecurity)
+
 	return { key, password, db_name }
 }
 
@@ -51,8 +46,11 @@ exports.handler = async event => {
 		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
 	})
 
-	const remoteDatabase = await getDatabase()
-	const credentials = await getDatabaseCredentials(cloudant, remoteDatabase.db_name)
+	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
+	const db_name = `goldbug-${getUuid(payload.user.email)}`
+	await provisionDatabase(cloudant, db_name)
+
+	const credentials = await getDatabaseCredentials(cloudant, db_name)
 
 	/**
 	 * Generate API key/password credentials.
