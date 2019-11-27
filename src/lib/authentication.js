@@ -7,11 +7,12 @@ const getAuthenticationDataFromHash = () => {
 	if (!document.location.hash.length) return false
 	const locationHash = document.location.hash
 
-	// TODO capture error in location hash; e.g:
-	// #error=server_error&error_description=Failed+to+perform+webhook+in+time+frame+%285+seconds%29
-
 	// This is for local authentication debugging
 	console.log(`http://localhost:8888/${locationHash}`)
+
+	// Capture error in location hash; e.g:
+	// #error=server_error&error_description=Failed+to+perform+webhook+in+time+frame+%285+seconds%29
+	if (locationHash.indexOf('error')) return false
 
 	return locationHash
 		.replace(/^#/, '')
@@ -34,17 +35,16 @@ export const getAuthenticatedUser = async () => {
 	})
 
 	let authenticatedUser = goTrueAuth.currentUser()
-
-	// if (!authenticatedUser) {
-	// 	const authenticationData = getAuthenticationDataFromHash()
-	// 	if (authenticationData) {
-	// 		authenticatedUser = await goTrueAuth.createUser(authenticationData, true)
-	// 	} else {
-	// 		authenticatedUser = false
-	// 	}
-	// }
+	if (!authenticatedUser) {
+		const authenticationData = getAuthenticationDataFromHash()
+		if (authenticationData) {
+			authenticatedUser = await goTrueAuth.createUser(authenticationData, true)
+		} else {
+			authenticatedUser = false
+		}
+	}
 
 	// Remove hash from url so that token does not remain in browser history.
-	// window.history.replaceState(null, null, '/')
+	window.history.replaceState(null, null, '/')
 	return authenticatedUser
 }
