@@ -58,7 +58,7 @@ exports.handler = async payload => {
 	 */
 
 	// Todo: Check if app_metadata already contains credentials
-	const { app_metadata } = payload.user
+	const { app_metadata } = user
 	app_metadata.credentials = credentials
 	const bodyString = JSON.stringify({ app_metadata })
 
