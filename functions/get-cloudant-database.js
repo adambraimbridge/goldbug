@@ -1,5 +1,6 @@
 const Cloudant = require('@cloudant/cloudant')
 const getUuid = require('uuid-by-string')
+const GoTrue = require('gotrue-js')
 
 /**
  * If the remote database for the user doesn't exist, provision one.
@@ -33,6 +34,18 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	return { key, password, db_name }
 }
 
+/**
+ * Authentication is provided by Netlify via Google OAuth.
+ */
+const getAuthenticatedUser = async user => {
+	const goTrueAuth = new GoTrue({
+		APIUrl: 'https://www.goldbug.club/.netlify/identity',
+	})
+	const authenticatedUser = goTrueAuth.currentUser()
+	// authenticatedUser = await goTrueAuth.getUser(authenticationData)
+	return authenticatedUser
+}
+
 exports.handler = async payload => {
 	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
@@ -40,6 +53,9 @@ exports.handler = async payload => {
 	const { event, user } = JSON.parse(body)
 	console.log({ event, user })
 	if (event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
+
+	const authenticatedUser = await getAuthenticatedUser()
+	console.log({ authenticatedUser })
 
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,

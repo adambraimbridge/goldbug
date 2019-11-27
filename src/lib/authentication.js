@@ -7,6 +7,9 @@ const getAuthenticationDataFromHash = () => {
 	if (!document.location.hash.length) return false
 	const locationHash = document.location.hash
 
+	// TODO capture error in location hash; e.g:
+	// #error=server_error&error_description=Failed+to+perform+webhook+in+time+frame+%285+seconds%29
+
 	// This is for local authentication debugging
 	console.log(`http://localhost:8888/${locationHash}`)
 
