@@ -45,7 +45,7 @@ exports.handler = async payload => {
 	const { event, user } = JSON.parse(body)
 	if (event !== 'signup' && event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
 
-	const hasRemoteDatabase = getRemoteDatabase()
+	const hasRemoteDatabase = await getRemoteDatabase()
 	console.log({ hasRemoteDatabase })
 
 	return {
