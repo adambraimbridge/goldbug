@@ -59,17 +59,13 @@ exports.handler = async payload => {
 
 	// Check for a remote database and provision one if neccessary.
 	const hasRemoteDatabase = await getRemoteDatabase(cloudant, db_name)
-	if (hasRemoteDatabase) {
-		return { statusCode: 200 }
-	} else {
+	if (!hasRemoteDatabase) {
 		const success = await provisionRemoteDatabase(cloudant, db_name)
 		if (!success) return { statusCode: 500, body: `Could not provision remote database.` }
 	}
 
 	// Check for database credentials and create them if neccessary.
-	if (user.app_metadata.credentials) {
-		return { statusCode: 200 }
-	} else {
+	if (!user.app_metadata.credentials) {
 		const credentials = await getDatabaseCredentials(cloudant, db_name)
 		if (!credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
 
@@ -79,5 +75,10 @@ exports.handler = async payload => {
 			statusCode: 200,
 			body: JSON.stringify({ app_metadata: { credentials } }),
 		}
+	}
+
+	console.log(user)
+	return {
+		statusCode: 200,
 	}
 }
