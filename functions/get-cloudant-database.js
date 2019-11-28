@@ -18,15 +18,7 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	return { key, password, db_name }
 }
 
-const getRemoteDatabase = async () => {
-	const cloudant = await Cloudant({
-		username: process.env.CLOUDANT_USERNAME,
-		password: process.env.CLOUDANT_PASSWORD,
-		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
-	})
-
-	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
-	const db_name = `goldbug-${getUuid(user.email)}`
+const getRemoteDatabase = async (cloudant, db_name) => {
 	try {
 		const result = await cloudant.db.get(db_name)
 		console.log({ result })
@@ -45,7 +37,16 @@ exports.handler = async payload => {
 	const { event, user } = JSON.parse(body)
 	if (event !== 'signup' && event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
 
-	const hasRemoteDatabase = await getRemoteDatabase()
+	const cloudant = await Cloudant({
+		username: process.env.CLOUDANT_USERNAME,
+		password: process.env.CLOUDANT_PASSWORD,
+		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
+	})
+
+	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
+	const db_name = `goldbug-${getUuid(user.email)}`
+
+	const hasRemoteDatabase = await getRemoteDatabase(cloudant, db_name)
 	console.log({ hasRemoteDatabase })
 
 	return {
