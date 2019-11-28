@@ -64,21 +64,21 @@ exports.handler = async payload => {
 		if (!success) return { statusCode: 500, body: `Could not provision remote database.` }
 	}
 
-	// Check for database credentials and create them if neccessary.
-	if (!user.app_metadata.credentials) {
-		const credentials = await getDatabaseCredentials(cloudant, db_name)
-		if (!credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
+	// // Check for database credentials and create them if neccessary.
+	// if (!user.app_metadata.credentials) {
+	// 	const credentials = await getDatabaseCredentials(cloudant, db_name)
+	// 	if (!credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
 
-		// Save the credentials in the Netlify user's app_metadata.
-		// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
-		return {
-			statusCode: 200,
-			body: JSON.stringify({ app_metadata: { credentials } }),
-		}
-	}
+	// 	// Save the credentials in the Netlify user's app_metadata.
+	// 	// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
+	// 	return {
+	// 		statusCode: 200,
+	// 		body: JSON.stringify({ app_metadata: { credentials } }),
+	// 	}
+	// }
 
 	console.log(user)
 	return {
-		statusCode: 200,
+		statusCode: 204,
 	}
 }
