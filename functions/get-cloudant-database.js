@@ -41,7 +41,6 @@ const provisionRemoteDatabase = async (cloudant, db_name) => {
 	}
 }
 
-// 	const { identity } = context.clientContext
 exports.handler = async payload => {
 	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
@@ -59,35 +58,20 @@ exports.handler = async payload => {
 	const db_name = `goldbug-${getUuid(user.email)}`
 
 	const hasRemoteDatabase = await getRemoteDatabase(cloudant, db_name)
-	if (!hasRemoteDatabase) {
+	if (hasRemoteDatabase) {
+		return { statusCode: 200 }
+	} else {
 		const success = await provisionRemoteDatabase(cloudant, db_name)
 		if (!success) return { statusCode: 500, body: `Could not provision remote database.` }
-	}
 
-	return {
-		statusCode: 200,
-		body: JSON.stringify({ app_metadata: { credentials: { db_name } } }),
+		const credentials = await getDatabaseCredentials(cloudant, db_name)
+		if (!credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
+
+		// Save the credentials in the Netlify user's app_metadata.
+		// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
+		return {
+			statusCode: 200,
+			body: JSON.stringify({ app_metadata: { credentials } }),
+		}
 	}
 }
-
-// 		const credentials = await getDatabaseCredentials(cloudant, db_name)
-// 		const { app_metadata } = user
-
-// 		const bodyString = JSON.stringify({
-// 			app_metadata: {
-// 				...app_metadata,
-// 				credentials,
-// 				today: 'Thursday',
-// 			},
-// 		})
-
-// 		console.log(bodyString)
-
-// 		// Save the credentials in the Netlify user's app_metadata.
-// 		// See: https://docs.netlify.com/functions/functions-and-identity/#trigger-serverless-functions-on-identity-events
-// 		return {
-// 			statusCode: 200,
-// 			body: bodyString,
-// 		}
-// 	}
-// }
