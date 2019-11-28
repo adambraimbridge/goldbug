@@ -47,7 +47,6 @@ exports.handler = async payload => {
 
 	const { event, user } = JSON.parse(body)
 	console.log({ event, user })
-	if (event !== 'signup' && event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
 
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
