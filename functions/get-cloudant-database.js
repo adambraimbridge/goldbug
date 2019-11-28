@@ -18,13 +18,25 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	return { key, password, db_name }
 }
 
+/**
+ * Cloudant throws an error if you attempt to get a database that does not exist.
+ */
 const getRemoteDatabase = async (cloudant, db_name) => {
 	try {
-		const result = await cloudant.db.get(db_name)
-		console.log({ result })
+		await cloudant.db.get(db_name)
 		return true
 	} catch (error) {
-		console.log({ error })
+		return false
+	}
+}
+
+/**
+ * Provision a remote database for the Netlify user.
+ */
+const provisionRemoteDatabase = async (cloudant, db_name) => {
+	try {
+		await cloudant.db.create(db_name)
+	} catch (error) {
 		return false
 	}
 }
@@ -47,29 +59,16 @@ exports.handler = async payload => {
 	const db_name = `goldbug-${getUuid(user.email)}`
 
 	const hasRemoteDatabase = await getRemoteDatabase(cloudant, db_name)
-	console.log({ hasRemoteDatabase })
+	if (!hasRemoteDatabase) {
+		const success = await provisionRemoteDatabase(cloudant, db_name)
+		if (!success) return { statusCode: 500, body: `Could not provision remote database.` }
+	}
 
 	return {
 		statusCode: 200,
-		body: JSON.stringify({ app_metadata: { testing: true } }),
+		body: JSON.stringify({ app_metadata: { credentials: { db_name } } }),
 	}
 }
-
-// 	/**
-// 	 * Provision a remote database for the new Netlify user.
-// 	 */
-// 	try {
-// 		await cloudant.db.get(db_name)
-// 		console.log(`Database found: ${db_name}`)
-// 		// return { statusCode: 200 }
-// 	} catch (error) {
-// 		console.log(`Database not found: ${db_name}. Provisioning new database ...`)
-// 		try {
-// 			await cloudant.db.create(db_name)
-// 		} catch (error) {
-// 			console.error(error)
-// 			return { statusCode: 500, body: `Could not provision remote database. ${error}` }
-// 		}
 
 // 		const credentials = await getDatabaseCredentials(cloudant, db_name)
 // 		const { app_metadata } = user
