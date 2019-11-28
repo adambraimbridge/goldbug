@@ -25,7 +25,7 @@ exports.handler = async (payload, context) => {
 	const { event, user } = JSON.parse(body)
 	const { identity } = context.clientContext
 	console.log({ user, event, identity })
-	if (event !== 'signup' && event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
+	// if (event !== 'signup' && event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
 
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
@@ -55,10 +55,12 @@ exports.handler = async (payload, context) => {
 
 	const credentials = await getDatabaseCredentials(cloudant, db_name)
 	const { app_metadata } = user
-	app_metadata.credentials = credentials
-	app_metadata.testing = true
 
-	const bodyString = JSON.stringify({ app_metadata })
+	const bodyString = JSON.stringify({
+		...app_metadata,
+		credentials,
+		today: 'Thursday',
+	})
 
 	console.log(bodyString)
 
