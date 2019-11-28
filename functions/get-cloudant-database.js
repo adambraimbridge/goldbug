@@ -57,13 +57,19 @@ exports.handler = async payload => {
 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
 	const db_name = `goldbug-${getUuid(user.email)}`
 
+	// Check for a remote database and provision one if neccessary.
 	const hasRemoteDatabase = await getRemoteDatabase(cloudant, db_name)
 	if (hasRemoteDatabase) {
 		return { statusCode: 200 }
 	} else {
 		const success = await provisionRemoteDatabase(cloudant, db_name)
 		if (!success) return { statusCode: 500, body: `Could not provision remote database.` }
+	}
 
+	// Check for database credentials and create them if neccessary.
+	if (user.app_metadata.credentials) {
+		return { statusCode: 200 }
+	} else {
 		const credentials = await getDatabaseCredentials(cloudant, db_name)
 		if (!credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
 
