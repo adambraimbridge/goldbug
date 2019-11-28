@@ -18,30 +18,41 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	return { key, password, db_name }
 }
 
+const getRemoteDatabase = async () => {
+	const cloudant = await Cloudant({
+		username: process.env.CLOUDANT_USERNAME,
+		password: process.env.CLOUDANT_PASSWORD,
+		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
+	})
+
+	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
+	const db_name = `goldbug-${getUuid(user.email)}`
+	try {
+		const result = await cloudant.db.get(db_name)
+		console.log({ result })
+		return true
+	} catch (error) {
+		console.log({ error })
+		return false
+	}
+}
+
 // 	const { identity } = context.clientContext
 exports.handler = async payload => {
 	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
 	const { event, user } = JSON.parse(body)
-	console.log({ event, user })
+	if (event !== 'signup' && event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
+
+	const hasRemoteDatabase = getRemoteDatabase()
+	console.log({ hasRemoteDatabase })
 
 	return {
 		statusCode: 200,
 		body: JSON.stringify({ app_metadata: { testing: true } }),
 	}
 }
-
-// 	if (event !== 'login') return { statusCode: 405, body: 'Event Type Not Allowed.' }
-
-// 	const cloudant = await Cloudant({
-// 		username: process.env.CLOUDANT_USERNAME,
-// 		password: process.env.CLOUDANT_PASSWORD,
-// 		url: `https://${process.env.CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/`,
-// 	})
-
-// 	// @see https://docs.couchdb.org/en/stable/api/database/common.html#put--db
-// 	const db_name = `goldbug-${getUuid(user.email)}`
 
 // 	/**
 // 	 * Provision a remote database for the new Netlify user.
