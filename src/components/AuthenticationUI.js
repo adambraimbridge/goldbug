@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { getAuthenticatedUser } from '../lib/authentication'
 
 /**
  * Render a UI to let the user sign in.
@@ -53,16 +52,18 @@ export const AuthenticationPanel = () => (
 	</div>
 )
 
-export const AuthenticationUI = () => {
-	const [authenticatedUser, setAuthenticatedUser] = useState(false)
+export const AuthenticationUI = ({ authenticatedUser, setAuthenticatedUser }) => {
 	const [authenticationUI, setAuthenticationUI] = useState(<SignInUI />)
+
+	// If the authenticated user changes, then change the UI accordingly.
 	useEffect(() => {
 		;(async () => {
-			setAuthenticatedUser(await getAuthenticatedUser())
 			if (authenticatedUser) {
 				setAuthenticationUI(<SignOutUI authenticatedUser={authenticatedUser} setAuthenticatedUser={setAuthenticatedUser} />)
+			} else {
+				setAuthenticationUI(<SignInUI />)
 			}
 		})()
-	}, [authenticatedUser])
+	}, [authenticatedUser, setAuthenticatedUser])
 	return authenticationUI
 }

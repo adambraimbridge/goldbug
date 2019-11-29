@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import { AuthenticationUI, AuthenticationPanel } from './AuthenticationUI'
 import { getAuthenticatedUser } from '../lib/authentication'
 import { Chat } from './Chat'
 import { Workshop } from './Workshop'
 
-const Page = () => {
-	const [authenticatedUser, setAuthenticatedUser] = useState(false)
+const Page = ({ authenticatedUser }) => {
 	const [pageElement, setPageElement] = useState(<AuthenticationPanel />)
-	useEffect(() => {
+
+	// If the authenticated user changes, then change the UI accordingly.
+	useLayoutEffect(() => {
 		;(async () => {
-			setAuthenticatedUser(await getAuthenticatedUser())
 			if (authenticatedUser) {
 				setPageElement(
 					<Switch>
@@ -26,13 +26,23 @@ const Page = () => {
 						</Route>
 					</Switch>
 				)
+			} else {
+				setPageElement(<AuthenticationPanel />)
 			}
 		})()
 	}, [authenticatedUser])
+
 	return pageElement
 }
 
 export const App = () => {
+	const [authenticatedUser, setAuthenticatedUser] = useState()
+	// On page load, get the authenticated user and set the UI.
+	useLayoutEffect(() => {
+		;(async () => {
+			setAuthenticatedUser(await getAuthenticatedUser())
+		})()
+	})
 	return (
 		<Router>
 			<div id="layout" className="full-height">
@@ -41,9 +51,9 @@ export const App = () => {
 						<img alt="💀" src="/icons/favicon.png" className="align-baseline icon" />
 						Goldbug Club
 					</Link>
-					<AuthenticationUI />
+					<AuthenticationUI authenticatedUser={authenticatedUser} setAuthenticatedUser={setAuthenticatedUser} />
 				</nav>
-				<Page />
+				<Page authenticatedUser={authenticatedUser} setAuthenticatedUser={setAuthenticatedUser} />
 			</div>
 		</Router>
 	)
