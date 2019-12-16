@@ -5,71 +5,38 @@
 	"repository": "git@github.com:adambraimbridge/goldbug.git",
 	"author": "Adam Braimbridge <adam@braimbridge.com>",
 	"license": "MIT",
-	"dependencies": {
-		"@cloudant/cloudant": "^4.2.0",
-		"emoji-js": "^3.4.1",
-		"emoji-picker-react": "^2.1.1",
-		"gotrue-js": "^0.9.25",
-		"node-sass": "^4.12.0",
-		"pouchdb": "^7.1.1",
-		"react": "^16.10.2",
-		"react-dom": "^16.10.2",
-		"react-router-dom": "^5.1.2",
-		"react-scripts": "3.2.0",
-		"uuid-by-string": "^3.0.2"
-	},
 	"devDependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
+		"@cloudant/cloudant": "^4.2.0",
 		"bootstrap": "^4.3.1",
 		"bootswatch": "^4.3.1",
+		"emoji-js": "^3.4.1",
+		"emoji-picker-react": "^2.1.1",
 		"eslint": "^6.6.0",
 		"eslint-config-prettier": "^6.4.0",
 		"eslint-plugin-prettier": "^3.1.1",
 		"eslint-plugin-react-hooks": "^2.3.0",
+		"gatsby": "^2.18.4",
+		"gatsby-plugin-manifest": "^2.2.33",
+		"gatsby-plugin-sass": "^2.1.26",
+		"gotrue-js": "^0.9.25",
 		"netlify-cli": "^2.20.2",
-		"prettier": "^1.18.2"
+		"node-sass": "^4.13.0",
+		"pouchdb": "^7.1.1",
+		"prettier": "^1.19.1",
+		"react": "^16.10.2",
+		"react-dom": "^16.10.2",
+		"react-router-dom": "^5.1.2",
+		"uuid-by-string": "^3.0.2"
 	},
 	"prettier": "@adambraimbridge/prettierrc-2019-05",
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "jest",
-		"dev": "netlify dev",
-		"dev-live": "netlify dev --live"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"eslint:recommended",
-			"plugin:prettier/recommended"
-		],
-		"plugins": [
-			"react-hooks"
-		],
-		"rules": {
-			"react-hooks/rules-of-hooks": "error",
-			"react-hooks/exhaustive-deps": "warn"
-		},
-		"env": {
-			"es6": true,
-			"node": true,
-			"jest": true
-		},
-		"parserOptions": {
-			"sourceType": "module",
-			"ecmaVersion": 2018
-		}
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
+		"build": "gatsby build",
+		"develop": "gatsby develop",
+		"format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+		"start": "npm run develop",
+		"serve": "gatsby serve",
+		"clean": "gatsby clean",
+		"test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
 	}
 }

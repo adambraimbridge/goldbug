@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { Context } from './Context'
+import { getAuthenticatedUser } from '../lib/authentication'
 
 /**
  * Render a UI to let the user sign in.
@@ -6,10 +8,14 @@ import React, { useState, useEffect } from 'react'
  */
 const SignInUI = ({ size }) => {
 	const oAuthUrl = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
+	const { setState } = React.useContext(Context)
+
 	const signIn = () => {
+		setState({ loading: true })
 		// Redirect to OAuth endpoint. It'll redirect back after the user signs in.
 		window.location = oAuthUrl
 	}
+
 	const classList = `btn ${size === 'large' ? 'btn-lg btn-primary' : 'btn-sm btn-light'}`
 	return (
 		<div className={classList} onClick={signIn}>
@@ -19,12 +25,17 @@ const SignInUI = ({ size }) => {
 }
 
 // TODO: purge local cache for user
-const SignOutUI = ({ authenticatedUser, setAuthenticatedUser }) => {
-	const signOut = async () => {
-		await authenticatedUser.logout().catch(console.log)
-		setAuthenticatedUser(false)
-	}
+const SignOutUI = () => {
+	const { state, setState } = React.useContext(Context)
+	const { authenticatedUser } = state || {}
 	const { full_name, avatar_url } = authenticatedUser.user_metadata
+
+	const signOut = async () => {
+		setState({ loading: true })
+		await state.authenticatedUser.logout().catch(console.log)
+		setState({ authenticatedUser: false, loading: false })
+	}
+
 	return (
 		<div className="p-0 btn btn-sm centered" onClick={signOut}>
 			<div>Sign Out</div>
@@ -52,18 +63,21 @@ export const AuthenticationPanel = () => (
 	</div>
 )
 
-export const AuthenticationUI = ({ authenticatedUser, setAuthenticatedUser }) => {
-	const [authenticationUI, setAuthenticationUI] = useState(<SignInUI />)
+export const AuthenticationUI = () => {
+	const { state, setState } = React.useContext(Context)
+	const { authenticatedUser } = state || {}
 
-	// If the authenticated user changes, then change the UI accordingly.
-	useEffect(() => {
+	// Before rendering anything, get the authenticated user.
+	React.useLayoutEffect(() => {
 		;(async () => {
-			if (authenticatedUser) {
-				setAuthenticationUI(<SignOutUI authenticatedUser={authenticatedUser} setAuthenticatedUser={setAuthenticatedUser} />)
-			} else {
-				setAuthenticationUI(<SignInUI />)
-			}
+			const authenticatedUser = await getAuthenticatedUser()
+			setState({ authenticatedUser })
 		})()
-	}, [authenticatedUser, setAuthenticatedUser])
-	return authenticationUI
+	}, [setState])
+
+	if (authenticatedUser) {
+		return <SignOutUI />
+	} else {
+		return <SignInUI size="small" />
+	}
 }
