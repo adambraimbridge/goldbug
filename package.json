@@ -5,7 +5,7 @@
 	"repository": "git@github.com:adambraimbridge/goldbug.git",
 	"author": "Adam Braimbridge <adam@braimbridge.com>",
 	"license": "MIT",
-	"devDependencies": {
+	"dependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
 		"@cloudant/cloudant": "^4.2.0",
 		"bootstrap": "^4.3.1",
