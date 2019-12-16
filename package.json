@@ -8,6 +8,7 @@
 	"dependencies": {
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
 		"@cloudant/cloudant": "^4.2.0",
+		"@zeit/next-sass": "^1.0.1",
 		"bootstrap": "^4.3.1",
 		"bootswatch": "^4.3.1",
 		"emoji-js": "^3.4.1",
@@ -16,11 +17,9 @@
 		"eslint-config-prettier": "^6.4.0",
 		"eslint-plugin-prettier": "^3.1.1",
 		"eslint-plugin-react-hooks": "^2.3.0",
-		"gatsby": "^2.18.4",
-		"gatsby-plugin-manifest": "^2.2.33",
-		"gatsby-plugin-sass": "^2.1.26",
 		"gotrue-js": "^0.9.25",
 		"netlify-cli": "^2.20.2",
+		"next": "^9.1.5",
 		"node-sass": "^4.13.0",
 		"pouchdb": "^7.1.1",
 		"prettier": "^1.19.1",
@@ -31,12 +30,10 @@
 	},
 	"prettier": "@adambraimbridge/prettierrc-2019-05",
 	"scripts": {
-		"build": "gatsby build",
-		"develop": "gatsby develop",
+		"develop": "next",
+		"build": "next build",
+		"start": "next start",
 		"format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-		"start": "npm run develop",
-		"serve": "gatsby serve",
-		"clean": "gatsby clean",
-		"test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+		"test": "echo \"Write tests!\" && exit 1"
 	}
 }
