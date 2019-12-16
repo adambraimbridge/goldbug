@@ -32,6 +32,8 @@
 	"scripts": {
 		"develop": "next",
 		"build": "next build",
+		"export": "next export",
+		"deploy": "yarn build && yarn export",
 		"start": "next start",
 		"format": "prettier --write \"**/*.{js,jsx,json,md}\"",
 		"test": "echo \"Write tests!\" && exit 1"
