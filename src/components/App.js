@@ -1,6 +1,6 @@
 import React from 'react'
 import { Context } from './Context'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { AuthenticationUI, AuthenticationPanel } from './AuthenticationUI'
 import { Chat } from './Chat'
 import { Workshop } from './Workshop'
@@ -11,18 +11,20 @@ const Page = () => {
 
 	if (authenticatedUser) {
 		return (
-			<Switch>
-				<Route exact path="/">
-					<div id="home">
-						<Chat />
-					</div>
-				</Route>
-				<Route path="/workshop/">
-					<div id="workshop">
-						<Workshop />
-					</div>
-				</Route>
-			</Switch>
+			<BrowserRouter>
+				<Switch>
+					<Route exact path="/">
+						<div id="home">
+							<Chat />
+						</div>
+					</Route>
+					<Route path="/workshop/">
+						<div id="workshop">
+							<Workshop />
+						</div>
+					</Route>
+				</Switch>
+			</BrowserRouter>
 		)
 	} else {
 		return <AuthenticationPanel />
