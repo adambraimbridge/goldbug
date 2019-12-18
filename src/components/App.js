@@ -38,14 +38,14 @@ export const App = () => {
 	return (
 		<div id="layout" className="full-height max-with p-0 m-0 mx-auto">
 			<nav className="px-0 py-2 justify-content-between navbar navbar-expand navbar-dark">
-				<a href="/" className="centered">
+				<a href="/" className="centered btn btn-lg p-0 pt-1">
 					<img alt="💀" src="/icons/favicon.png" className="align-baseline icon" />
 					Goldbug Club
-					<noscript>Welcome to Goldbug Club. Thanks for visiting. Please enable JavaScript.</noscript>
 				</a>
 				<span id="loading" className={loadingClassName} role="status" aria-hidden={loading}></span>
 				<AuthenticationUI />
 			</nav>
+			<noscript>Welcome to Goldbug Club. Thanks for visiting. Please enable JavaScript.</noscript>
 			<Page />
 		</div>
 	)

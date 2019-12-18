@@ -40,8 +40,8 @@ const MessageForm = ({ addMessage, setMessages }) => {
 
 	return (
 		<form onSubmit={handleSubmit} id="chat-form">
-			<div className="form-group mx-2">
-				<input type="text" className="form-control" value={value} onChange={event => setValue(event.target.value)} placeholder="Enter message" />
+			<div className="form-group">
+				<input type="text" className="form-control" value={value} onKeyUp={event => event.stopPropagation()} onChange={event => setValue(event.target.value)} placeholder="Enter message" />
 			</div>
 		</form>
 	)

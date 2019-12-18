@@ -37,10 +37,10 @@ const SignOutUI = () => {
 	}
 
 	return (
-		<div className="p-0 btn btn-sm centered" onClick={signOut}>
+		<div className="btn btn-sm btn-light centered pr-1" onClick={signOut}>
 			<div>Sign Out</div>
 			<div className="avatar-thumbnail">
-				<img src={avatar_url} alt={full_name} className="icon rounded-circle border border-primary"></img>
+				<img src={avatar_url} alt={full_name} className="icon border border-secondary"></img>
 			</div>
 		</div>
 	)
