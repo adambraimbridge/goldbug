@@ -78,6 +78,6 @@ exports.handler = async payload => {
 	 */
 	return {
 		statusCode: 200,
-		body: JSON.stringify({ credentials }),
+		body: JSON.stringify({ app_metadata: credentials }),
 	}
 }
