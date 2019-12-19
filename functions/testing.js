@@ -1,7 +1,9 @@
 exports.handler = async payload => {
 	const data = {
-		testing: true,
-		timestamp: Date.now(),
+		app_metadata: {
+			testing: true,
+			timestamp: Date.now(),
+		},
 	}
 	console.log('testing ...', { data, payload })
 	return {
