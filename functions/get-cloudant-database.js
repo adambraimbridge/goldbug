@@ -43,7 +43,7 @@ const provisionRemoteDatabase = async (cloudant, db_name) => {
 
 exports.handler = async payload => {
 	// Todo: JWT authentication or something. I don't have mental energy to figure out JWT right now.
-	console.log('logging in ...')
+	console.log('logging in ...', { payload })
 
 	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
@@ -78,6 +78,6 @@ exports.handler = async payload => {
 	 */
 	return {
 		statusCode: 200,
-		body: JSON.stringify({ app_metadata: credentials }),
+		body: JSON.stringify({ credentials }),
 	}
 }
