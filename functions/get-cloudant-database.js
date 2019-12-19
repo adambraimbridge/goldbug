@@ -76,11 +76,10 @@ exports.handler = async payload => {
 	/**
 	 * The credentials returned here are saved to the Netlify user's account.
 	 */
-	const body = JSON.stringify({
-		app_metadata: { credentials },
-	})
 	return {
 		statusCode: 200,
-		body,
+		body: JSON.stringify({
+			app_metadata: { credentials },
+		}),
 	}
 }
