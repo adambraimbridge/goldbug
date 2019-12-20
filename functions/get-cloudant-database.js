@@ -43,13 +43,12 @@ const provisionRemoteDatabase = async (cloudant, db_name) => {
 
 exports.handler = async payload => {
 	// Todo: JWT authentication or something. I don't have mental energy to figure out JWT right now.
-	console.log('logging in ...', { payload })
 
 	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
-	const { event, user } = JSON.parse(body)
-	console.log({ event, user })
+	const { user } = JSON.parse(body)
+	console.log({ user })
 
 	const cloudant = await Cloudant({
 		username: process.env.CLOUDANT_USERNAME,
@@ -62,8 +61,8 @@ exports.handler = async payload => {
 
 	// Check for a remote database. Not found? Provision one.
 	const hasRemoteDatabase = await getRemoteDatabase(cloudant, db_name)
-	console.log({ hasRemoteDatabase })
 	if (!hasRemoteDatabase) {
+		console.log('Provisioning remote database ...')
 		const success = await provisionRemoteDatabase(cloudant, db_name)
 		if (!success) return { statusCode: 500, body: `Could not provision remote database.` }
 
@@ -76,18 +75,20 @@ exports.handler = async payload => {
 	// Create database credentials if appropriate.
 	const { app_metadata } = user
 	if (!app_metadata.credentials) {
+		console.log('Creating credentials for remote database ...')
 		app_metadata.credentials = await getDatabaseCredentials(cloudant, db_name)
 		if (!app_metadata.credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
 	}
-	console.log({ app_metadata })
 
 	/**
 	 * The credentials returned here are saved to the Netlify user's account.
 	 */
-	return {
+	const data = {
 		statusCode: 200,
 		body: JSON.stringify({
 			app_metadata,
 		}),
 	}
+	console.log('Returning response data', { data })
+	return data
 }
