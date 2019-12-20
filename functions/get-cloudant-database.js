@@ -66,12 +66,20 @@ exports.handler = async payload => {
 	if (!hasRemoteDatabase) {
 		const success = await provisionRemoteDatabase(cloudant, db_name)
 		if (!success) return { statusCode: 500, body: `Could not provision remote database.` }
+
+		// A new database needs new credentials, so delete any old credentials that might be in app_metadata.
+		try {
+			delete user.app_metadata.credentials
+		} catch (error) {}
 	}
 
-	// Create database credentials.
-	const credentials = await getDatabaseCredentials(cloudant, db_name)
-	console.log({ credentials })
-	if (!credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
+	// Create database credentials if appropriate.
+	const { app_metadata } = user
+	if (!app_metadata.credentials) {
+		app_metadata.credentials = await getDatabaseCredentials(cloudant, db_name)
+		if (!app_metadata.credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
+	}
+	console.log({ app_metadata })
 
 	/**
 	 * The credentials returned here are saved to the Netlify user's account.
@@ -79,7 +87,7 @@ exports.handler = async payload => {
 	return {
 		statusCode: 200,
 		body: JSON.stringify({
-			app_metadata: { credentials },
+			app_metadata,
 		}),
 	}
 }
