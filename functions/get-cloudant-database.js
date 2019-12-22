@@ -13,7 +13,7 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	const newSecurity = Object.assign({}, security, {
 		[key]: ['_reader', '_writer', '_replicator'],
 	})
-	await database.set_security(newSecurity)
+	await database.set_security(newSecurity).catch(console.log)
 
 	return { key, password, db_name }
 }
@@ -63,8 +63,9 @@ exports.handler = async payload => {
 	const hasRemoteDatabase = await getRemoteDatabase(cloudant, db_name)
 	if (!hasRemoteDatabase) {
 		console.log('Provisioning remote database ...')
-		const success = await provisionRemoteDatabase(cloudant, db_name)
-		if (!success) return { statusCode: 500, body: `Could not provision remote database.` }
+		await provisionRemoteDatabase(cloudant, db_name).catch(error => {
+			return { statusCode: 500, body: `Could not provision remote database. ${error}` }
+		})
 
 		// A new database needs new credentials, so delete any old credentials that might be in app_metadata.
 		try {
