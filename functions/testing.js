@@ -9,19 +9,19 @@ exports.handler = async (payload, context) => {
 
 	console.log('testing ...', JSON.parse(context))
 
-	const { url, id, token } = JSON.parse(body)
-	const { access_token } = token
+	// const { url, id, token } = JSON.parse(body)
+	// const { access_token } = token
 
-	console.log(`${url}/admin/users/${id}`)
+	// console.log(`${url}/admin/users/${id}`)
 
-	const response = await axios(`${url}/admin/users/${id}`, {
-		method: 'GET',
-		headers: { Authorization: `Bearer ${access_token}` },
-	})
+	// const response = await axios(`${url}/admin/users/${id}`, {
+	// 	method: 'GET',
+	// 	headers: { Authorization: `Bearer ${access_token}` },
+	// })
 
 	return {
 		statusCode: 200,
-		body: JSON.stringify({ response }),
+		body: JSON.stringify({ context }),
 	}
 }
 
