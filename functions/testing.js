@@ -14,7 +14,7 @@ exports.handler = async (payload, context) => {
 		url = context.clientContext.identity.url
 		token = context.clientContext.identity.token
 	} catch (error) {
-		return { statusCode: 500, body: JSON.stringify(error) }
+		return { statusCode: 500, body: error }
 	}
 
 	const response = await axios(`${url}/admin/users/${id}`, {
