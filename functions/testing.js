@@ -12,15 +12,17 @@ exports.handler = async payload => {
 	const { url, id, token } = JSON.parse(body)
 	const { access_token } = token
 
+	console.log(`${url}/admin/users/${id}`)
+
 	const response = await axios(`${url}/admin/users/${id}`, {
 		method: 'GET',
 		headers: { Authorization: `Bearer ${access_token}` },
 	})
 
-	// return {
-	// 	statusCode: 200,
-	// 	body: JSON.stringify({ payload }),
-	// }
+	return {
+		statusCode: 200,
+		body: JSON.stringify({ response }),
+	}
 }
 
 // try {
