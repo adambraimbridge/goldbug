@@ -7,9 +7,13 @@ exports.handler = async (payload, context) => {
 	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
-	const { clientContext } = JSON.parse(context)
-
-	console.log('testing ...', clientContext) //.identity.url.token
+	let url = ''
+	let token = ''
+	try {
+		url = context.clientContext.identity.url
+		token = context.clientContext.identity.token
+	}
+	console.log('testing ...', { url, token }) //.identity.url.token
 
 	// const { url, id, token } = JSON.parse(body)
 	// const { access_token } = token
@@ -23,7 +27,7 @@ exports.handler = async (payload, context) => {
 
 	return {
 		statusCode: 200,
-		body: JSON.stringify({ clientContext }),
+		body: JSON.stringify({ url, token }),
 	}
 }
 
