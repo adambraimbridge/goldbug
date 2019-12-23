@@ -7,7 +7,7 @@ exports.handler = async (payload, context) => {
 	const { httpMethod, body } = payload
 	// if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
-	console.log('testing ...', JSON.parse(context))
+	console.log('testing ...', context)
 
 	// const { url, id, token } = JSON.parse(body)
 	// const { access_token } = token
