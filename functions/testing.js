@@ -2,6 +2,6 @@ exports.handler = async payload => {
 	console.log('testing ...', { payload })
 	return {
 		statusCode: 200,
-		body: JSON.stringify(payload),
+		body: JSON.stringify({ payload, env: process.env }),
 	}
 }
