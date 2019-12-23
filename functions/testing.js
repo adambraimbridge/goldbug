@@ -1,7 +1,7 @@
 /**
  * Authentication is provided by Netlify
  */
-import axios from 'axios'
+const axios = require('axios')
 
 exports.handler = async payload => {
 	console.log('testing ...', { payload })
