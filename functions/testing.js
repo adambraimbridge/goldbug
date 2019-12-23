@@ -25,7 +25,7 @@ exports.handler = async (payload, context) => {
 	console.log({ response })
 	return {
 		statusCode: 200,
-		body: JSON.stringify(response),
+		body: 'hello',
 	}
 }
 
