@@ -6,18 +6,21 @@ const axios = require('axios')
 exports.handler = async payload => {
 	console.log('testing ...', { payload })
 
-	const { url, id, token } = payload || {}
-	const { access_token } = token || {}
+	const { httpMethod, body } = payload
+	// if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
+
+	const { url, id, token } = JSON.parse(body)
+	const { access_token } = token
 
 	const response = await axios(`${url}/admin/users/${id}`, {
 		method: 'GET',
 		headers: { Authorization: `Bearer ${access_token}` },
 	})
 
-	return {
-		statusCode: 200,
-		body: JSON.stringify({ response }),
-	}
+	// return {
+	// 	statusCode: 200,
+	// 	body: JSON.stringify({ payload }),
+	// }
 }
 
 // try {
