@@ -4,10 +4,10 @@
 const axios = require('axios')
 
 exports.handler = async payload => {
-	console.log('testing ...', { payload })
-
 	const { httpMethod, body } = payload
 	// if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
+
+	console.log('testing ...', JSON.parse(body))
 
 	const { url, id, token } = JSON.parse(body)
 	const { access_token } = token
