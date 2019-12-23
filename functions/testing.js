@@ -4,9 +4,9 @@
 const axios = require('axios')
 
 exports.handler = async (payload, context) => {
-	const { httpMethod, body } = payload
-	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
-	const { id } = JSON.parse(body)
+	// const { httpMethod, body } = payload
+	// if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
+	// const { id } = JSON.parse(body)
 
 	let url = ''
 	let token = ''
@@ -17,14 +17,14 @@ exports.handler = async (payload, context) => {
 		return { statusCode: 500, body: error }
 	}
 
-	const response = await axios(`${url}/admin/users/${id}`, {
-		method: 'GET',
-		headers: { Authorization: `Bearer ${token}` },
-	})
+	// const response = await axios(`${url}/admin/users/${id}`, {
+	// 	method: 'GET',
+	// 	headers: { Authorization: `Bearer ${token}` },
+	// })
 
 	return {
 		statusCode: 200,
-		body: response,
+		body: { url, token },
 	}
 }
 
