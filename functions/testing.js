@@ -5,55 +5,30 @@ const jwt = require('jsonwebtoken')
 const axios = require('axios')
 
 exports.handler = async (payload, context) => {
-	// const { body } = payload
-	// const { id } = JSON.parse(body)
-
 	try {
-		const token = payload.headers['x-nf-sign']
-		const decoded = jwt.verify(token, process.env.API_SIGNATURE_TOKEN)
+		const { body } = payload
+		const { id } = JSON.parse(body)
+
+		const userToken = payload.headers['x-nf-sign']
+		const decoded = jwt.verify(userToken, process.env.API_SIGNATURE_TOKEN)
+		if (!decoded) throw Error('Invalid User Token.')
+
 		console.log({ decoded })
+
+		const url = context.clientContext.identity.url
+		const token = context.clientContext.identity.token
+
+		const response = await axios(`${url}/admin/users/${id}`, {
+			method: 'GET',
+			headers: { Authorization: `Bearer ${token}` },
+		})
+
+		console.log({ response })
 		return {
 			statusCode: 200,
-			body: JSON.stringify({ decoded }),
+			body: JSON.stringify({ response }),
 		}
-	} catch (err) {
-		// err
-	}
-
-	// let url = ''
-	// let token = ''
-	// try {
-	// 	url = context.clientContext.identity.url
-	// 	token = context.clientContext.identity.token
-	// } catch (error) {
-	// 	return { statusCode: 500, body: error }
-	// }
-
-	// const response = await axios(`${url}/admin/users/${id}`, {
-	// 	method: 'GET',
-	// 	headers: { Authorization: `Bearer ${token}` },
-	// })
-
-	// console.log({ response })
-	return {
-		statusCode: 200,
-		body: JSON.stringify({ payload, context }),
+	} catch (error) {
+		return { statusCode: 500, body: error }
 	}
 }
-
-// try {
-//   return axios(apiUrl, {
-//     method: "PUT",
-//     headers: { Authorization: adminAuthHeader },
-//     body: JSON.stringify({ app_metadata: { roles: ["superstar"] } })
-//   })
-//     .then(response => {
-//       return response.json();
-//     })
-//     .then(data => {
-//       console.log("Updated a user! 204!");
-//       console.log(JSON.stringify({ data }));
-//       return { statusCode: 204 };
-//     })
-//     .catch(e => return {...});
-// } catch (e) { return e; }
