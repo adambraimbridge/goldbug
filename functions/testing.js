@@ -1,13 +1,24 @@
 /**
  * Authentication is provided by Netlify
  */
+const jwt = require('jsonwebtoken')
 const axios = require('axios')
 
-exports.handler = async (payload, context, other) => {
+exports.handler = async (payload, context) => {
 	// const { body } = payload
 	// const { id } = JSON.parse(body)
 
-	console.log({ payload, context, other })
+	try {
+		const token = payload.headers['x-nf-sign']
+		const decoded = jwt.verify(token, process.env.API_SIGNATURE_TOKEN)
+		console.log({ decoded })
+		return {
+			statusCode: 200,
+			body: JSON.stringify({ decoded }),
+		}
+	} catch (err) {
+		// err
+	}
 
 	// let url = ''
 	// let token = ''
