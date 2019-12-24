@@ -4,29 +4,29 @@
 const axios = require('axios')
 
 exports.handler = async (payload, context) => {
-	const { body } = payload
-	const { id } = JSON.parse(body)
+	// const { body } = payload
+	// const { id } = JSON.parse(body)
 
-	console.log(JSON.parse(body), context)
+	console.log({ payload, context })
 
-	let url = ''
-	let token = ''
-	try {
-		url = context.clientContext.identity.url
-		token = context.clientContext.identity.token
-	} catch (error) {
-		return { statusCode: 500, body: error }
-	}
+	// let url = ''
+	// let token = ''
+	// try {
+	// 	url = context.clientContext.identity.url
+	// 	token = context.clientContext.identity.token
+	// } catch (error) {
+	// 	return { statusCode: 500, body: error }
+	// }
 
-	const response = await axios(`${url}/admin/users/${id}`, {
-		method: 'GET',
-		headers: { Authorization: `Bearer ${token}` },
-	})
+	// const response = await axios(`${url}/admin/users/${id}`, {
+	// 	method: 'GET',
+	// 	headers: { Authorization: `Bearer ${token}` },
+	// })
 
-	console.log({ response })
+	// console.log({ response })
 	return {
 		statusCode: 200,
-		body: 'hello',
+		body: JSON.stringify({ payload, context }),
 	}
 }
 
