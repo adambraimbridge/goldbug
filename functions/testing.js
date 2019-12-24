@@ -4,9 +4,10 @@
 const axios = require('axios')
 
 exports.handler = async (payload, context) => {
-	const { httpMethod, body } = payload
-	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
+	const { body } = payload
 	const { id } = JSON.parse(body)
+
+	console.log(JSON.parse(body), context)
 
 	let url = ''
 	let token = ''
