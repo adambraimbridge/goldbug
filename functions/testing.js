@@ -18,15 +18,15 @@ exports.handler = async (payload, context) => {
 		const url = context.clientContext.identity.url
 		const token = context.clientContext.identity.token
 
-		const response = await axios(`${url}/admin/users/${id}`, {
-			method: 'GET',
-			headers: { Authorization: `Bearer ${token}` },
-		})
+		// const response = await axios(`${url}/admin/users/${id}`, {
+		// 	method: 'GET',
+		// 	headers: { Authorization: `Bearer ${token}` },
+		// })
+		// console.log({ response })
 
-		console.log({ response })
 		return {
 			statusCode: 200,
-			body: JSON.stringify({ response }),
+			body: JSON.stringify({ url, token }),
 		}
 	} catch (error) {
 		return { statusCode: 500, body: error }
