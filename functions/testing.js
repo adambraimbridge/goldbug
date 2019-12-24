@@ -3,11 +3,11 @@
  */
 const axios = require('axios')
 
-exports.handler = async (payload, context) => {
+exports.handler = async (payload, context, other) => {
 	// const { body } = payload
 	// const { id } = JSON.parse(body)
 
-	console.log({ payload, context })
+	console.log({ payload, context, other })
 
 	// let url = ''
 	// let token = ''
