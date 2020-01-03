@@ -12,6 +12,7 @@ exports.handler = async (payload, context) => {
 		const oAuthUrl = oauth2Client.generateAuthUrl({
 			// 'online' (default) or 'offline' (gets refresh_token)
 			access_type: 'offline',
+			scope: 'https://www.googleapis.com/auth/plus.me',
 		})
 
 		return {
