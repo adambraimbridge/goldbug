@@ -7,12 +7,12 @@ import { getAuthenticatedUser } from '../lib/authentication'
  * @param {string} size Whether to show a small or large button
  */
 const SignInUI = ({ size }) => {
-	const oAuthUrl = 'https://www.goldbug.club/.netlify/identity/authorize?provider=google'
 	const { setState } = React.useContext(Context)
 
 	const signIn = () => {
 		setState({ loading: true })
 		// Redirect to OAuth endpoint. It'll redirect back after the user signs in.
+		const oAuthUrl = 'https://www.goldbug.club/.netlify/functions/google-auth'
 		window.location = oAuthUrl
 	}
 
