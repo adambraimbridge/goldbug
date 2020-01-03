@@ -14,13 +14,18 @@ exports.handler = async (payload, context) => {
 			access_type: 'offline',
 			scope: 'https://www.googleapis.com/auth/plus.me',
 		})
+
 		console.log({ oAuthUrl, payload, context })
-		window.location = oAuthUrl
 
 		return {
-			statusCode: 200,
-			body: JSON.stringify({ oAuthUrl, payload, context }),
+			statusCode: 303,
+			headers: { location: oAuthUrl },
 		}
+
+		// return {
+		// 	statusCode: 200,
+		// 	body: JSON.stringify({ oAuthUrl, payload, context }),
+		// }
 	} catch (error) {
 		return { statusCode: 500, body: error }
 	}
