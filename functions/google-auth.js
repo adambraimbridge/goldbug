@@ -35,7 +35,7 @@ exports.handler = async (payload, context) => {
 
 	// At this point the user has authenticated with Google
 	if (queryStringParameters.code) {
-		const { tokens } = await oauth2Client.getToken(code)
+		const { tokens } = await oauth2Client.getToken(queryStringParameters.code)
 		oauth2Client.setCredentials(tokens)
 
 		// Google's supplied the user's JSON token, so redirect to the client
