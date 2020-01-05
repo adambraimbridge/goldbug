@@ -6,34 +6,39 @@
  */
 const { google } = require('googleapis')
 const oauth2Client = new google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URL)
-const homepageUrl = 'https://www.goldbug.com'
+const HOMEPAGE_URL = 'https://www.goldbug.com'
+
+const gotoGoogleAuth = () => {
+	const oAuthUrl = oauth2Client.generateAuthUrl({
+		access_type: 'offline',
+		scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'],
+	})
+	return {
+		statusCode: 303,
+		headers: { location: oAuthUrl },
+	}
+}
+
+const sendTokenToClient = tokens => ({
+	statusCode: 303,
+	headers: { location: `${process.env.GOOGLE_REDIRECT_URL}?tokens=${JSON.stringify(tokens)}` },
+})
 
 exports.handler = async (payload, context) => {
 	const { queryStringParameters } = payload || {}
+
+	console.log({ queryStringParameters })
+	// First off: Redirect to Google authentication
+	if (!queryStringParameters.code && !queryStringParameters.tokens) {
+		return gotoGoogleAuth()
+	}
+
+	// At this point the user has authenticated with Google
 	if (queryStringParameters.code) {
-		// This will provide an object with the access_token and refresh_token.
-		// Save these somewhere safe so they can be used at a later time.
 		const { tokens } = await oauth2Client.getToken(code)
 		oauth2Client.setCredentials(tokens)
 
-		console.log({ tokens })
-
-		return {
-			statusCode: 303,
-			headers: { location: `${homepageUrl}?tokens=${JSON.stringify(tokens)}` },
-		}
-	} else {
-		const oAuthUrl = oauth2Client.generateAuthUrl({
-			// 'online' (default) or 'offline' (gets refresh_token)
-			access_type: 'offline',
-			scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'],
-		})
-
-		console.log({ oAuthUrl, payload, context })
-
-		return {
-			statusCode: 303,
-			headers: { location: oAuthUrl },
-		}
+		// Google's supplied the user's JSON token, so redirect to the client
+		return sendTokenToClient(tokens)
 	}
 }

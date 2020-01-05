@@ -1,7 +1,13 @@
-import GoTrue from 'gotrue-js'
+/**
+ * Authentication is provided by Google OAuth2
+ *
+ * https://developers.google.com/identity/sign-in/web/backend-auth
+ * https://github.com/googleapis/google-api-nodejs-client#oauth2-client
+ */
+// import { google } from 'googleapis'
 
 /**
- * After authenticating with Google via Netlify, the URL contains a secret hash of tokens.
+ * After authenticating with Google, the URL contains a secret hash of tokens.
  */
 const getAuthenticationDataFromHash = () => {
 	if (!document.location.hash.length) return false
@@ -28,20 +34,15 @@ const getAuthenticationDataFromHash = () => {
  * Identites are created in Netlify for newly authenticated users.
  */
 export const getAuthenticatedUser = async () => {
-	const goTrueAuth = new GoTrue({
-		APIUrl: 'https://www.goldbug.club/.netlify/identity',
-		setCookie: true,
-	})
-
 	// Try local storage first
-	let authenticatedUser = goTrueAuth.currentUser()
+	let authenticatedUser // = google..currentUser()
 	if (!authenticatedUser) {
 		// Check the location hash to see if the user just authenticated
 		const authenticationData = getAuthenticationDataFromHash()
 		if (!authenticationData) return false
 
 		// Save the authenticated user to local storage
-		authenticatedUser = await goTrueAuth.createUser(authenticationData, true)
+		// authenticatedUser = await google..createUser(authenticationData, true)
 	}
 
 	// Remove hash from url so that token does not remain in browser history.

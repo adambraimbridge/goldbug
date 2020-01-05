@@ -12,8 +12,7 @@ const SignInUI = ({ size }) => {
 	const signIn = () => {
 		setState({ loading: true })
 		// Redirect to OAuth endpoint. It'll redirect back after the user signs in.
-		const oAuthUrl = 'https://www.goldbug.club/.netlify/functions/google-auth'
-		window.location = oAuthUrl
+		window.location = 'https://www.goldbug.club/.netlify/functions/google-auth'
 	}
 
 	const classList = `btn ${size === 'large' ? 'btn-lg btn-primary' : 'btn-sm btn-light'}`
