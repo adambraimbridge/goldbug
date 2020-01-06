@@ -19,26 +19,21 @@ const gotoGoogleAuth = () => {
 	}
 }
 
-const sendTokenToClient = tokens => ({
-	statusCode: 303,
-	headers: { location: `${process.env.GOOGLE_REDIRECT_URL}?tokens=${JSON.stringify(tokens)}` },
-})
-
-exports.handler = async (payload, context) => {
+exports.handler = async payload => {
 	const { queryStringParameters } = payload || {}
-
-	console.log({ queryStringParameters })
-	// First off: Redirect to Google authentication
-	if (!queryStringParameters.code && !queryStringParameters.tokens) {
+	if (!queryStringParameters.code) {
+		// First off: Redirect to Google authentication.
 		return gotoGoogleAuth()
-	}
-
-	// At this point the user has authenticated with Google
-	if (queryStringParameters.code) {
+	} else {
+		// At this point the user has authenticated with Google.
 		const { tokens } = await oauth2Client.getToken(queryStringParameters.code)
-		oauth2Client.setCredentials(tokens)
+		// oauth2Client.setCredentials(tokens)
 
-		// Google's supplied the user's JSON token, so redirect to the client
-		return sendTokenToClient(tokens)
+		// Google's supplied the user's JSON token,
+		// so save them (somehow), then redirect to the home page
+		return {
+			statusCode: 200,
+			body: `<html><script>console.log({${tokens}})</script></html>`,
+		}
 	}
 }
