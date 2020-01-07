@@ -20,7 +20,7 @@ const SignInUI = ({ size }) => {
 		console.log(profile)
 	}
 
-	const classList = `g-signin2 fit-content ${size}`
+	const classList = `g-signin2 fit-content mx-auto ${size}`
 	return <div className={classList} data-onsuccess="onSignIn" data-theme="dark"></div>
 }
 
