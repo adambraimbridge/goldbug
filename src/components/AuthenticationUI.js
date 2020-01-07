@@ -20,7 +20,7 @@ const SignInUI = ({ size }) => {
 		console.log(profile)
 	}
 
-	const classList = `g-signin2 btn ${size === 'large' ? 'btn-lg btn-primary' : 'btn-sm btn-light'}`
+	const classList = `g-signin2 ${size}`
 	return <div className={classList} data-onsuccess="onSignIn" data-theme="dark"></div>
 }
 
