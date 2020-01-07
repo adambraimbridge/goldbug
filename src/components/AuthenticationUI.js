@@ -15,12 +15,13 @@ const SignInUI = ({ size }) => {
 		window.location = 'https://www.goldbug.club/.netlify/functions/google-auth'
 	}
 
+	const onSignIn = googleUser => {
+		const profile = googleUser.getBasicProfile()
+		console.log(profile)
+	}
+
 	const classList = `btn ${size === 'large' ? 'btn-lg btn-primary' : 'btn-sm btn-light'}`
-	return (
-		<div className={classList} onClick={signIn}>
-			Google Sign In
-		</div>
-	)
+	return <div className={classList} data-onsuccess="onSignIn" data-theme="dark"></div>
 }
 
 // TODO: purge local cache for user
