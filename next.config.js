@@ -1,4 +1,6 @@
 const withSass = require('@zeit/next-sass')
 module.exports = withSass({
-	/* config options here */
+	env: {
+		GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+	},
 })
