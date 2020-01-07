@@ -33,7 +33,12 @@ exports.handler = async payload => {
 		// so save them (somehow), then redirect to the home page
 		return {
 			statusCode: 200,
-			body: `<html><body>Authenticating ...</body><script type="text/javascript">console.log(${JSON.stringify(tokens)})</script></html>`,
+			body: `<html>
+				<script type="text/javascript">
+					localStorage.setItem('google-tokens', ${JSON.stringify(tokens)})
+					location='/'
+				</script>
+			</html>`,
 		}
 	}
 }
