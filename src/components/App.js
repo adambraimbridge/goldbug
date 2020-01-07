@@ -40,7 +40,7 @@ export const App = () => {
 		<>
 			<Head>
 				<meta name="google-signin-scope" content="profile email" />
-				<meta name="google-signin-client_id" content="500671670282-368rbd8ct2h3k8cn89qthcbbqea255in.apps.googleusercontent.com" />
+				<meta name="google-signin-client_id" content={process.env.GOOGLE_CLIENT_ID} />
 				<script src="https://apis.google.com/js/platform.js" async defer></script>
 			</Head>
 			<div id="layout" className="full-height max-with p-0 m-0 mx-auto">
@@ -50,7 +50,6 @@ export const App = () => {
 						Goldbug Club
 					</a>
 					<span id="loading" className={loadingClassName} role="status" aria-hidden={loading}></span>
-					<AuthenticationUI />
 				</nav>
 				<noscript>Welcome to Goldbug Club. Thanks for visiting. Please enable JavaScript.</noscript>
 				<Page />
