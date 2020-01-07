@@ -26,12 +26,13 @@
 		"prettier": "^1.19.1",
 		"react": "^16.10.2",
 		"react-dom": "^16.10.2",
+		"react-google-login": "^5.0.7",
 		"react-router-dom": "^5.1.2",
 		"uuid-by-string": "^3.0.2"
 	},
 	"prettier": "@adambraimbridge/prettierrc-2019-05",
 	"scripts": {
-		"develop": "next",
+		"develop": "export GOOGLE_CLIENT_ID=500671670282-368rbd8ct2h3k8cn89qthcbbqea255in.apps.googleusercontent.com; next",
 		"build": "next build",
 		"export": "next export",
 		"deploy": "yarn build && yarn export",

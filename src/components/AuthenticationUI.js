@@ -1,4 +1,5 @@
 import React from 'react'
+import { GoogleLogin, GoogleLogout } from 'react-google-login'
 import { Context } from './Context'
 import { getAuthenticatedUser } from '../lib/authentication'
 
@@ -9,26 +10,34 @@ import { getAuthenticatedUser } from '../lib/authentication'
 const SignInUI = ({ size }) => {
 	const { setState } = React.useContext(Context)
 
-	const signIn = () => {
-		setState({ loading: true })
-		// Redirect to OAuth endpoint. It'll redirect back after the user signs in.
-		window.location = 'https://www.goldbug.club/.netlify/functions/google-auth'
+	const responseGoogle = googleUser => {
+		const authenticatedUser = googleUser.getBasicProfile()
+		setState({ authenticatedUser, loading: false })
 	}
 
-	const onSignIn = googleUser => {
-		const profile = googleUser.getBasicProfile()
-		console.log(profile)
-	}
-
-	const classList = `g-signin2 fit-content mx-auto ${size}`
-	return <div className={classList} data-onsuccess="onSignIn" data-theme="dark"></div>
+	const classList = `btn ${size === 'large' ? 'btn-lg btn-primary' : 'btn-sm btn-light'}`
+	return (
+		<GoogleLogin
+			clientId={process.env.GOOGLE_CLIENT_ID}
+			accessType="offline"
+			render={renderProps => (
+				<div onClick={renderProps.onClick} disabled={renderProps.disabled} className={classList}>
+					Google Sign In
+				</div>
+			)}
+			onSuccess={responseGoogle}
+			onFailure={responseGoogle}
+			cookiePolicy={'single_host_origin'}
+		/>
+	)
 }
 
 // TODO: purge local cache for user
 const SignOutUI = () => {
 	const { state, setState } = React.useContext(Context)
 	const { authenticatedUser } = state || {}
-	const { full_name, avatar_url } = authenticatedUser.user_metadata
+	const full_name = authenticatedUser.ig
+	const avatar_url = authenticatedUser.Paa
 
 	const signOut = async () => {
 		setState({ loading: true })
