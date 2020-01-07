@@ -35,7 +35,7 @@ exports.handler = async payload => {
 			statusCode: 200,
 			body: `<html>
 				<script type="text/javascript">
-					localStorage.setItem('google-tokens', ${JSON.stringify(tokens)})
+					localStorage.setItem('google-tokens', '${JSON.stringify(tokens)}')
 					location='/'
 				</script>
 			</html>`,
