@@ -6,7 +6,7 @@ import { Chat } from './Chat'
 import { Workshop } from './Workshop'
 
 const Page = () => {
-	const { state } = React.useContext(Context)
+	const { state, setState } = React.useContext(Context)
 	const { authenticatedUser } = state || {}
 
 	if (authenticatedUser) {
@@ -35,6 +35,7 @@ export const App = () => {
 	const { state } = React.useContext(Context)
 	const { loading } = state || false
 	const loadingClassName = `test spinner-border spinner-border-sm ${loading ? '' : 'd-none'}`
+
 	return (
 		<div id="layout" className="full-height max-with p-0 m-0 mx-auto">
 			<nav className="px-0 py-2 justify-content-between navbar navbar-expand navbar-dark">

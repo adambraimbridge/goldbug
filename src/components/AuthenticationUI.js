@@ -1,7 +1,7 @@
 import React from 'react'
-import { GoogleLogin, GoogleLogout } from 'react-google-login'
+import Head from 'next/head'
+// import { GoogleLogin } from 'react-google-login'
 import { Context } from './Context'
-import { getAuthenticatedUser } from '../lib/authentication'
 
 /**
  * Render a UI to let the user sign in.
@@ -10,25 +10,33 @@ import { getAuthenticatedUser } from '../lib/authentication'
 const SignInUI = ({ size }) => {
 	const { setState } = React.useContext(Context)
 
-	const responseGoogle = googleUser => {
-		const authenticatedUser = googleUser.getBasicProfile()
-		setState({ authenticatedUser, loading: false })
+	const googleAuth = () => {
+		gapi.load('auth2', async () => {
+			const googleAuth = gapi.auth2.init({
+				client_id: process.env.GOOGLE_CLIENT_ID,
+			})
+			const googleUser = await googleAuth.signIn({
+				fetch_basic_profile: true,
+			})
+			const profile = googleUser.getBasicProfile()
+			const name = profile.getName()
+			const imageUrl = profile.getImageUrl()
+			const token = googleUser.getAuthResponse().id_token
+			const authenticatedUser = { name, imageUrl, token }
+			setState({ authenticatedUser, loading: false })
+			localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUser))
+		})
 	}
-
 	const classList = `btn ${size === 'large' ? 'btn-lg btn-primary' : 'btn-sm btn-light'}`
 	return (
-		<GoogleLogin
-			clientId={process.env.GOOGLE_CLIENT_ID}
-			accessType="offline"
-			render={renderProps => (
-				<div onClick={renderProps.onClick} disabled={renderProps.disabled} className={classList}>
-					Google Sign In
-				</div>
-			)}
-			onSuccess={responseGoogle}
-			onFailure={responseGoogle}
-			cookiePolicy={'single_host_origin'}
-		/>
+		<>
+			<Head>
+				<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+			</Head>
+			<div onClick={googleAuth} className={classList}>
+				Google Sign In
+			</div>
+		</>
 	)
 }
 
@@ -36,20 +44,18 @@ const SignInUI = ({ size }) => {
 const SignOutUI = () => {
 	const { state, setState } = React.useContext(Context)
 	const { authenticatedUser } = state || {}
-	const full_name = authenticatedUser.ig
-	const avatar_url = authenticatedUser.Paa
+	const { name, imageUrl } = authenticatedUser
 
-	const signOut = async () => {
-		setState({ loading: true })
-		await state.authenticatedUser.logout().catch(console.log)
+	const wipeAuthenticatedUser = () => {
 		setState({ authenticatedUser: false, loading: false })
+		localStorage.removeItem('authenticatedUser')
 	}
 
 	return (
-		<div className="btn btn-sm btn-light centered pr-1" onClick={signOut}>
+		<div className="btn btn-sm btn-light centered pr-1" onClick={wipeAuthenticatedUser}>
 			<div>Sign Out</div>
 			<div className="avatar-thumbnail">
-				<img src={avatar_url} alt={full_name} className="icon border border-secondary"></img>
+				<img src={imageUrl} alt={name} className="icon border border-secondary"></img>
 			</div>
 		</div>
 	)
@@ -76,12 +82,14 @@ export const AuthenticationUI = () => {
 	const { state, setState } = React.useContext(Context)
 	const { authenticatedUser } = state || {}
 
-	// Before rendering anything, get the authenticated user.
 	React.useLayoutEffect(() => {
-		;(async () => {
-			const authenticatedUser = await getAuthenticatedUser()
-			setState({ authenticatedUser })
-		})()
+		let authenticatedUser
+		try {
+			authenticatedUser = JSON.parse(localStorage.getItem('authenticatedUser'))
+			setState({ authenticatedUser: authenticatedUser })
+		} catch (error) {
+			// Ignore
+		}
 	}, [setState])
 
 	if (authenticatedUser) {

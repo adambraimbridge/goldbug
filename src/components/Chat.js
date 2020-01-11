@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
-import { getAuthenticatedUser } from '../lib/authentication'
 import { syncRemoteDatabase, getLocalMessages, addMessage, removeMessage } from '../lib/database'
 
 const Message = ({ value, user }) => {
@@ -20,10 +19,8 @@ const Message = ({ value, user }) => {
 
 const MessageForm = ({ addMessage, setMessages }) => {
 	const [value, setValue] = useState('')
-	const [user, setUser] = useState(false)
 	useLayoutEffect(() => {
 		;(async () => {
-			const authenticatedUser = await getAuthenticatedUser()
 			// setUser(authenticatedUser)
 			// if (authenticatedUser.app_metadata && authenticatedUser.app_metadata.key && authenticatedUser.app_metadata.password) {
 			// 	syncRemoteDatabase({ authenticatedUser, setMessages })
