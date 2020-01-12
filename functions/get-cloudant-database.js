@@ -100,7 +100,7 @@ exports.handler = async payload => {
 	}
 
 	// Create database credentials if appropriate.
-	const { app_metadata } = user
+	const { app_metadata } = user || {}
 	if (!app_metadata.credentials) {
 		console.log('Creating credentials for remote database ...')
 		app_metadata.credentials = await getDatabaseCredentials(cloudant, db_name)
