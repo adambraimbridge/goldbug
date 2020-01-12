@@ -103,6 +103,9 @@ exports.handler = async payload => {
 	if (!user.credentials) {
 		console.log('Creating credentials for remote database ...')
 		response = await getDatabaseCredentials(cloudant, db_name).catch(console.error)
+
+		console.log({ response })
+
 		if (!response.data) return { statusCode: 500, body: `Could not create credentials for remote database.` }
 	}
 
