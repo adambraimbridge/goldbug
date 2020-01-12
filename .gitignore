@@ -71,3 +71,6 @@ yarn-error.log
 .next/
 goldbug-club/
 out/
+
+# Development
+.hidden/
