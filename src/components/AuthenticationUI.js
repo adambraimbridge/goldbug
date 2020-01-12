@@ -1,6 +1,5 @@
 import React from 'react'
 import Head from 'next/head'
-// import { GoogleLogin } from 'react-google-login'
 import { Context } from './Context'
 
 /**

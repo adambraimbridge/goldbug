@@ -6,7 +6,7 @@ import { Chat } from './Chat'
 import { Workshop } from './Workshop'
 
 const Page = () => {
-	const { state, setState } = React.useContext(Context)
+	const { state } = React.useContext(Context)
 	const { authenticatedUser } = state || {}
 
 	if (authenticatedUser) {

@@ -19,19 +19,18 @@ const Message = ({ value, user }) => {
 
 const MessageForm = ({ addMessage, setMessages }) => {
 	const [value, setValue] = useState('')
-	useLayoutEffect(() => {
-		;(async () => {
-			// setUser(authenticatedUser)
-			// if (authenticatedUser.app_metadata && authenticatedUser.app_metadata.key && authenticatedUser.app_metadata.password) {
-			// 	syncRemoteDatabase({ authenticatedUser, setMessages })
-			// }
-		})()
-	}, [setMessages])
+	// useLayoutEffect(() => {
+	// 	;(async () => {
+	// 		if (authenticatedUser.app_metadata && authenticatedUser.app_metadata.key && authenticatedUser.app_metadata.password) {
+	// 			syncRemoteDatabase({ authenticatedUser, setMessages })
+	// 		}
+	// 	})()
+	// }, [setMessages])
 
 	const handleSubmit = async event => {
 		event.preventDefault()
-		if (!value || !user) return false
-		await addMessage({ value, user })
+		if (!value) return false
+		await addMessage({ value })
 		setValue('')
 	}
 
