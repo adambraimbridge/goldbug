@@ -102,13 +102,14 @@ exports.handler = async payload => {
 	// Create database credentials if appropriate.
 	if (!user.credentials) {
 		console.log('Creating credentials for remote database ...')
-		credentials = await getDatabaseCredentials(cloudant, db_name)
-		if (!credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
+		response = await getDatabaseCredentials(cloudant, db_name).catch(console.error)
+		if (!response.data) return { statusCode: 500, body: `Could not create credentials for remote database.` }
 	}
 
 	/**
 	 * The credentials returned here are saved to the Netlify user's account.
 	 */
+	const { credentials } = response.data
 	const data = {
 		statusCode: 200,
 		body: JSON.stringify({
