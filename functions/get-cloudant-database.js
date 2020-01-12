@@ -73,7 +73,7 @@ exports.handler = async payload => {
 	const { httpMethod, body } = payload
 	if (httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed.' }
 
-	const { user } = JSON.parse(body)
+	const user = JSON.parse(body)
 	console.log({ user })
 
 	const cloudant = await Cloudant({
