@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
-import { axios } from 'axios'
+import axios from 'axios'
 import { syncRemoteDatabase, getLocalMessages, addMessage, removeMessage } from '../lib/database'
+import { Context } from './Context'
 
 const Message = ({ value, user }) => {
 	if (!value || !user) return false
