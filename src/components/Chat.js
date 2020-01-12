@@ -22,7 +22,7 @@ const Message = ({ value, user }) => {
 const MessageForm = ({ addMessage, setMessages }) => {
 	const [value, setValue] = useState('')
 	const { state, setState } = React.useContext(Context)
-	const { credentials } = state || {}
+	const { authenticatedUser, credentials } = state || {}
 
 	useLayoutEffect(() => {
 		;(async () => {
