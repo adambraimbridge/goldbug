@@ -20,15 +20,10 @@ const Message = ({ value, user }) => {
 
 const MessageForm = ({ addMessage, setMessages }) => {
 	const [value, setValue] = useState('')
+	const { state } = React.useContext(Context)
 	useLayoutEffect(() => {
 		;(async () => {
-			let authenticatedUser
-			try {
-				authenticatedUser = JSON.parse(localStorage.getItem('authenticatedUser'))
-				setState({ authenticatedUser: authenticatedUser })
-			} catch (error) {
-				console.error(error)
-			}
+			const { authenticatedUser } = state || {}
 			if (!authenticatedUser.credentials) {
 				try {
 					const credentials = await axios.post('/.netlify/functions/get-cloudant-database', authenticatedUser)
