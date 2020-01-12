@@ -93,18 +93,18 @@ exports.handler = async payload => {
 			return { statusCode: 500, body: `Could not provision remote database. ${error}` }
 		})
 
-		// A new database needs new credentials, so delete any old credentials that might be in app_metadata.
+		// A new database needs new credentials, so delete any old credentials that might be in.
 		try {
-			delete user.app_metadata.credentials
+			delete user.credentials
 		} catch (error) {}
 	}
 
 	// Create database credentials if appropriate.
-	const { app_metadata } = user || {}
-	if (!app_metadata.credentials) {
+	const { credentials } = user
+	if (!credentials) {
 		console.log('Creating credentials for remote database ...')
-		app_metadata.credentials = await getDatabaseCredentials(cloudant, db_name)
-		if (!app_metadata.credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
+		credentials = await getDatabaseCredentials(cloudant, db_name)
+		if (credentials) return { statusCode: 500, body: `Could not create credentials for remote database.` }
 	}
 
 	/**
@@ -113,7 +113,7 @@ exports.handler = async payload => {
 	const data = {
 		statusCode: 200,
 		body: JSON.stringify({
-			app_metadata,
+			credentials,
 		}),
 	}
 	console.log('Returning response data', { data })
