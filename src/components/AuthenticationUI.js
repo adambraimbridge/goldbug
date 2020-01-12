@@ -8,7 +8,6 @@ import { Context } from './Context'
  */
 const SignInUI = ({ size }) => {
 	const { setState } = React.useContext(Context)
-
 	const googleAuth = () => {
 		gapi.load('auth2', async () => {
 			const googleAuth = gapi.auth2.init({
@@ -18,10 +17,12 @@ const SignInUI = ({ size }) => {
 				fetch_basic_profile: true,
 			})
 			const profile = googleUser.getBasicProfile()
-			const name = profile.getName()
-			const imageUrl = profile.getImageUrl()
-			const token = googleUser.getAuthResponse().id_token
-			const authenticatedUser = { name, imageUrl, token }
+			const authenticatedUser = {
+				email: profile.getEmail(),
+				name: profile.getName(),
+				imageUrl: profile.getImageUrl(),
+				token: googleUser.getAuthResponse().id_token,
+			}
 			setState({ authenticatedUser, loading: false })
 			localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUser))
 		})
