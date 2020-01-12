@@ -13,8 +13,8 @@ const getLocalMessages = async () => {
 }
 
 const syncRemoteDatabase = ({ credentials, setMessages }) => {
-	const { databaseName, key, password } = credentials
-	const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${databaseName}`
+	const { db_name, key, password } = credentials
+	const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${db_name}`
 	const remoteDatabase = new PouchDB(remoteUrl)
 
 	// @see: https://pouchdb.com/api.html#sync

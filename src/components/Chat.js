@@ -22,18 +22,18 @@ const Message = ({ value, user }) => {
 const MessageForm = ({ addMessage, setMessages }) => {
 	const [value, setValue] = useState('')
 	const { state, setState } = React.useContext(Context)
-	const { authenticatedUser } = state || {}
+	const { credentials } = state || {}
 
 	useLayoutEffect(() => {
 		;(async () => {
 			console.log('authenticatedUser', authenticatedUser)
+			console.log('credentials', credentials)
 
-			if (!authenticatedUser.credentials) {
+			if (!credentials) {
 				try {
 					const credentials = await axios.post('https://www.goldbug.club/.netlify/functions/get-cloudant-database', authenticatedUser)
-					authenticatedUser.credentials = credentials
-					setState({ authenticatedUser: authenticatedUser })
-					syncRemoteDatabase({ authenticatedUser, setMessages })
+					setState({ credentials: JSON.stringify(credentials) })
+					syncRemoteDatabase({ credentials, setMessages })
 				} catch (error) {
 					console.log('Database connection error', error.toString())
 				}
