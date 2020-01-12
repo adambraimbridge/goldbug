@@ -25,7 +25,7 @@ const MessageForm = ({ addMessage, setMessages }) => {
 	useLayoutEffect(() => {
 		;(async () => {
 			const { authenticatedUser } = state || {}
-			if (!authenticatedUser.credentials) {
+			if (!authenticatedUser || !authenticatedUser.credentials) {
 				try {
 					authenticatedUser.credentials = await axios.post('https://www.goldbug.club/.netlify/functions/get-cloudant-database', authenticatedUser)
 					setState({ authenticatedUser: authenticatedUser })
