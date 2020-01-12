@@ -9,6 +9,7 @@
 		"@adambraimbridge/prettierrc-2019-05": "^1.0.0",
 		"@cloudant/cloudant": "^4.2.0",
 		"@zeit/next-sass": "^1.0.1",
+		"axios": "^0.19.1",
 		"bootstrap": "^4.3.1",
 		"bootswatch": "^4.3.1",
 		"emoji-js": "^3.4.1",

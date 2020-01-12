@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
+import { axios } from 'axios'
 import { syncRemoteDatabase, getLocalMessages, addMessage, removeMessage } from '../lib/database'
 
 const Message = ({ value, user }) => {
@@ -19,13 +20,26 @@ const Message = ({ value, user }) => {
 
 const MessageForm = ({ addMessage, setMessages }) => {
 	const [value, setValue] = useState('')
-	// useLayoutEffect(() => {
-	// 	;(async () => {
-	// 		if (authenticatedUser.app_metadata && authenticatedUser.app_metadata.key && authenticatedUser.app_metadata.password) {
-	// 			syncRemoteDatabase({ authenticatedUser, setMessages })
-	// 		}
-	// 	})()
-	// }, [setMessages])
+	useLayoutEffect(() => {
+		;(async () => {
+			let authenticatedUser
+			try {
+				authenticatedUser = JSON.parse(localStorage.getItem('authenticatedUser'))
+				setState({ authenticatedUser: authenticatedUser })
+			} catch (error) {
+				console.error(error)
+			}
+			if (!authenticatedUser.credentials) {
+				try {
+					const credentials = await axios.post('/.netlify/functions/get-cloudant-database', authenticatedUser)
+					console.log({ credentials })
+					syncRemoteDatabase({ authenticatedUser, setMessages })
+				} catch (error) {
+					console.error(error)
+				}
+			}
+		})()
+	}, [setMessages])
 
 	const handleSubmit = async event => {
 		event.preventDefault()
