@@ -31,10 +31,8 @@ const MessageForm = ({ addMessage, setMessages }) => {
 
 			if (!credentials) {
 				try {
-					const credentials = await axios.post('https://www.goldbug.club/.netlify/functions/get-cloudant-database', authenticatedUser)
-
-					console.log({ credentials })
-
+					const response = await axios.post('https://www.goldbug.club/.netlify/functions/get-cloudant-database', authenticatedUser)
+					const credentials = response.data
 					setState({ credentials: JSON.stringify(credentials) })
 					localStorage.setItem('credentials', JSON.stringify(credentials))
 					syncRemoteDatabase({ credentials, setMessages })
