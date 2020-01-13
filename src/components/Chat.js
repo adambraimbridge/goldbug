@@ -26,13 +26,8 @@ const MessageForm = ({ addMessage, setMessages }) => {
 
 	useLayoutEffect(() => {
 		;(async () => {
-			let credentials
-			try {
-				credentials = JSON.parse(localStorage.getItem('credentials'))
-				setState({ credentials: credentials })
-			} catch (error) {
-				// Ignore
-			}
+			let credentials = JSON.parse(localStorage.getItem('credentials')) || {}
+			setState({ credentials: credentials })
 
 			console.log('authenticatedUser', authenticatedUser)
 			console.log('credentials', credentials)
