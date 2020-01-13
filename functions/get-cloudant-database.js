@@ -115,6 +115,9 @@ exports.handler = async payload => {
 	const data = {
 		statusCode: 200,
 		body: JSON.stringify(credentials),
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+		},
 	}
 	console.log('Returning response data', { data })
 	return data
