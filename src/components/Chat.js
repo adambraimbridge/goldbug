@@ -42,6 +42,7 @@ const MessageForm = ({ addMessage, setMessages }) => {
 	}, [setMessages])
 
 	const handleSubmit = async event => {
+		event.stopPropagation()
 		event.preventDefault()
 		if (!value) return false
 		await addMessage({ value })
