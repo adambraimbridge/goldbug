@@ -26,20 +26,25 @@ const MessageForm = ({ addMessage, setMessages }) => {
 
 	useLayoutEffect(() => {
 		;(async () => {
+			credentials = JSON.parse(localStorage.getItem('credentials'))
+			setState({ credentials: credentials })
+
 			console.log('authenticatedUser', authenticatedUser)
 			console.log('credentials', credentials)
 
-			if (!credentials) {
+			const { db_name, key, password } = credentials
+			if (!db_name || !key || !password) {
 				try {
 					const response = await axios.post('https://www.goldbug.club/.netlify/functions/get-cloudant-database', authenticatedUser)
 					const credentials = response.data
 					setState({ credentials: JSON.stringify(credentials) })
 					localStorage.setItem('credentials', JSON.stringify(credentials))
-					syncRemoteDatabase({ credentials, setMessages })
 				} catch (error) {
 					console.log('Database connection error', error.toString())
 				}
 			}
+
+			syncRemoteDatabase({ credentials, setMessages })
 		})()
 	}, [setMessages])
 
