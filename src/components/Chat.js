@@ -22,7 +22,7 @@ const Message = ({ value, user }) => {
 const MessageForm = ({ addMessage, setMessages }) => {
 	const [value, setValue] = useState('')
 	const { state, setState } = React.useContext(Context)
-	const { authenticatedUser, credentials } = state || {}
+	const { authenticatedUser } = state || {}
 
 	useLayoutEffect(() => {
 		;(async () => {
@@ -48,8 +48,11 @@ const MessageForm = ({ addMessage, setMessages }) => {
 	}, [setMessages])
 
 	const handleSubmit = async event => {
-		if (!value) return false
-		await addMessage({ value })
+		// `value` is set each time the input field changes.
+		if (!value || !authenticatedUser) return false
+
+		const message = { value, user: authenticatedUser }
+		await addMessage({ message })
 		setValue('')
 		event.stopPropagation()
 		event.preventDefault()
