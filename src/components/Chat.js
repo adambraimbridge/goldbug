@@ -28,10 +28,6 @@ const MessageForm = ({ addMessage, setMessages }) => {
 		;(async () => {
 			let credentials = JSON.parse(localStorage.getItem('credentials')) || {}
 			setState({ credentials: credentials })
-
-			console.log('authenticatedUser', authenticatedUser)
-			console.log('credentials', credentials)
-
 			const { db_name, key, password } = credentials
 			if (!db_name || !key || !password) {
 				try {
@@ -48,14 +44,16 @@ const MessageForm = ({ addMessage, setMessages }) => {
 	}, [setMessages])
 
 	const handleSubmit = async event => {
+		event.stopPropagation()
+		event.preventDefault()
+
 		// `value` is set each time the input field changes.
 		if (!value || !authenticatedUser) return false // Todo: Handle error better
 
 		const message = { value, user: authenticatedUser }
 		await addMessage({ message })
 		setValue('')
-		event.stopPropagation()
-		event.preventDefault()
+		return false // Important: Don't actually submit the form
 	}
 
 	return (
