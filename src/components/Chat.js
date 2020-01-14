@@ -5,14 +5,14 @@ import { Context } from './Context'
 
 const Message = ({ value, user }) => {
 	if (!value || !user) return false
-	const { full_name, avatar_url } = user
+	const { name, imageUrl } = user
 	return (
 		<div className="message-container mb-2">
 			<div className="message bg-light rounded p-2 px-3">
 				<span className="arrow"></span>
 				{value}
 				<div className="avatar-thumbnail">
-					<img src={avatar_url} alt={full_name} className="icon rounded-circle border-0"></img>
+					<img src={imageUrl} alt={name} className="icon rounded-circle border-0"></img>
 				</div>
 			</div>
 		</div>
@@ -49,7 +49,7 @@ const MessageForm = ({ addMessage, setMessages }) => {
 
 	const handleSubmit = async event => {
 		// `value` is set each time the input field changes.
-		if (!value || !authenticatedUser) return false
+		if (!value || !authenticatedUser) return false // Todo: Handle error better
 
 		const message = { value, user: authenticatedUser }
 		await addMessage({ message })
