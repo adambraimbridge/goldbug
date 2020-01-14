@@ -9,6 +9,7 @@ const getLocalMessages = async () => {
 		attachments: true,
 	})
 	const messages = allDocs.rows
+	console.log({ messages })
 	return messages
 }
 
