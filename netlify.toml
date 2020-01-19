@@ -1,9 +1,4 @@
 [build]
   command = "yarn deploy"
+  functions = "functions"
   publish = "out"
-[[redirects]]
-  from = "/get-database"
-  to = "https://www.goldbug.club/.netlify/functions/testing"
-  status = 200
-  force = true
-  signed = "API_SIGNATURE_TOKEN"

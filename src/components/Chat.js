@@ -31,7 +31,7 @@ const MessageForm = ({ addMessage, setMessages }) => {
 			const { db_name, key, password } = credentials
 			if (!db_name || !key || !password) {
 				try {
-					const response = await axios.post('https://www.goldbug.club/.netlify/functions/get-cloudant-database', authenticatedUser)
+					const response = await axios.post('/.netlify/functions/get-cloudant-database', authenticatedUser)
 					credentials = response.data
 					setState({ credentials: JSON.stringify(credentials) })
 					localStorage.setItem('credentials', JSON.stringify(credentials))
