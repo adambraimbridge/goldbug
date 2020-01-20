@@ -3,9 +3,8 @@ import axios from 'axios'
 import { syncRemoteDatabase, getLocalMessages, addMessage, removeMessage } from '../lib/database'
 import { Context } from './Context'
 
-const Message = ({ value, user }) => {
-	if (!value || !user) return false
-	const { name, imageUrl } = user
+const Message = ({ value, name, imageUrl }) => {
+	if (!value || !name || !imageUrl) return false
 	return (
 		<div className="message-container mb-2">
 			<div className="message bg-light rounded p-2 px-3">
@@ -50,9 +49,10 @@ const MessageForm = ({ addMessage, setMessages }) => {
 		// `value` is set each time the input field changes.
 		if (!value || !authenticatedUser) return false // Todo: Handle error better
 
-		const message = { value, user: authenticatedUser }
-		await addMessage({ message })
+		const { name, imageUrl } = authenticatedUser
+		await addMessage({ value, name, imageUrl })
 		setValue('')
+
 		return false // Important: Don't actually submit the form
 	}
 
