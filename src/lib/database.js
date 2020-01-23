@@ -9,7 +9,6 @@ const getLocalMessages = async () => {
 		attachments: true,
 	})
 	const messages = allDocs.rows
-	console.log({ messages })
 	return messages
 }
 
@@ -32,7 +31,7 @@ const syncRemoteDatabase = ({ credentials, setMessages }) => {
 	})
 }
 
-const addMessage = async message => {
+const addLocalMessage = message => {
 	// const parsedText = emoji.replace_colons(message.value)
 	localDatabase.put({
 		...message,
@@ -40,10 +39,10 @@ const addMessage = async message => {
 	})
 }
 
-const removeMessage = index => {
+const removeLocalMessage = index => {
 	localDatabase.remove({
 		_id: 'TODO:GET MESSAGE ID',
 	})
 }
 
-export { syncRemoteDatabase, getLocalMessages, addMessage, removeMessage }
+export { syncRemoteDatabase, getLocalMessages, addLocalMessage, removeLocalMessage }
