@@ -101,14 +101,16 @@ export const Chat = () => {
 
 			// @see: https://pouchdb.com/api.html#sync
 			const { db_name, key, password } = credentials
-			const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${db_name}`
-			const remoteDatabase = new PouchDB(remoteUrl)
-			// localDatabase.replicate.from(remoteDatabase).on('complete', () => {
-			// 	localDatabase.sync(remoteDatabase, {
-			// 		live: true,
-			// 		retry: true,
-			// 	})
-			// })
+			if (db_name && key && password) {
+				const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${db_name}`
+				const remoteDatabase = new PouchDB(remoteUrl)
+				localDatabase.replicate.from(remoteDatabase).on('complete', () => {
+					localDatabase.sync(remoteDatabase, {
+						live: true,
+						retry: true,
+					})
+				})
+			}
 		})()
 	}, [authenticatedUser])
 
