@@ -12,6 +12,12 @@ const MessageForm = () => {
 	const { state, setState } = React.useContext(Context)
 	const { authenticatedUser, messages } = state
 
+	useEffect(() => {
+		// Scroll the chat to the bottom
+		const containerElement = document.querySelector('#message-list')
+		containerElement.scrollTop = containerElement.scrollHeight + 1000
+	}, [messages])
+
 	const addLocalMessage = message => {
 		// const parsedText = emoji.replace_colons(message.value)
 
@@ -31,21 +37,15 @@ const MessageForm = () => {
 		addLocalMessage({ value, name, imageUrl })
 		setValue('')
 
-		// Scroll the chat to the bottom
-		const containerElement = document.querySelector('#message-list')
-		containerElement.scrollTop = containerElement.scrollHeight + 1000
-
 		return false // Important: Don't actually submit the form
 	}
 
 	return (
-		<footer>
-			<form onSubmit={handleSubmit} id="chat-form">
-				<div className="form-group">
-					<input type="text" className="form-control" value={value} onKeyUp={event => event.stopPropagation()} onChange={event => setValue(event.target.value)} placeholder="Enter message" />
-				</div>
-			</form>
-		</footer>
+		<form onSubmit={handleSubmit} id="chat-form">
+			<div className="form-group">
+				<input type="text" className="form-control" value={value} onKeyUp={event => event.stopPropagation()} onChange={event => setValue(event.target.value)} placeholder="Enter message" />
+			</div>
+		</form>
 	)
 }
 
@@ -120,7 +120,7 @@ export const Chat = () => {
 	return (
 		<>
 			<div id="chat-container" className="text-white">
-				<div id="message-list">
+				<div id="message-list" className="full-height">
 					{messages &&
 						messages.map(message => {
 							const { _id } = message

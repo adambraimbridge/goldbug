@@ -9,6 +9,11 @@ $theme-colors: (
 @import '~bootstrap/scss/bootstrap';
 @import './layout';
 @import './typography';
+nav {
+	z-index: 1;
+	background: black;
+	border-bottom: 1px solid #222;
+}
 .icon {
 	width: 1.2rem;
 	border-radius: 50%;
