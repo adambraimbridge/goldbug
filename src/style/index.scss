@@ -7,79 +7,13 @@ $theme-colors: (
 );
 @import '~bootswatch/dist/cyborg/variables';
 @import '~bootstrap/scss/bootstrap';
-@import '~bootswatch/dist/cyborg/bootswatch';
-@import '~emoji-picker-react/dist/universal/style.scss';
-html {
-	font-size: 1.1rem;
-}
-html,
-body,
-.full-height {
-	height: 100%;
-	margin: 0;
-	padding: 0;
-}
-.max-with {
-	max-width: 500px;
-}
-.fit-content {
-	width: fit-content;
-}
-.gridContainer {
-	display: grid;
-}
-#layout {
-	margin: 0 auto;
-	display: grid;
-	grid-gap: 0;
-	grid-template-rows: min-content auto min-content;
-}
-#chat-container {
-	position: relative;
-	#message-list {
-		bottom: 0px;
-		height: 100%;
-		width: 100%;
-		overflow-y: auto;
-	}
-}
+@import './layout';
+@import './typography';
 .icon {
 	width: 1.2rem;
-	border-radius: 45%;
+	border-radius: 50%;
 	margin-top: -3px;
 }
 .btn {
 	cursor: pointer;
-}
-.message-container {
-	position: relative;
-	text-align: right;
-	margin-right: 2.5rem;
-	.message {
-		position: relative;
-		display: inline-block;
-		text-align: left;
-	}
-	.arrow {
-		-webkit-transform: rotate(360deg);
-		width: 0;
-		height: 0;
-		border-style: solid;
-		border-width: 0.5rem 0 0.5rem 0.5rem;
-		border-color: transparent transparent transparent #777;
-		border-style: inset;
-		position: absolute;
-		right: -0.5rem;
-	}
-	.avatar-thumbnail {
-		position: absolute;
-		right: -2.5rem;
-		top: 0;
-	}
-}
-.centered {
-	display: grid;
-	grid-gap: 0.5rem;
-	grid-template-columns: auto auto;
-	align-items: center;
 }

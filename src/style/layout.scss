@@ -1,0 +1,11 @@
+@include media-breakpoint-up(sm) {
+	#layout {
+		max-width: 576px;
+	}
+}
+.centered {
+	display: grid;
+	grid-gap: 0.5rem;
+	grid-template-columns: auto auto;
+	align-items: center;
+}

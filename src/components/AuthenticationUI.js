@@ -20,6 +20,8 @@ const SignInUI = ({ size }) => {
 			const authenticatedUser = {
 				email: profile.getEmail(),
 				name: profile.getName(),
+				givenName: profile.getGivenName(),
+				familyName: profile.getFamilyName(),
 				imageUrl: profile.getImageUrl(),
 				token: googleUser.getAuthResponse().id_token,
 			}
@@ -40,23 +42,20 @@ const SignInUI = ({ size }) => {
 	)
 }
 
-// TODO: purge local cache for user
 const SignOutUI = () => {
 	const { state, setState } = React.useContext(Context)
 	const { authenticatedUser } = state || {}
 	const { name, imageUrl } = authenticatedUser
 
+	// purge local cache for user
 	const wipeAuthenticatedUser = () => {
 		setState({ authenticatedUser: false, loading: false })
 		localStorage.removeItem('authenticatedUser')
 	}
 
 	return (
-		<div className="btn btn-sm btn-light centered pr-1" onClick={wipeAuthenticatedUser}>
+		<div className="btn btn-sm btn-secondary centered pr-0" onClick={wipeAuthenticatedUser}>
 			<div>Sign Out</div>
-			<div className="avatar-thumbnail">
-				<img src={imageUrl} alt={name} className="icon border border-secondary"></img>
-			</div>
 		</div>
 	)
 }

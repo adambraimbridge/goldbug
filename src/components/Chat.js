@@ -2,6 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from 'react'
 import axios from 'axios'
 import PouchDB from 'pouchdb'
 import { Context } from './Context'
+import '../style/chat.scss'
 
 const CLOUDANT_USERNAME = '459013e0-ccee-4235-a047-55410e69aaea-bluemix'
 const localDatabase = new PouchDB('goldbug-club')
@@ -38,11 +39,13 @@ const MessageForm = () => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} id="chat-form">
-			<div className="form-group">
-				<input type="text" className="form-control" value={value} onKeyUp={event => event.stopPropagation()} onChange={event => setValue(event.target.value)} placeholder="Enter message" />
-			</div>
-		</form>
+		<footer>
+			<form onSubmit={handleSubmit} id="chat-form">
+				<div className="form-group">
+					<input type="text" className="form-control" value={value} onKeyUp={event => event.stopPropagation()} onChange={event => setValue(event.target.value)} placeholder="Enter message" />
+				</div>
+			</form>
+		</footer>
 	)
 }
 
@@ -59,12 +62,12 @@ export const Chat = () => {
 	const Message = ({ message }) => {
 		const { value, name, imageUrl } = message
 		return (
-			<div className="message-container mb-2">
+			<div className="message-container mb-2 mr-5">
 				<div className="message bg-light rounded p-2 px-3">
 					<span className="arrow"></span>
 					{value}
 					<div className="avatar-thumbnail">
-						<img src={imageUrl} alt={name} className="icon rounded-circle border-0"></img>
+						<img src={imageUrl} alt={name} className="icon rounded-circle border border-secondary"></img>
 					</div>
 				</div>
 			</div>
@@ -116,11 +119,10 @@ export const Chat = () => {
 
 	return (
 		<>
-			<div id="chat-container" className="mx-2 mb-3 text-white">
+			<div id="chat-container" className="text-white">
 				<div id="message-list">
 					{messages &&
 						messages.map(message => {
-							console.log({ message })
 							const { _id } = message
 							return <Message key={_id} index={_id} message={message} removeLocalMessage={removeLocalMessage} />
 						})}
