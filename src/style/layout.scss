@@ -4,14 +4,10 @@
 	}
 }
 // See: https://developers.google.com/web/updates/2016/12/url-bar-resizing
-html {
-	position: fixed;
-}
 html,
 body,
 .full-height {
 	height: 100vh;
-	width: 100%;
 	margin: 0;
 	padding: 0;
 }
