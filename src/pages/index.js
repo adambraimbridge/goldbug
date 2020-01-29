@@ -11,3 +11,6 @@ export default () => (
 
 // Service workers: https://bit.ly/CRA-PWA
 unregisterServiceWorker()
+
+// https://developers.google.com/web/fundamentals/native-hardware/fullscreen
+window.scrollTo(0, 1)
