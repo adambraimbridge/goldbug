@@ -1,0 +1,14 @@
+{
+	"name": "Goldbug Club",
+	"short_name": "Goldbug Club",
+  "icons": [
+    {
+      "src": "icons/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
