@@ -63,7 +63,7 @@ const SignOutUI = () => {
 export const AuthenticationPanel = () => (
 	<div className="gridContainer">
 		<div className="my-3 py-4 text-secondary text-center">
-			<div className="py-5 text-dark alert alert-light">
+			<div className="py-5 text-dark">
 				<SignInUI size="large" />
 				<div className="pt-3">Authenticate with your Google account.</div>
 			</div>

@@ -12,15 +12,14 @@ const MessageForm = () => {
 	const { state, setState } = React.useContext(Context)
 	const { authenticatedUser, messages } = state
 
+	// Scroll the chat to the bottom
+	const containerElement = document.querySelector('#message-list')
 	useEffect(() => {
-		// Scroll the chat to the bottom
-		const containerElement = document.querySelector('#message-list')
 		containerElement.scrollTop = containerElement.scrollHeight + 1000
 	}, [messages])
 
 	const addLocalMessage = message => {
 		// const parsedText = emoji.replace_colons(message.value)
-
 		message._id = new Date().toISOString()
 		localDatabase.put(message)
 		setState({ messages: [...messages, message] })
@@ -53,34 +52,8 @@ export const Chat = () => {
 	const { state, setState } = React.useContext(Context)
 	const { authenticatedUser, messages } = state
 
-	const removeLocalMessage = index => {
-		localDatabase.remove({
-			_id: 'TODO:GET MESSAGE ID',
-		})
-	}
-
-	const Message = ({ message }) => {
-		const { value, name, imageUrl } = message
-		return (
-			<div className="message-container mb-2 mr-5">
-				<div className="message bg-light rounded p-2 px-3">
-					<span className="arrow"></span>
-					{value}
-					<div className="avatar-thumbnail">
-						<img src={imageUrl} alt={name} className="icon rounded-circle border border-secondary"></img>
-					</div>
-				</div>
-			</div>
-		)
-	}
-
 	useLayoutEffect(() => {
-		;(async () => {
-			// Load chat from local database
-			const allDocs = await localDatabase.allDocs({
-				include_docs: true,
-				attachments: true,
-			})
+		const refreshMessagesState = allDocs => {
 			const sanitisedMessages = allDocs.rows
 				.filter(row => {
 					return row.doc && row.doc._id && row.doc.value && row.doc.name && row.doc.imageUrl
@@ -89,6 +62,15 @@ export const Chat = () => {
 					return row.doc
 				})
 			setState({ messages: sanitisedMessages })
+		}
+
+		;(async () => {
+			// Load chat from local database
+			const allDocs = await localDatabase.allDocs({
+				include_docs: true,
+				attachments: true,
+			})
+			refreshMessagesState(allDocs)
 
 			// Get database credentials
 			let credentials = JSON.parse(localStorage.getItem('credentials')) || {}
@@ -112,15 +94,39 @@ export const Chat = () => {
 			if (db_name && key && password) {
 				const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${db_name}`
 				const remoteDatabase = new PouchDB(remoteUrl)
-				localDatabase.replicate.from(remoteDatabase).on('complete', () => {
+				localDatabase.replicate.from(remoteDatabase).on('complete', response => {
+					console.log({ response })
+
 					localDatabase.sync(remoteDatabase, {
 						live: true,
 						retry: true,
 					})
+					// refreshMessagesState(allDocs)
 				})
 			}
 		})()
 	}, [authenticatedUser])
+
+	const removeLocalMessage = index => {
+		localDatabase.remove({
+			_id: 'TODO:GET MESSAGE ID',
+		})
+	}
+
+	const Message = ({ message }) => {
+		const { value, name, imageUrl } = message
+		return (
+			<div className="message-container mb-2 mr-5">
+				<div className="message bg-light rounded p-2 px-3">
+					<span className="arrow"></span>
+					{value}
+					<div className="avatar-thumbnail">
+						<img src={imageUrl} alt={name} className="icon rounded-circle border border-secondary"></img>
+					</div>
+				</div>
+			</div>
+		)
+	}
 
 	return (
 		<>
