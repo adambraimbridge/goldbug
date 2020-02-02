@@ -15,7 +15,7 @@ const MessageForm = () => {
 	// Scroll the chat to the bottom
 	useEffect(() => {
 		const containerElement = document.querySelector('#message-list')
-		containerElement.scrollTop = containerElement.scrollHeight + 1000
+		if (containerElement) containerElement.scrollTop = containerElement.scrollHeight + 1000
 	}, [messages])
 
 	const addLocalMessage = message => {
