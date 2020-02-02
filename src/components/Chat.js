@@ -11,6 +11,7 @@ const MessageForm = () => {
 	const [value, setValue] = useState('')
 	const { state, setState } = React.useContext(Context)
 	const { authenticatedUser, messages } = state
+	if (!Array.isArray(messages)) setState({ messages: [] })
 
 	// Scroll the chat to the bottom
 	useEffect(() => {
@@ -51,6 +52,7 @@ const MessageForm = () => {
 export const Chat = () => {
 	const { state, setState } = React.useContext(Context)
 	const { authenticatedUser, messages } = state
+	if (!Array.isArray(messages)) setState({ messages: [] })
 
 	useLayoutEffect(() => {
 		const refreshMessagesState = allDocs => {
@@ -63,9 +65,7 @@ export const Chat = () => {
 					return doc && doc._id && doc.value && doc.name && doc.imageUrl
 				})
 
-			if (Array.isArray(messages)) messages.concat[sanitisedMessages]
-
-			setState({ messages: messages })
+			setState({ messages: [...messages, ...sanitisedMessages] })
 		}
 
 		;(async () => {
