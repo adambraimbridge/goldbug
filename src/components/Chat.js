@@ -56,11 +56,11 @@ export const Chat = () => {
 		const refreshMessagesState = allDocs => {
 			if (!allDocs || !allDocs.rows) return false
 			const sanitisedMessages = allDocs.rows
-				.filter(row => {
-					return row.doc && row.doc._id && row.doc.value && row.doc.name && row.doc.imageUrl
-				})
 				.map(row => {
 					return row.doc
+				})
+				.filter(doc => {
+					return doc && doc._id && doc.value && doc.name && doc.imageUrl
 				})
 			setState({ messages: { ...messages, ...sanitisedMessages } })
 		}
