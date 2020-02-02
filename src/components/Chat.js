@@ -54,7 +54,7 @@ export const Chat = () => {
 
 	useLayoutEffect(() => {
 		const refreshMessagesState = allDocs => {
-			console.log({ allDocs })
+			if (!allDocs || !allDocs.rows) return false
 			const sanitisedMessages = allDocs.rows
 				.filter(row => {
 					return row.doc && row.doc._id && row.doc.value && row.doc.name && row.doc.imageUrl
