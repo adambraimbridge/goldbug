@@ -94,19 +94,18 @@ export const Chat = () => {
 			if (db_name && key && password) {
 				const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${db_name}`
 				const remoteDatabase = new PouchDB(remoteUrl)
-				localDatabase.replicate.from(remoteDatabase).on('complete', response => {
-					console.log({ response })
 
+				const allDocs = await remoteDatabase.allDocs({
+					include_docs: true,
+					attachments: true,
+				})
+				refreshMessagesState(allDocs)
+
+				localDatabase.replicate.from(remoteDatabase).on('complete', () => {
 					localDatabase.sync(remoteDatabase, {
 						live: true,
 						retry: true,
 					})
-					//
-					const allDocs = await remoteDatabase.allDocs({
-						include_docs: true,
-						attachments: true
-					});
-					refreshMessagesState(allDocs)
 				})
 			}
 		})()
