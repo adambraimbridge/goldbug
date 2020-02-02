@@ -62,7 +62,7 @@ export const Chat = () => {
 				.map(row => {
 					return row.doc
 				})
-			setState({ messages: sanitisedMessages })
+			setState({ messages: { ...messages, ...sanitisedMessages } })
 		}
 
 		;(async () => {
@@ -71,18 +71,14 @@ export const Chat = () => {
 				include_docs: true,
 				attachments: true,
 			})
+			console.log('local', { allDocs })
 			refreshMessagesState(allDocs)
 
 			// Get database credentials
 			let credentials = JSON.parse(localStorage.getItem('credentials')) || {}
 			if (!credentials.db_name || !credentials.key || !credentials.password) {
 				try {
-					let url = '/.netlify/functions/get-cloudant-database'
-					if (/localhost/.test(window.location.hostname)) {
-						console.log('hostname')
-						url = 'http://localhost:34567/.netlify/functions/get-cloudant-database'
-					}
-					const response = await axios.post(url, authenticatedUser)
+					const response = await axios.post('/.netlify/functions/get-cloudant-database', authenticatedUser)
 					credentials = response.data
 					localStorage.setItem('credentials', JSON.stringify(credentials))
 				} catch (error) {
@@ -96,10 +92,12 @@ export const Chat = () => {
 				const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${db_name}`
 				const remoteDatabase = new PouchDB(remoteUrl)
 
+				// Load chat from remote database
 				const allDocs = await remoteDatabase.allDocs({
 					include_docs: true,
 					attachments: true,
 				})
+				console.log('remote', { allDocs })
 				refreshMessagesState(allDocs)
 
 				localDatabase.replicate.from(remoteDatabase).on('complete', () => {
