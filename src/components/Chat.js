@@ -62,7 +62,10 @@ export const Chat = () => {
 				.filter(doc => {
 					return doc && doc._id && doc.value && doc.name && doc.imageUrl
 				})
-			setState({ messages: { ...messages, ...sanitisedMessages } })
+
+			if (Array.isArray(messages)) messages.concat[sanitisedMessages]
+
+			setState({ messages: messages })
 		}
 
 		;(async () => {
