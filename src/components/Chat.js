@@ -94,7 +94,12 @@ export const Chat = () => {
 			let credentials = JSON.parse(localStorage.getItem('credentials')) || {}
 			if (!credentials.db_name || !credentials.key || !credentials.password) {
 				try {
-					const response = await axios.post('/.netlify/functions/get-cloudant-database', authenticatedUser)
+					let url = '/.netlify/functions/get-cloudant-database'
+					if (/localhost/.test(window.location.hostname)) {
+						console.log('hostname')
+						url = 'http://localhost:34567/.netlify/functions/get-cloudant-database'
+					}
+					const response = await axios.post(url, authenticatedUser)
 					credentials = response.data
 					localStorage.setItem('credentials', JSON.stringify(credentials))
 				} catch (error) {
