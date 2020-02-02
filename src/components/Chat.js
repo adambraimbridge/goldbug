@@ -13,8 +13,8 @@ const MessageForm = () => {
 	const { authenticatedUser, messages } = state
 
 	// Scroll the chat to the bottom
-	const containerElement = document.querySelector('#message-list')
 	useEffect(() => {
+		const containerElement = document.querySelector('#message-list')
 		containerElement.scrollTop = containerElement.scrollHeight + 1000
 	}, [messages])
 
@@ -101,7 +101,12 @@ export const Chat = () => {
 						live: true,
 						retry: true,
 					})
-					// refreshMessagesState(allDocs)
+					//
+					const allDocs = await remoteDatabase.allDocs({
+						include_docs: true,
+						attachments: true
+					});
+					refreshMessagesState(allDocs)
 				})
 			}
 		})()
