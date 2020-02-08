@@ -16,11 +16,10 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	const credentials = await cloudant.generate_api_key()
 	const { key, password } = credentials
 
+	// New credentials are created for each device the user connects from.
 	const newSecurity = Object.assign({}, security.cloudant, {
 		[key]: ['_reader', '_writer', '_replicator'],
 	})
-
-	console.log({ newSecurity })
 
 	await database.set_security(newSecurity).catch(console.log)
 	return { key, password, db_name }
@@ -104,8 +103,3 @@ exports.handler = async payload => {
 	console.log('Returning response data', { data })
 	return data
 }
-
-// Save the credentials to the "goldbug-user-credentials" database
-// const userCredentialsDatabaseName = "goldbug-user-credentials"
-// const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${userCredentialsDatabaseName}`
-// const remoteDatabase = new PouchDB(remoteUrl)
