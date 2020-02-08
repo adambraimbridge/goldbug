@@ -69,11 +69,7 @@ export const Chat = () => {
 				})
 
 			// Todo: Sort chronologically and de-dupe
-			if (Array.isArray(messages)) {
-				sanitisedMessages.push(...messages)
-			} else {
-				setState({ messages: sanitisedMessages })
-			}
+			setState({ messages: sanitisedMessages })
 		}
 
 		;(async () => {
