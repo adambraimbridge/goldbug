@@ -100,7 +100,7 @@ export const Chat = () => {
 							retry: true,
 						})
 					})
-					.on('change', refreshMessagesState())
+					.on('change', () => refreshMessagesState())
 			}
 		})()
 	}, [authenticatedUser])
