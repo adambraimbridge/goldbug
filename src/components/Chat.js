@@ -73,6 +73,8 @@ export const Chat = () => {
 		}
 
 		;(async () => {
+			refreshMessagesState()
+
 			// Get database credentials
 			let credentials = JSON.parse(localStorage.getItem('credentials')) || {}
 			if (!credentials.db_name || !credentials.key || !credentials.password) {
@@ -99,6 +101,7 @@ export const Chat = () => {
 							live: true,
 							retry: true,
 						})
+						refreshMessagesState()
 					})
 					.on('change', () => refreshMessagesState())
 			}
