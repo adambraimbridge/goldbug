@@ -18,15 +18,3 @@ body,
 	grid-template-columns: auto auto;
 	align-items: center;
 }
-#chat-container {
-	position: relative;
-	#message-list {
-		overflow-y: auto;
-		border: 1px solid #222;
-		padding-top: 0.5em;
-		position: absolute;
-		right: 0px;
-		left: 0px;
-		height: 85vh;
-	}
-}
