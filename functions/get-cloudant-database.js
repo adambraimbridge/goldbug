@@ -6,26 +6,6 @@
  */
 const Cloudant = require('@cloudant/cloudant')
 const getUuid = require('uuid-by-string')
-const { google } = require('googleapis')
-const HOMEPAGE_URL = 'https://www.goldbug.com'
-
-/**
- * Start by acquiring a pre-authenticated oAuth2 client.
- */
-const getToken = async () => {
-	const oAuth2Client = new google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URL)
-
-	// Make a simple request to the People API using our pre-authenticated client. The `request()` method
-	// takes an GaxiosOptions object.  Visit https://github.com/JustinBeckwith/gaxios.
-	const url = 'https://people.googleapis.com/v1/people/me?personFields=names'
-	const res = await oAuth2Client.request({ url })
-	console.log(res.data)
-
-	// After acquiring an access_token, you may want to check on the audience, expiration,
-	// or original scopes requested.  You can do that with the `getTokenInfo` method.
-	const tokenInfo = await oAuth2Client.getTokenInfo(oAuth2Client.credentials.access_token)
-	console.log(tokenInfo)
-}
 
 /**
  * Generate API key/password credentials.
@@ -36,10 +16,14 @@ const getDatabaseCredentials = async (cloudant, db_name) => {
 	const credentials = await cloudant.generate_api_key()
 	const { key, password } = credentials
 
-	const newSecurity = Object.assign({}, security, {
-		[key]: ['_reader', '_writer', '_replicator'],
-	})
-	await database.set_security(newSecurity).catch(console.log)
+	console.log({ security })
+
+	// const newSecurity = { ...security }, {
+	// 	[key]: ['_reader', '_writer', '_replicator'],
+	// })
+	// await database.set_security(newSecurity).catch(console.log)
+
+	// Save the credentials to
 
 	return { key, password, db_name }
 }
@@ -122,3 +106,8 @@ exports.handler = async payload => {
 	console.log('Returning response data', { data })
 	return data
 }
+
+// Save the credentials to the "goldbug-user-credentials" database
+// const userCredentialsDatabaseName = "goldbug-user-credentials"
+// const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${userCredentialsDatabaseName}`
+// const remoteDatabase = new PouchDB(remoteUrl)

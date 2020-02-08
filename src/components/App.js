@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import { Context } from './Context'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
-import { AuthenticationUI, AuthenticationPanel } from './AuthenticationUI'
+import { AuthenticationUI, AuthenticationPanel } from './Authentication'
 import { Chat } from './Chat'
 import { Workshop } from './Workshop'
 
