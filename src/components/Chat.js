@@ -53,7 +53,7 @@ export const Chat = () => {
 	const { authenticatedUser, messages } = state
 
 	useLayoutEffect(() => {
-		const refreshMessagesState = () => {
+		const refreshMessagesState = async () => {
 			const allDocs = await localDatabase.allDocs({
 				include_docs: true,
 				attachments: true,
