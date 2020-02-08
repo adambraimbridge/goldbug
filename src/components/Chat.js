@@ -53,8 +53,13 @@ export const Chat = () => {
 	const { authenticatedUser, messages } = state
 
 	useLayoutEffect(() => {
-		const refreshMessagesState = allDocs => {
-			if (!allDocs || !allDocs.rows) return false
+		const refreshMessagesState = () => {
+			const allDocs = await localDatabase.allDocs({
+				include_docs: true,
+				attachments: true,
+			})
+			console.log('local', { allDocs })
+
 			const sanitisedMessages = allDocs.rows
 				.map(row => {
 					return row.doc
@@ -72,14 +77,6 @@ export const Chat = () => {
 		}
 
 		;(async () => {
-			// Load chat from local database
-			const allDocs = await localDatabase.allDocs({
-				include_docs: true,
-				attachments: true,
-			})
-			console.log('local', { allDocs })
-			refreshMessagesState(allDocs)
-
 			// Get database credentials
 			let credentials = JSON.parse(localStorage.getItem('credentials')) || {}
 			if (!credentials.db_name || !credentials.key || !credentials.password) {
@@ -98,20 +95,16 @@ export const Chat = () => {
 				const remoteUrl = `https://${key}:${password}@${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud/${db_name}`
 				const remoteDatabase = new PouchDB(remoteUrl)
 
-				// Load chat from remote database
-				const allDocs = await remoteDatabase.allDocs({
-					include_docs: true,
-					attachments: true,
-				})
-				console.log('remote', { allDocs })
-				refreshMessagesState(allDocs)
-
-				localDatabase.replicate.from(remoteDatabase).on('complete', () => {
-					localDatabase.sync(remoteDatabase, {
-						live: true,
-						retry: true,
+				// Replicate chat from remote database
+				localDatabase.replicate
+					.from(remoteDatabase)
+					.on('complete', () => {
+						localDatabase.sync(remoteDatabase, {
+							live: true,
+							retry: true,
+						})
 					})
-				})
+					.on('change', refreshMessagesState())
 			}
 		})()
 	}, [authenticatedUser])
