@@ -132,18 +132,16 @@ export const Chat = () => {
 	}
 
 	return (
-		<>
-			<div id="chat-container" className="text-white">
-				<div id="message-list" className="full-height">
-					{messages &&
-						messages.map(message => {
-							const { _id } = message
-							return <Message key={_id} index={_id} message={message} removeLocalMessage={removeLocalMessage} />
-						})}
-				</div>
+		<div id="chat-container" className="text-white">
+			<div id="message-list" className="full-height">
+				{messages &&
+					messages.map(message => {
+						const { _id } = message
+						return <Message key={_id} index={_id} message={message} removeLocalMessage={removeLocalMessage} />
+					})}
 			</div>
 			<MessageForm />
-		</>
+		</div>
 	)
 }
 
