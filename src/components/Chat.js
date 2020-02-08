@@ -73,8 +73,6 @@ export const Chat = () => {
 		}
 
 		;(async () => {
-			refreshMessagesState()
-
 			// Get database credentials
 			let credentials = JSON.parse(localStorage.getItem('credentials')) || {}
 			if (!credentials.db_name || !credentials.key || !credentials.password) {
@@ -94,16 +92,20 @@ export const Chat = () => {
 				const remoteDatabase = new PouchDB(remoteUrl)
 
 				// Replicate chat from remote database
-				localDatabase.replicate
-					.from(remoteDatabase)
-					.on('complete', () => {
-						localDatabase.sync(remoteDatabase, {
+				localDatabase.replicate.from(remoteDatabase).on('complete', () => {
+					refreshMessagesState()
+					localDatabase
+						.sync(remoteDatabase, {
 							live: true,
 							retry: true,
 						})
-						refreshMessagesState()
-					})
-					.on('change', () => refreshMessagesState())
+						.on('change', info => {
+							console.log({ info })
+							refreshMessagesState()
+						})
+				})
+			} else {
+				refreshMessagesState()
 			}
 		})()
 	}, [authenticatedUser])
