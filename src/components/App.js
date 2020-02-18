@@ -15,12 +15,12 @@ const Page = () => {
 			<BrowserRouter>
 				<Switch>
 					<Route exact path="/">
-						<div id="home">
+						<div id="home" className="full-height">
 							<Chat />
 						</div>
 					</Route>
 					<Route path="/workshop/">
-						<div id="workshop">
+						<div id="workshop" className="full-height">
 							<Workshop />
 						</div>
 					</Route>
@@ -45,8 +45,8 @@ export const App = () => {
 				<meta key="description" name="description" content={description} />
 				<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 			</Head>
-			<div id="layout" className="full-height p-0 px-1 m-0 mx-auto">
-				<nav className="px-0 py-2 justify-content-between navbar navbar-expand navbar-dark">
+			<div id="layout" className="full-height p-0 m-0 mx-auto">
+				<nav className="p-2 justify-content-between navbar navbar-expand navbar-dark">
 					<a href="/" className="centered btn btn-lg p-0 pt-1">
 						<img alt="💀" src="/icons/favicon.png" className="icon" />
 						Goldbug Club

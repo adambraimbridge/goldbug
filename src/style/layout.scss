@@ -3,8 +3,16 @@
 		max-width: 576px;
 	}
 }
-// https://developers.google.com/web/updates/2016/12/url-bar-resizing
-// https://developers.google.com/web/fundamentals/native-hardware/fullscreen
+#layout {
+	position: relative;
+	border: 1px solid black;
+	nav {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+	}
+}
 html,
 body,
 .full-height {

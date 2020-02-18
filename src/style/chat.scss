@@ -1,20 +1,18 @@
 #chat-container {
 	position: relative;
+	height: 100%;
+	padding-top: 60px;
+	padding-bottom: 60px;
 	#chat-form {
-		position: fixed;
+		position: absolute;
 		right: auto;
 		left: auto;
-		bottom: 20px;
-		width: 567px;
+		bottom: 0px;
+		width: 100%;
 	}
 	#message-list {
 		overflow-y: auto;
-		border: 1px solid #222;
-		padding-top: 0.5em;
-		position: absolute;
-		right: 0px;
-		left: 0px;
-		height: 85vh;
+		height: 100%;
 		.message-container {
 			position: relative;
 			text-align: right;

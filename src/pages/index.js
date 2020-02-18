@@ -11,3 +11,5 @@ export default () => (
 
 // Service workers: https://bit.ly/CRA-PWA
 unregisterServiceWorker()
+
+// Todo: Fullscreen mode on mobile?

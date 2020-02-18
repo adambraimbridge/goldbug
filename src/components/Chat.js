@@ -133,7 +133,7 @@ export const Chat = () => {
 
 	return (
 		<div id="chat-container" className="text-white">
-			<div id="message-list" className="full-height">
+			<div id="message-list">
 				{messages &&
 					messages.map(message => {
 						const { _id } = message
