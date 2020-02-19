@@ -29,6 +29,7 @@
 		"react": "^16.10.2",
 		"react-dom": "^16.10.2",
 		"react-router-dom": "^5.1.2",
+		"screenfull": "^5.0.2",
 		"uuid-by-string": "^3.0.2"
 	},
 	"prettier": "@adambraimbridge/prettierrc-2019-05",

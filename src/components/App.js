@@ -49,12 +49,20 @@ export const App = () => {
 			</Head>
 			<div id="layout" className="full-height p-0 m-0 mx-auto">
 				<nav className="p-2 justify-content-between navbar navbar-expand navbar-dark">
-					<a href="/" className="centered btn btn-lg p-0 pt-1">
+					<a href="/" className="centered btn btn-lg p-0 pt-1 mr-auto">
 						<img alt="💀" src="/icons/favicon.png" className="icon" />
 						Goldbug Club
 					</a>
 					<span id="loading" className={loadingClassName} role="status" aria-hidden={loading}></span>
+
 					<AuthenticationUI />
+
+					<div class="btn btn-sm btn-secondary centered ml-1 pr-0 request-fullscreen" onClick={() => document.documentElement.requestFullscreen()}>
+						↕️
+					</div>
+					<div class="btn btn-sm btn-secondary centered ml-1 pr-0 exit-fullscreen" onClick={() => document.exitFullscreen()}>
+						↙️
+					</div>
 				</nav>
 				<noscript>{description} Sorry, Goldbug needs JavaScript to work.</noscript>
 				<Page />

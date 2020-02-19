@@ -33,3 +33,22 @@ body,
 
 // https://developers.google.com/web/updates/2016/12/url-bar-resizing
 // https://developers.google.com/web/fundamentals/native-hardware/fullscreen
+.request-fullscreen {
+	display: block;
+}
+.request-fullscreen:fullscreen,
+.request-fullscreen:-ms-fullscreen,
+.request-fullscreen:-moz-full-screen,
+.request-fullscreen:-webkit-full-screen {
+	display: none;
+}
+
+.exit-fullscreen {
+	display: block;
+}
+.exit-fullscreen:fullscreen,
+.exit-fullscreen:-ms-fullscreen,
+.exit-fullscreen:-moz-full-screen,
+.exit-fullscreen:-webkit-full-screen {
+	display: none;
+}
