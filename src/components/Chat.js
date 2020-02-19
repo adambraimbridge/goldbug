@@ -16,6 +16,9 @@ const MessageForm = () => {
 	useEffect(() => {
 		const containerElement = document.querySelector('#message-list')
 		if (containerElement) containerElement.scrollTop = containerElement.scrollHeight + 1000
+
+		// Hack: https://developers.google.com/web/fundamentals/native-hardware/fullscreen#fake_it_auto-hide_the_address_bar
+		window.scrollTo(0, 1)
 	}, [messages])
 
 	const addLocalMessage = message => {
