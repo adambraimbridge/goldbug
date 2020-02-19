@@ -18,6 +18,12 @@ body,
 	margin: 0px;
 	padding: 0px;
 }
+.full-height:fullscreen,
+.full-height:-ms-fullscreen,
+.full-height:-moz-full-screen,
+.full-height:-webkit-full-screen {
+	height: 100% !important;
+}
 .centered {
 	display: grid;
 	grid-gap: 0.5rem;
