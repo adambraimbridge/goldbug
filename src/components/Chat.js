@@ -16,9 +16,6 @@ const MessageForm = () => {
 	useEffect(() => {
 		const containerElement = document.querySelector('#message-list')
 		if (containerElement) containerElement.scrollTop = containerElement.scrollHeight + 1000
-
-		// https://developers.google.com/web/fundamentals/native-hardware/fullscreen#request_the_browser_go_fullscreen_in_response_to_a_user_gesture
-		document.documentElement.requestFullscreen()
 	}, [messages])
 
 	const addLocalMessage = message => {
