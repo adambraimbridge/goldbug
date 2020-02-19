@@ -41,9 +41,7 @@ const MessageForm = () => {
 
 	return (
 		<form onSubmit={handleSubmit} id="chat-form">
-			<div className="form-group">
-				<input type="text" className="form-control" value={value} onKeyUp={event => event.stopPropagation()} onChange={event => setValue(event.target.value)} placeholder="Enter message" />
-			</div>
+			<input type="text" className="form-control" value={value} onKeyUp={event => event.stopPropagation()} onChange={event => setValue(event.target.value)} placeholder="Enter message" />
 		</form>
 	)
 }
@@ -133,7 +131,7 @@ export const Chat = () => {
 
 	return (
 		<div id="chat-container" className="text-white">
-			<div id="message-list">
+			<div id="message-list" className="py-2">
 				{messages &&
 					messages.map(message => {
 						const { _id } = message

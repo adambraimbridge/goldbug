@@ -1,8 +1,3 @@
-@include media-breakpoint-up(sm) {
-	#layout {
-		max-width: 576px;
-	}
-}
 #layout {
 	position: relative;
 	border: 1px solid black;
@@ -18,6 +13,7 @@ body,
 .full-height {
 	position: fixed;
 	height: 100vh;
+	width: 100%;
 	margin: 0;
 	padding: 0;
 }
