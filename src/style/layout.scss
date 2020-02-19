@@ -16,6 +16,7 @@
 html,
 body,
 .full-height {
+	position: fixed;
 	height: 100vh;
 	margin: 0;
 	padding: 0;
@@ -26,3 +27,6 @@ body,
 	grid-template-columns: auto auto;
 	align-items: center;
 }
+
+// https://developers.google.com/web/updates/2016/12/url-bar-resizing
+// https://developers.google.com/web/fundamentals/native-hardware/fullscreen

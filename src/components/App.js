@@ -43,6 +43,8 @@ export const App = () => {
 				<link rel="manifest" href="/manifest.json" />
 				<meta key="author" name="author" content="Adam Braimbridge <adam@braimbridge.com>" />
 				<meta key="description" name="description" content={description} />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<meta name="mobile-web-app-capable" content="yes" />
 				<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 			</Head>
 			<div id="layout" className="full-height p-0 m-0 mx-auto">
