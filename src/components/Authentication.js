@@ -29,7 +29,7 @@ const SignInUI = ({ size }) => {
 			localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUser))
 		})
 	}
-	const classList = `btn ${size === 'large' ? 'btn-lg btn-primary' : 'btn-sm btn-light'}`
+	const classList = `btn ${size === 'large' ? 'btn-lg btn-primary' : 'btn-sm btn-light text-dark'}`
 	return (
 		<>
 			<Head>
@@ -54,7 +54,7 @@ const SignOutUI = () => {
 	}
 
 	return (
-		<div className="btn btn-sm btn-secondary centered pr-0" onClick={wipeAuthenticatedUser}>
+		<div className="text-dark btn btn-sm btn-secondary centered pr-0" onClick={wipeAuthenticatedUser}>
 			<div>Sign Out</div>
 		</div>
 	)

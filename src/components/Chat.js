@@ -118,7 +118,7 @@ export const Chat = () => {
 		const { value, name, imageUrl } = message
 		return (
 			<div className="message-container mb-2 mr-5">
-				<div className="message bg-light rounded p-2 px-3">
+				<div className="message text-break bg-light rounded p-2 px-3">
 					<span className="arrow"></span>
 					{value}
 					<div className="avatar-thumbnail">
@@ -131,7 +131,7 @@ export const Chat = () => {
 
 	return (
 		<div id="chat-container" className="text-white">
-			<div id="message-list" className="py-2">
+			<div id="message-list" className="p-2">
 				{messages &&
 					messages.map(message => {
 						const { _id } = message

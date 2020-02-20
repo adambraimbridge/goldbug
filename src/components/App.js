@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
-import Screenfull from 'screenfull'
+import screenfull from 'screenfull'
 import { Context } from './Context'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { AuthenticationUI, AuthenticationPanel } from './Authentication'
@@ -33,6 +33,21 @@ const Page = () => {
 	}
 }
 
+const FullscreenUI = () => {
+	if (!screenfull.isEnabled) return false
+
+	const [fullScreenIcon, setFullScreenIcon] = useState(screenfull.isFullscreen ? '↙️' : '↕️')
+	const toggleFullScreen = async () => {
+		await screenfull.toggle()
+		setFullScreenIcon(fullScreenIcon === '↕️' ? '↙️' : '↕️')
+	}
+	return (
+		<div className="btn btn-sm btn-secondary ml-1 px-3" onClick={() => toggleFullScreen()}>
+			<div className="full-screen-ui">{fullScreenIcon}</div>
+		</div>
+	)
+}
+
 export const App = () => {
 	const { state } = React.useContext(Context)
 	const { loading } = state || false
@@ -58,9 +73,7 @@ export const App = () => {
 
 					<AuthenticationUI />
 
-					<div class="btn btn-sm btn-secondary centered ml-1 pr-0 request-fullscreen" onClick={() => screenfull.toggle()}>
-						↕️
-					</div>
+					<FullscreenUI />
 				</nav>
 				<noscript>{description} Sorry, Goldbug needs JavaScript to work.</noscript>
 				<Page />
