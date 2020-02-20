@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+import Screenfull from 'screenfull'
 import { Context } from './Context'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { AuthenticationUI, AuthenticationPanel } from './Authentication'
@@ -57,11 +58,8 @@ export const App = () => {
 
 					<AuthenticationUI />
 
-					<div class="btn btn-sm btn-secondary centered ml-1 pr-0 request-fullscreen" onClick={() => document.documentElement.requestFullscreen()}>
+					<div class="btn btn-sm btn-secondary centered ml-1 pr-0 request-fullscreen" onClick={() => screenfull.toggle()}>
 						↕️
-					</div>
-					<div class="btn btn-sm btn-secondary centered ml-1 pr-0 exit-fullscreen" onClick={() => document.exitFullscreen()}>
-						↙️
 					</div>
 				</nav>
 				<noscript>{description} Sorry, Goldbug needs JavaScript to work.</noscript>
